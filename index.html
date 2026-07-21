@@ -19,136 +19,174 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260721-compact-layout1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260721-sidebar4">
 
-  <style id="greenscape-compact-layout-v1">
-    /* Keep this release self-contained so GitHub Pages cannot load an older layout. */
-    .brand > div:last-child > span { display: none !important; }
-    .brand > div:last-child > em { margin-top: 4px; }
-
+  <style>
+    /* Compact sidebar + consistent navigation icons */
     @media (min-width: 761px) {
-      .library-toolbar,
-      .sheet-toolbar {
-        display: grid !important;
-        align-items: center;
+      .app-shell {
+        grid-template-columns: 180px minmax(0, 1fr) !important;
+      }
+      .sidebar {
+        padding: 18px 10px 16px !important;
+      }
+      .brand {
         gap: 8px !important;
-        padding: 8px 10px !important;
-        margin-bottom: 12px !important;
-        border-radius: 16px !important;
-        white-space: nowrap;
+        padding: 0 5px 18px !important;
       }
-      .library-toolbar > .toolbar-group,
-      .sheet-toolbar > .toolbar-group {
-        display: contents !important;
+      .brand-mark {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 12px !important;
       }
-      .library-toolbar {
-        grid-template-columns: minmax(260px, 1fr) minmax(160px, 220px) auto auto;
+      .brand-mark svg {
+        width: 22px !important;
+        height: 22px !important;
       }
-      .sheet-toolbar {
-        grid-template-columns: minmax(210px, 1fr) 160px auto repeat(4, max-content);
-        overflow-x: auto;
+      .brand strong {
+        font-size: 13px !important;
       }
-      .library-toolbar .search-wrap,
-      .sheet-toolbar .search-wrap {
-        width: 100%;
-        min-width: 0;
+      .brand em {
+        margin-top: 5px !important;
+        font-size: 7px !important;
+        line-height: 1.25 !important;
       }
-      .library-toolbar #categoryFilter,
-      .sheet-toolbar #sheetCategoryFilter {
-        width: 100% !important;
-        min-width: 0 !important;
+      .nav-list {
+        gap: 4px !important;
       }
-      .library-toolbar .search-input,
-      .library-toolbar .select-input,
-      .sheet-toolbar .search-input,
-      .sheet-toolbar .select-input {
+      .nav-item {
         min-height: 38px !important;
-        height: 38px;
-      }
-      .library-toolbar .button,
-      .sheet-toolbar .button {
-        min-height: 38px !important;
-        height: 38px;
-        padding: 7px 12px !important;
+        gap: 8px !important;
+        padding: 8px 9px !important;
+        border-radius: 11px !important;
         font-size: 10px !important;
       }
-      .library-toolbar .result-count,
-      .sheet-toolbar .result-count {
-        padding: 5px 9px !important;
-        font-size: 9px !important;
-        white-space: nowrap;
+      .nav-item span {
+        width: 17px !important;
+        height: 17px !important;
+        flex: 0 0 17px !important;
       }
-
-      .moodboard-top-actions {
-        min-height: 0 !important;
-        margin-bottom: 10px !important;
-        padding: 9px 14px !important;
-        gap: 12px !important;
-        border-radius: 16px !important;
+      .sidebar-confidentiality {
+        gap: 7px !important;
+        margin-bottom: 8px !important;
+        padding: 9px !important;
       }
-      .moodboard-top-actions strong {
-        font-size: 14px !important;
+      .sidebar-confidentiality span {
+        font-size: 7px !important;
       }
-      .moodboard-top-actions span {
-        margin-top: 2px !important;
-        font-size: 9px !important;
-        line-height: 1.35;
-      }
-      .moodboard-top-actions .toolbar-group {
-        flex-wrap: nowrap;
-        gap: 7px;
-      }
-      .moodboard-top-actions .button {
+      .website-link {
         min-height: 36px !important;
-        height: 36px;
-        padding: 7px 12px !important;
-        font-size: 10px !important;
+        padding: 8px 9px !important;
+        font-size: 8px !important;
       }
-
-      /* Preserve the previously requested compact Help form. */
-      .feedback-launcher {
-        min-height: 46px !important;
-        gap: 8px !important;
-        padding: 6px 12px 6px 6px !important;
-        font-size: 12px !important;
-      }
-      .feedback-help-icon {
-        width: 34px !important;
-        height: 34px !important;
-        flex-basis: 34px !important;
-        border-width: 2px !important;
-        font-size: 19px !important;
-      }
-      .feedback-panel {
-        width: min(330px, calc(100vw - 28px)) !important;
-        bottom: 58px !important;
-        max-height: min(560px, calc(100vh - 90px)) !important;
-        border-radius: 19px !important;
-      }
-      .feedback-panel-header {
-        padding: 16px 44px 13px 16px !important;
-      }
-      .feedback-panel-header h2 {
-        margin: 8px 0 5px !important;
-        font-size: 16px !important;
-      }
-      .feedback-panel-header p { font-size: 9px !important; }
-      .feedback-form {
-        gap: 10px !important;
-        padding: 14px 16px 16px !important;
-      }
-      .feedback-form textarea { min-height: 104px !important; }
-      .feedback-actions .button { min-height: 36px !important; font-size: 10px !important; }
     }
 
-    @media (max-width: 1180px) and (min-width: 761px) {
-      .sheet-toolbar {
-        grid-template-columns: minmax(180px, 1fr) 145px auto repeat(4, max-content);
-        gap: 6px !important;
+    .nav-item span {
+      display: grid !important;
+      place-items: center;
+      overflow: hidden;
+      color: currentColor;
+      font-size: 0 !important;
+    }
+    .nav-item span::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      display: block;
+      background: currentColor;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+    }
+    .nav-item[data-view="dashboard"] span::before {
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 11.2 12 4l9 7.2V21h-6v-6H9v6H3z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 11.2 12 4l9 7.2V21h-6v-6H9v6H3z'/%3E%3C/svg%3E");
+    }
+    .nav-item[data-view="library"] span::before {
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19.8 3.5C12.5 4 7.1 7 5 12.5c-1.3 3.5.1 6.7 2.7 8.1 1.2-3.7 3.8-7 7.7-9.7-3.1 3.4-5.1 6.7-5.9 10.1 5.1.5 9.4-2.5 10.5-7.8.7-3.4.3-6.7-.2-9.7z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19.8 3.5C12.5 4 7.1 7 5 12.5c-1.3 3.5.1 6.7 2.7 8.1 1.2-3.7 3.8-7 7.7-9.7-3.1 3.4-5.1 6.7-5.9 10.1 5.1.5 9.4-2.5 10.5-7.8.7-3.4.3-6.7-.2-9.7z'/%3E%3C/svg%3E");
+    }
+    .nav-item[data-view="sheet"] span::before {
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h16v16H4zm2 2v3h4V6zm6 0v3h6V6zM6 11v3h4v-3zm6 0v3h6v-3zm-6 5v2h4v-2zm6 0v2h6v-2z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h16v16H4zm2 2v3h4V6zm6 0v3h6V6zM6 11v3h4v-3zm6 0v3h6v-3zm-6 5v2h4v-2zm6 0v2h6v-2z'/%3E%3C/svg%3E");
+    }
+    .nav-item[data-view="moodboard"] span::before {
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h7v7H4zm9 0h7v4h-7zm0 6h7v10h-7zM4 13h7v7H4z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h7v7H4zm9 0h7v4h-7zm0 6h7v10h-7zM4 13h7v7H4z'/%3E%3C/svg%3E");
+    }
+    .nav-item[data-view="projects"] span::before {
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 6h7l2 2h9v11H3zm3 5h12v2H6zm0 4h8v2H6z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 6h7l2 2h9v11H3zm3 5h12v2H6zm0 4h8v2H6z'/%3E%3C/svg%3E");
+    }
+
+    /* Remove Add to list only from Plant Library cards. */
+    .plant-card [data-action="add-to-project"] {
+      display: none !important;
+    }
+    .plant-card-actions {
+      grid-template-columns: 1fr !important;
+    }
+    .plant-card-actions .button.secondary {
+      display: inline-flex !important;
+      width: 100% !important;
+    }
+
+    /* Compact smart navigation on phones: icons by default, label on active page. */
+    @media (max-width: 760px) {
+      .sidebar {
+        min-height: 46px !important;
+        height: 46px !important;
+        padding: 5px 7px !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
       }
-      .sheet-toolbar .button {
-        padding-inline: 9px !important;
-        font-size: 9px !important;
+      .brand {
+        padding: 0 !important;
+        margin-right: 2px !important;
+      }
+      .brand-mark {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 10px !important;
+      }
+      .brand-mark svg {
+        width: 19px !important;
+        height: 19px !important;
+      }
+      .nav-list {
+        gap: 3px !important;
+      }
+      .nav-item {
+        width: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        height: 36px !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 0 !important;
+        border-radius: 10px !important;
+        font-size: 0 !important;
+      }
+      .nav-item span {
+        width: 17px !important;
+        height: 17px !important;
+        flex: 0 0 17px !important;
+      }
+      .nav-item span::before {
+        width: 17px !important;
+        height: 17px !important;
+      }
+      .nav-item.active {
+        width: auto !important;
+        min-width: max-content !important;
+        padding: 0 10px !important;
+        font-size: 10px !important;
+      }
+      .page-content {
+        padding-top: 14px !important;
       }
     }
   </style>
@@ -215,6 +253,7 @@
     </main>
   </div>
 
+
   <div class="feedback-widget" id="feedbackWidget">
     <button class="feedback-launcher" id="feedbackToggle" type="button" aria-expanded="false" aria-controls="feedbackPanel">
       <span class="feedback-help-icon" aria-hidden="true">?</span>
@@ -234,8 +273,29 @@
 
       <form class="feedback-form" id="feedbackForm">
         <label>
+          <span>Message type</span>
+          <select id="feedbackType" required>
+            <option value="Error report">Error report</option>
+            <option value="Suggestion">Suggestion</option>
+            <option value="Need assistance">Need assistance</option>
+            <option value="Other feedback">Other feedback</option>
+          </select>
+        </label>
+
+        <div class="feedback-form-row">
+          <label>
+            <span>Your name <small>(optional)</small></span>
+            <input id="feedbackName" type="text" autocomplete="name" placeholder="Name">
+          </label>
+          <label>
+            <span>Your email <small>(optional)</small></span>
+            <input id="feedbackEmail" type="email" autocomplete="email" placeholder="name@email.com">
+          </label>
+        </div>
+
+        <label>
           <span>Message</span>
-          <textarea id="feedbackMessage" rows="5" required placeholder="Describe what happened, your suggestion, or the assistance you need."></textarea>
+          <textarea id="feedbackMessage" rows="6" required placeholder="Describe what happened, your suggestion, or the assistance you need."></textarea>
         </label>
 
         <div class="feedback-actions">
@@ -252,6 +312,6 @@
   <div id="toastRoot" class="toast-root" aria-live="polite"></div>
 
   <script src="assets/js/data.js?v=20260721-navlabels2"></script>
-  <script src="assets/js/app.js?v=20260721-compact-layout1"></script>
+  <script src="assets/js/app.js?v=20260721-feedback1"></script>
 </body>
 </html>
