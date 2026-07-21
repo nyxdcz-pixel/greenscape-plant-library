@@ -19,7 +19,139 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260721-feedback1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260721-compact-layout1">
+
+  <style id="greenscape-compact-layout-v1">
+    /* Keep this release self-contained so GitHub Pages cannot load an older layout. */
+    .brand > div:last-child > span { display: none !important; }
+    .brand > div:last-child > em { margin-top: 4px; }
+
+    @media (min-width: 761px) {
+      .library-toolbar,
+      .sheet-toolbar {
+        display: grid !important;
+        align-items: center;
+        gap: 8px !important;
+        padding: 8px 10px !important;
+        margin-bottom: 12px !important;
+        border-radius: 16px !important;
+        white-space: nowrap;
+      }
+      .library-toolbar > .toolbar-group,
+      .sheet-toolbar > .toolbar-group {
+        display: contents !important;
+      }
+      .library-toolbar {
+        grid-template-columns: minmax(260px, 1fr) minmax(160px, 220px) auto auto;
+      }
+      .sheet-toolbar {
+        grid-template-columns: minmax(210px, 1fr) 160px auto repeat(4, max-content);
+        overflow-x: auto;
+      }
+      .library-toolbar .search-wrap,
+      .sheet-toolbar .search-wrap {
+        width: 100%;
+        min-width: 0;
+      }
+      .library-toolbar #categoryFilter,
+      .sheet-toolbar #sheetCategoryFilter {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+      .library-toolbar .search-input,
+      .library-toolbar .select-input,
+      .sheet-toolbar .search-input,
+      .sheet-toolbar .select-input {
+        min-height: 38px !important;
+        height: 38px;
+      }
+      .library-toolbar .button,
+      .sheet-toolbar .button {
+        min-height: 38px !important;
+        height: 38px;
+        padding: 7px 12px !important;
+        font-size: 10px !important;
+      }
+      .library-toolbar .result-count,
+      .sheet-toolbar .result-count {
+        padding: 5px 9px !important;
+        font-size: 9px !important;
+        white-space: nowrap;
+      }
+
+      .moodboard-top-actions {
+        min-height: 0 !important;
+        margin-bottom: 10px !important;
+        padding: 9px 14px !important;
+        gap: 12px !important;
+        border-radius: 16px !important;
+      }
+      .moodboard-top-actions strong {
+        font-size: 14px !important;
+      }
+      .moodboard-top-actions span {
+        margin-top: 2px !important;
+        font-size: 9px !important;
+        line-height: 1.35;
+      }
+      .moodboard-top-actions .toolbar-group {
+        flex-wrap: nowrap;
+        gap: 7px;
+      }
+      .moodboard-top-actions .button {
+        min-height: 36px !important;
+        height: 36px;
+        padding: 7px 12px !important;
+        font-size: 10px !important;
+      }
+
+      /* Preserve the previously requested compact Help form. */
+      .feedback-launcher {
+        min-height: 46px !important;
+        gap: 8px !important;
+        padding: 6px 12px 6px 6px !important;
+        font-size: 12px !important;
+      }
+      .feedback-help-icon {
+        width: 34px !important;
+        height: 34px !important;
+        flex-basis: 34px !important;
+        border-width: 2px !important;
+        font-size: 19px !important;
+      }
+      .feedback-panel {
+        width: min(330px, calc(100vw - 28px)) !important;
+        bottom: 58px !important;
+        max-height: min(560px, calc(100vh - 90px)) !important;
+        border-radius: 19px !important;
+      }
+      .feedback-panel-header {
+        padding: 16px 44px 13px 16px !important;
+      }
+      .feedback-panel-header h2 {
+        margin: 8px 0 5px !important;
+        font-size: 16px !important;
+      }
+      .feedback-panel-header p { font-size: 9px !important; }
+      .feedback-form {
+        gap: 10px !important;
+        padding: 14px 16px 16px !important;
+      }
+      .feedback-form textarea { min-height: 104px !important; }
+      .feedback-actions .button { min-height: 36px !important; font-size: 10px !important; }
+    }
+
+    @media (max-width: 1180px) and (min-width: 761px) {
+      .sheet-toolbar {
+        grid-template-columns: minmax(180px, 1fr) 145px auto repeat(4, max-content);
+        gap: 6px !important;
+      }
+      .sheet-toolbar .button {
+        padding-inline: 9px !important;
+        font-size: 9px !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -32,7 +164,6 @@
         </div>
         <div>
           <strong>GREENSCAPE</strong>
-          <span>Plant Library &amp; Landscape Database</span>
           <em>Green today, greener tomorrow</em>
         </div>
       </div>
@@ -84,7 +215,6 @@
     </main>
   </div>
 
-
   <div class="feedback-widget" id="feedbackWidget">
     <button class="feedback-launcher" id="feedbackToggle" type="button" aria-expanded="false" aria-controls="feedbackPanel">
       <span class="feedback-help-icon" aria-hidden="true">?</span>
@@ -104,29 +234,8 @@
 
       <form class="feedback-form" id="feedbackForm">
         <label>
-          <span>Message type</span>
-          <select id="feedbackType" required>
-            <option value="Error report">Error report</option>
-            <option value="Suggestion">Suggestion</option>
-            <option value="Need assistance">Need assistance</option>
-            <option value="Other feedback">Other feedback</option>
-          </select>
-        </label>
-
-        <div class="feedback-form-row">
-          <label>
-            <span>Your name <small>(optional)</small></span>
-            <input id="feedbackName" type="text" autocomplete="name" placeholder="Name">
-          </label>
-          <label>
-            <span>Your email <small>(optional)</small></span>
-            <input id="feedbackEmail" type="email" autocomplete="email" placeholder="name@email.com">
-          </label>
-        </div>
-
-        <label>
           <span>Message</span>
-          <textarea id="feedbackMessage" rows="6" required placeholder="Describe what happened, your suggestion, or the assistance you need."></textarea>
+          <textarea id="feedbackMessage" rows="5" required placeholder="Describe what happened, your suggestion, or the assistance you need."></textarea>
         </label>
 
         <div class="feedback-actions">
@@ -143,6 +252,6 @@
   <div id="toastRoot" class="toast-root" aria-live="polite"></div>
 
   <script src="assets/js/data.js?v=20260721-navlabels2"></script>
-  <script src="assets/js/app.js?v=20260721-feedback1"></script>
+  <script src="assets/js/app.js?v=20260721-compact-layout1"></script>
 </body>
 </html>
