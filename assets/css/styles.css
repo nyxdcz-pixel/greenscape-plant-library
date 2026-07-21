@@ -1892,10 +1892,10 @@ th { color: #42604f; background: #edf3ef; }
     top: 0;
     z-index: 60;
     width: 100%;
-    min-height: 68px;
-    height: auto;
-    padding: 9px 10px;
-    gap: 8px;
+    min-height: 58px;
+    height: 58px;
+    padding: 8px 9px;
+    gap: 7px;
     flex-direction: row;
     align-items: center;
     overflow-x: auto;
@@ -1914,43 +1914,80 @@ th { color: #42604f; background: #edf3ef; }
   .brand {
     flex: 0 0 auto;
     padding: 0;
-    margin: 0 2px 0 0;
+    margin: 0 1px 0 0;
   }
   .brand-mark {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
   .brand-mark svg {
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
   }
   .nav-list {
     display: flex;
     flex: 0 0 auto;
-    gap: 6px;
+    gap: 5px;
     min-width: max-content;
   }
   .nav-item {
-    width: auto;
-    min-width: max-content;
-    min-height: 44px;
-    padding: 0 12px;
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    min-height: 42px;
+    padding: 0;
     border-radius: 12px;
-    font-size: 10.5px;
+    font-size: 0;
     line-height: 1;
-    justify-content: flex-start;
+    justify-content: center;
     white-space: nowrap;
-    gap: 7px;
+    gap: 0;
+    transition:
+      width .24s ease,
+      min-width .24s ease,
+      max-width .24s ease,
+      padding .24s ease,
+      gap .24s ease,
+      font-size .18s ease,
+      background .2s ease,
+      color .2s ease,
+      transform .18s ease;
   }
   .nav-item span {
-    width: 18px;
-    height: 18px;
-    flex: 0 0 18px;
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
     display: grid;
   }
   .nav-item span::before {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
+  }
+
+  /* The current section stays labeled on touch devices. */
+  .nav-item.active,
+  .nav-item:focus-visible {
+    width: auto;
+    min-width: max-content;
+    max-width: 190px;
+    padding: 0 12px;
+    gap: 7px;
+    font-size: 10.5px;
+    justify-content: flex-start;
+  }
+
+  /* Devices with a cursor reveal all labels while using the navigation. */
+  @media (hover: hover) and (pointer: fine) {
+    .sidebar:hover .nav-item,
+    .sidebar:focus-within .nav-item {
+      width: auto;
+      min-width: max-content;
+      max-width: 190px;
+      padding: 0 12px;
+      gap: 7px;
+      font-size: 10.5px;
+      justify-content: flex-start;
+    }
   }
   .library-toolbar {
     display: grid;
