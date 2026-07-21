@@ -851,22 +851,102 @@
   
 
     /* Plant Library sticky toolbar + responsive card defaults */
-    .toolbar.library-toolbar {
-      position: sticky !important;
-      top: 112px !important;
-      z-index: 19 !important;
-      isolation: isolate;
+    :root {
+      --library-sticky-top: 124px;
     }
 
-    /* Five cards per row is the default Plant Library web layout. */
-    @media (min-width: 761px) {
+    /* Keep the page header above the floating Plant Library controls. */
+    .topbar {
+      z-index: 30 !important;
+    }
+
+    .toolbar.library-toolbar {
+      position: sticky !important;
+      top: var(--library-sticky-top) !important;
+      z-index: 24 !important;
+      isolation: isolate;
+      margin-top: 0 !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.62),
+        0 8px 22px rgba(21,45,35,.10) !important;
+    }
+
+    /* Web: five cards per row. */
+    @media (min-width: 1201px) {
       #plantGrid .plant-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
         gap: 14px !important;
       }
     }
 
-    /* Three cards per row is the default Plant Library phone layout. */
+    /* iPad/tablet: four cards per row with tighter card content. */
+    @media (min-width: 761px) and (max-width: 1200px),
+           (min-width: 761px) and (max-width: 1366px) and (pointer: coarse) {
+      #plantGrid .plant-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+      }
+
+      #plantGrid .plant-card {
+        border-radius: 17px !important;
+      }
+
+      #plantGrid .plant-card-body {
+        padding: 10px !important;
+      }
+
+      #plantGrid .plant-card h3 {
+        margin: 5px 0 2px !important;
+        font-size: 13px !important;
+        line-height: 1.15 !important;
+      }
+
+      #plantGrid .scientific {
+        min-height: 20px !important;
+        font-size: 9.5px !important;
+        line-height: 1.15 !important;
+      }
+
+      #plantGrid .plant-code {
+        font-size: 7.5px !important;
+      }
+
+      #plantGrid .plant-meta {
+        margin-top: 8px !important;
+        padding-top: 8px !important;
+        font-size: 8px !important;
+      }
+
+      #plantGrid .plant-badges {
+        gap: 3px !important;
+        min-height: 16px !important;
+        margin-top: 6px !important;
+      }
+
+      #plantGrid .plant-badge {
+        padding: 2px 5px !important;
+        font-size: 6.8px !important;
+      }
+
+      #plantGrid .plant-card-actions {
+        margin-top: 8px !important;
+      }
+
+      #plantGrid .plant-card-actions .button {
+        min-height: 29px !important;
+        padding: 4px 6px !important;
+        font-size: 8.5px !important;
+      }
+
+      #plantGrid .category-pill {
+        left: 8px !important;
+        top: 8px !important;
+        padding: 4px 7px !important;
+        font-size: 6.8px !important;
+      }
+    }
+
+    /* Phones: three cards per row with the most compact card treatment. */
     @media (max-width: 760px) {
       .toolbar.library-toolbar {
         position: sticky !important;
@@ -1164,5 +1244,32 @@
       });
     })();
   </script>
+  <script>
+    /* Keep the sticky Plant Library toolbar directly below the real header height. */
+    (() => {
+      const root = document.documentElement;
+      const header = document.querySelector('.topbar');
+      if (!header) return;
+
+      const updateLibraryStickyOffset = () => {
+        if (window.matchMedia('(max-width: 760px)').matches) {
+          root.style.setProperty('--library-sticky-top', '46px');
+          return;
+        }
+        const headerHeight = Math.ceil(header.getBoundingClientRect().height);
+        root.style.setProperty('--library-sticky-top', `${headerHeight + 8}px`);
+      };
+
+      updateLibraryStickyOffset();
+      window.addEventListener('resize', updateLibraryStickyOffset, { passive: true });
+      window.addEventListener('load', updateLibraryStickyOffset, { once: true });
+
+      if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(updateLibraryStickyOffset);
+        observer.observe(header);
+      }
+    })();
+  </script>
+
 </body>
 </html>
