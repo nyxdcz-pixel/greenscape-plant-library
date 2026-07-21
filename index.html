@@ -18,7 +18,7 @@
   <meta property="og:description" content="Plant Library & Landscape Database for Greenscape Landscaping Services.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260722-phone-sheet-toolbar1">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260722-moodboard-bulk-search-fit1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -1199,6 +1199,218 @@
     /* End Plant Library sticky toolbar + responsive card defaults */
 
   </style>
+
+  <!-- MOODBOARD_BULK_ADD_SEARCH_FIT_START -->
+  <style id="moodboardBulkAddSearchFitStyles">
+    /* Search-first plant picker: results stay hidden until the user types. */
+    .moodboard-plant-picker {
+      display: none !important;
+    }
+    .moodboard-plant-picker.is-search-active {
+      display: grid !important;
+    }
+    .moodboard-picker-hint {
+      margin: 8px 0 2px;
+      padding: 12px 13px;
+      border-radius: 13px;
+      color: #607169;
+      background: rgba(238, 245, 240, .72);
+      font-size: 10px;
+      line-height: 1.45;
+      text-align: center;
+    }
+    .moodboard-picker-hint[hidden] {
+      display: none !important;
+    }
+
+    /* Match the generated A3 calculations exactly so cards never clip. */
+    .moodboard-board[data-orientation="landscape"] .moodboard-page {
+      padding: 1.5559cqw 1.8388cqw !important;
+    }
+    .moodboard-board[data-orientation="portrait"] .moodboard-page {
+      padding: 2.4cqw 2.2cqw !important;
+    }
+    .moodboard-board[data-orientation="landscape"] .moodboard-board-body {
+      gap: 1.1315cqw !important;
+    }
+    .moodboard-board[data-orientation="portrait"] .moodboard-board-body {
+      gap: 1.4cqw !important;
+    }
+    .moodboard-board[data-orientation="landscape"] .moodboard-category-group {
+      grid-template-columns: 2.6874cqw minmax(0, 1fr) !important;
+      gap: .7072cqw !important;
+    }
+    .moodboard-board[data-orientation="portrait"] .moodboard-category-group {
+      grid-template-columns: 3.4cqw minmax(0, 1fr) !important;
+      gap: .8cqw !important;
+    }
+    .moodboard-category-group,
+    .moodboard-card-grid {
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+    .moodboard-card-grid {
+      width: 100% !important;
+      grid-template-columns: repeat(var(--moodboard-columns), minmax(0, 1fr)) !important;
+      grid-auto-rows: auto !important;
+      overflow: visible !important;
+    }
+    .moodboard-plant-card {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 1 / 1 !important;
+    }
+    .moodboard-card-photo {
+      height: auto !important;
+      min-height: 0 !important;
+      flex: 1 1 auto !important;
+    }
+    .moodboard-card-caption {
+      flex: 0 0 var(--moodboard-caption-height, 2.5cqw) !important;
+    }
+
+    /* Bulk-add and clear-board confirmation glass dialog. */
+    .moodboard-action-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(5, 35, 25, .38);
+      -webkit-backdrop-filter: blur(10px) saturate(125%);
+      backdrop-filter: blur(10px) saturate(125%);
+    }
+    .moodboard-action-backdrop[hidden] {
+      display: none !important;
+    }
+    .moodboard-action-dialog {
+      width: min(440px, calc(100vw - 30px));
+      max-height: min(680px, calc(100vh - 36px));
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .7);
+      border-radius: 24px;
+      color: var(--ink, #14291f);
+      background: rgba(250, 253, 250, .84);
+      -webkit-backdrop-filter: blur(28px) saturate(165%);
+      backdrop-filter: blur(28px) saturate(165%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.92),
+        0 30px 80px rgba(3, 36, 24, .28);
+    }
+    .moodboard-action-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 15px;
+      border-bottom: 1px solid rgba(19, 93, 67, .10);
+    }
+    .moodboard-action-header strong {
+      display: block;
+      color: var(--forest-950, #073527);
+      font-size: 17px;
+    }
+    .moodboard-action-header span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted, #68786f);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .moodboard-action-close {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      color: var(--forest-900, #0b4632);
+      background: rgba(255,255,255,.48);
+      font-size: 19px;
+      line-height: 1;
+    }
+    .moodboard-action-body {
+      max-height: min(470px, calc(100vh - 190px));
+      overflow: auto;
+      padding: 16px 20px 20px;
+    }
+    .moodboard-add-all {
+      width: 100%;
+      margin-bottom: 13px;
+    }
+    .moodboard-category-choice-label {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--muted, #68786f);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .moodboard-category-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .moodboard-category-choice {
+      min-height: 40px;
+      justify-content: flex-start !important;
+      padding-inline: 13px !important;
+      text-align: left;
+    }
+    .moodboard-clear-warning {
+      display: grid;
+      grid-template-columns: 42px minmax(0,1fr);
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 17px;
+      padding: 14px;
+      border-radius: 16px;
+      color: #7f2e2a;
+      background: rgba(255, 236, 232, .82);
+    }
+    .moodboard-clear-warning-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,.65);
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .moodboard-clear-warning strong {
+      display: block;
+      font-size: 13px;
+    }
+    .moodboard-clear-warning p {
+      margin: 4px 0 0;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .moodboard-action-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    @media (max-width: 560px) {
+      .moodboard-action-dialog {
+        border-radius: 20px;
+      }
+      .moodboard-action-header,
+      .moodboard-action-body {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .moodboard-category-choice-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <div class="app-shell">
@@ -1499,6 +1711,225 @@
       }
     })();
   </script>
+
+
+  <script id="moodboardBulkAddSearchFitScript">
+    (() => {
+      const content = document.getElementById('pageContent');
+      let bypassAddVisible = false;
+      let bypassClearBoard = false;
+      let activeSourceButton = null;
+
+      const escapeText = value => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      function ensureDialog() {
+        let backdrop = document.getElementById('moodboardActionBackdrop');
+        if (backdrop) return backdrop;
+
+        backdrop = document.createElement('div');
+        backdrop.id = 'moodboardActionBackdrop';
+        backdrop.className = 'moodboard-action-backdrop';
+        backdrop.hidden = true;
+        backdrop.innerHTML = '<section class="moodboard-action-dialog" role="dialog" aria-modal="true" aria-labelledby="moodboardActionTitle"><div id="moodboardActionContent"></div></section>';
+        document.body.appendChild(backdrop);
+        return backdrop;
+      }
+
+      function closeDialog() {
+        const backdrop = ensureDialog();
+        backdrop.hidden = true;
+        activeSourceButton = null;
+      }
+
+      function openAddDialog(button) {
+        activeSourceButton = button;
+        const select = document.getElementById('moodboardCategoryFilter');
+        const categories = select
+          ? Array.from(select.options).map(option => option.value).filter(value => value && value !== 'All')
+          : [];
+        const backdrop = ensureDialog();
+        const contentRoot = document.getElementById('moodboardActionContent');
+        contentRoot.innerHTML = `
+          <header class="moodboard-action-header">
+            <div><strong id="moodboardActionTitle">Add plants to mood board</strong><span>Add the complete library or choose one plant category.</span></div>
+            <button type="button" class="moodboard-action-close" data-moodboard-dialog-close aria-label="Close">×</button>
+          </header>
+          <div class="moodboard-action-body">
+            <button type="button" class="button primary moodboard-add-all" data-moodboard-add-category="All">Add all plants</button>
+            <span class="moodboard-category-choice-label">Add one category</span>
+            <div class="moodboard-category-choice-grid">
+              ${categories.map(category => `<button type="button" class="button secondary moodboard-category-choice" data-moodboard-add-category="${escapeText(category)}">${escapeText(category)}</button>`).join('')}
+            </div>
+          </div>`;
+        backdrop.hidden = false;
+        contentRoot.querySelector('[data-moodboard-add-category]')?.focus();
+      }
+
+      function openClearDialog(button) {
+        const countText = document.getElementById('moodboardSelectedCount')?.textContent || '0 selected';
+        const count = Number.parseInt(countText, 10) || 0;
+        if (!count) return;
+
+        activeSourceButton = button;
+        const backdrop = ensureDialog();
+        const contentRoot = document.getElementById('moodboardActionContent');
+        contentRoot.innerHTML = `
+          <header class="moodboard-action-header">
+            <div><strong id="moodboardActionTitle">Clear the mood board?</strong><span>This action removes every selected plant from the board.</span></div>
+            <button type="button" class="moodboard-action-close" data-moodboard-dialog-close aria-label="Close">×</button>
+          </header>
+          <div class="moodboard-action-body">
+            <div class="moodboard-clear-warning">
+              <div class="moodboard-clear-warning-icon">!</div>
+              <div><strong>${count} selected ${count === 1 ? 'plant' : 'plants'} will be removed.</strong><p>This cannot be undone automatically. Choose Cancel to keep the current mood board.</p></div>
+            </div>
+            <div class="moodboard-action-footer">
+              <button type="button" class="button secondary" data-moodboard-dialog-close>Cancel</button>
+              <button type="button" class="button danger" data-moodboard-confirm-clear>Clear board</button>
+            </div>
+          </div>`;
+        backdrop.hidden = false;
+        contentRoot.querySelector('[data-moodboard-dialog-close]')?.focus();
+      }
+
+      function dispatchValue(element, value, eventName) {
+        if (!element) return;
+        element.value = value;
+        element.dispatchEvent(new Event(eventName, { bubbles: true }));
+      }
+
+      function addCategoryToBoard(category) {
+        const button = activeSourceButton || document.querySelector('[data-action="moodboard-add-visible"]');
+        const categorySelect = document.getElementById('moodboardCategoryFilter');
+        const searchInput = document.getElementById('moodboardSearch');
+        if (!button || !categorySelect || !searchInput) return closeDialog();
+
+        const previousCategory = categorySelect.value;
+        const previousSearch = searchInput.value;
+
+        dispatchValue(searchInput, '', 'input');
+        dispatchValue(categorySelect, category, 'change');
+
+        bypassAddVisible = true;
+        button.click();
+        bypassAddVisible = false;
+
+        dispatchValue(categorySelect, previousCategory, 'change');
+        dispatchValue(searchInput, previousSearch, 'input');
+        closeDialog();
+        requestAnimationFrame(syncMoodboardUI);
+      }
+
+      function confirmClearBoard() {
+        const button = activeSourceButton || document.querySelector('[data-action="moodboard-clear"]');
+        if (!button) return closeDialog();
+
+        const originalConfirm = window.confirm;
+        try {
+          window.confirm = () => true;
+          bypassClearBoard = true;
+          button.click();
+        } finally {
+          bypassClearBoard = false;
+          window.confirm = originalConfirm;
+          closeDialog();
+        }
+      }
+
+      function syncMoodboardUI() {
+        const input = document.getElementById('moodboardSearch');
+        const picker = document.getElementById('moodboardPlantPicker');
+        const addButton = document.querySelector('[data-action="moodboard-add-visible"]');
+        if (!input || !picker) return;
+
+        const active = Boolean(input.value.trim());
+        picker.classList.toggle('is-search-active', active);
+
+        let hint = document.querySelector('.moodboard-picker-hint');
+        if (!hint) {
+          hint = document.createElement('div');
+          hint.className = 'moodboard-picker-hint';
+          hint.textContent = 'Type a plant name in the search field to show matching plants.';
+          picker.before(hint);
+        }
+        hint.hidden = active;
+
+        if (addButton) {
+          if (addButton.textContent.trim() !== 'Add plants') addButton.textContent = 'Add plants';
+          if (addButton.title !== 'Add all plants or choose a category') addButton.title = 'Add all plants or choose a category';
+        }
+      }
+
+      document.addEventListener('click', event => {
+        const categoryChoice = event.target.closest('[data-moodboard-add-category]');
+        if (categoryChoice) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          addCategoryToBoard(categoryChoice.dataset.moodboardAddCategory || 'All');
+          return;
+        }
+
+        if (event.target.closest('[data-moodboard-confirm-clear]')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          confirmClearBoard();
+          return;
+        }
+
+        if (event.target.closest('[data-moodboard-dialog-close]')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          closeDialog();
+          return;
+        }
+
+        const backdrop = event.target.closest('#moodboardActionBackdrop');
+        if (backdrop && event.target === backdrop) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          closeDialog();
+          return;
+        }
+
+        const addButton = event.target.closest('[data-action="moodboard-add-visible"]');
+        if (addButton && !bypassAddVisible) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openAddDialog(addButton);
+          return;
+        }
+
+        const clearButton = event.target.closest('[data-action="moodboard-clear"]');
+        if (clearButton && !bypassClearBoard) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openClearDialog(clearButton);
+        }
+      }, true);
+
+      document.addEventListener('input', event => {
+        if (event.target.id === 'moodboardSearch') requestAnimationFrame(syncMoodboardUI);
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !ensureDialog().hidden) closeDialog();
+      });
+
+      if (content && 'MutationObserver' in window) {
+        const observer = new MutationObserver(() => requestAnimationFrame(syncMoodboardUI));
+        observer.observe(content, { childList: true, subtree: true });
+      }
+
+      window.addEventListener('hashchange', () => requestAnimationFrame(syncMoodboardUI));
+      requestAnimationFrame(syncMoodboardUI);
+    })();
+  </script>
+  <!-- MOODBOARD_BULK_ADD_SEARCH_FIT_END -->
 
 </body>
 </html>
