@@ -18,7 +18,7 @@
   <meta property="og:description" content="Plant Library & Landscape Database for Greenscape Landscaping Services.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260722-clear-glass-compact1">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260722-sticky-grid1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -847,6 +847,84 @@
         padding: 7px !important;
       }
     }
+
+  
+
+    /* Plant Library sticky toolbar + responsive card defaults */
+    .toolbar.library-toolbar {
+      position: sticky !important;
+      top: 112px !important;
+      z-index: 19 !important;
+      isolation: isolate;
+    }
+
+    /* Five cards per row is the default Plant Library web layout. */
+    @media (min-width: 761px) {
+      #plantGrid .plant-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+      }
+    }
+
+    /* Three cards per row is the default Plant Library phone layout. */
+    @media (max-width: 760px) {
+      .toolbar.library-toolbar {
+        position: sticky !important;
+        top: 46px !important;
+        z-index: 40 !important;
+        margin-bottom: 10px !important;
+      }
+
+      #plantGrid .plant-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+      }
+
+      #plantGrid .plant-card-body {
+        padding: 8px !important;
+      }
+
+      #plantGrid .plant-card h3 {
+        margin-top: 4px !important;
+        font-size: 11px !important;
+        line-height: 1.15 !important;
+      }
+
+      #plantGrid .scientific {
+        min-height: 20px !important;
+        font-size: 8.5px !important;
+        line-height: 1.15 !important;
+      }
+
+      #plantGrid .plant-code,
+      #plantGrid .plant-meta,
+      #plantGrid .plant-badge {
+        font-size: 7px !important;
+      }
+
+      #plantGrid .plant-meta {
+        margin-top: 7px !important;
+        padding-top: 7px !important;
+      }
+
+      #plantGrid .plant-card-actions {
+        margin-top: 7px !important;
+      }
+
+      #plantGrid .plant-card-actions .button {
+        min-height: 27px !important;
+        padding: 3px 4px !important;
+        font-size: 7.5px !important;
+      }
+
+      #plantGrid .category-pill {
+        left: 7px !important;
+        top: 7px !important;
+        padding: 4px 6px !important;
+        font-size: 6.5px !important;
+      }
+    }
+    /* End Plant Library sticky toolbar + responsive card defaults */
 
   </style>
 </head>
