@@ -18,7 +18,7 @@
   <meta property="og:description" content="Plant Library & Landscape Database for Greenscape Landscaping Services.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260722-moodboard-bulk-search-fit1">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260722-moodboard-full-bleed1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -1409,6 +1409,47 @@
         grid-template-columns: 1fr;
       }
     }
+    /* MOODBOARD_FULL_BLEED_IMAGES_START */
+    /* Keep the first plant row flush with the top of the printable board. */
+    .moodboard-page {
+      padding-top: 0 !important;
+    }
+    .moodboard-board-body {
+      min-height: 100% !important;
+      align-content: start !important;
+    }
+
+    /* Make every selected plant photo fully cover its image box. */
+    .moodboard-plant-card {
+      border: 0 !important;
+      background: transparent !important;
+    }
+    .moodboard-card-photo {
+      position: relative !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      background: #edf2ee !important;
+    }
+    .moodboard-card-photo img,
+    .moodboard-card-fallback {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    .moodboard-card-photo img {
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+    /* MOODBOARD_FULL_BLEED_IMAGES_END */
   </style>
 
 </head>
