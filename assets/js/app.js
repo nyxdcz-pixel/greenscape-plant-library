@@ -8,7 +8,8 @@
     plants: 'greenscape-plant-library-plants-v1',
     projects: 'greenscape-plant-library-projects-v1',
     categories: 'greenscape-plant-library-categories-v1',
-    moodboard: 'greenscape-plant-library-moodboard-v1'
+    moodboard: 'greenscape-plant-library-moodboard-v1',
+    libraryColumns: 'greenscape-plant-library-columns-v1'
   };
 
   const titleByView = {
@@ -43,6 +44,9 @@
     librarySearch: '',
     libraryCategory: 'All',
     libraryLimit: 48,
+    libraryColumns: [4, 5, 6, 7].includes(Number(loadJSON(STORAGE.libraryColumns, 6)))
+      ? Number(loadJSON(STORAGE.libraryColumns, 6))
+      : 6,
     sheetSearch: '',
     sheetCategory: 'All',
     moodboardSearch: '',
@@ -126,6 +130,7 @@
       localStorage.setItem(STORAGE.projects, JSON.stringify(projects));
       localStorage.setItem(STORAGE.categories, JSON.stringify(customCategories));
       localStorage.setItem(STORAGE.moodboard, JSON.stringify(moodboard));
+      localStorage.setItem(STORAGE.libraryColumns, JSON.stringify(state.libraryColumns));
       storageAvailable = true;
     } catch (error) {
       storageAvailable = false;
@@ -376,6 +381,12 @@
             <option value="All">All categories</option>
             ${categories().map(category => `<option value="${escapeHTML(category)}"${state.libraryCategory === category ? ' selected' : ''}>${escapeHTML(category)}</option>`).join('')}
           </select>
+          <label class="library-column-control">
+            <span>Cards per row</span>
+            <select id="libraryColumns" class="select-input" aria-label="Cards per row">
+              ${[4, 5, 6, 7].map(columns => `<option value="${columns}"${state.libraryColumns === columns ? ' selected' : ''}>${columns} cards</option>`).join('')}
+            </select>
+          </label>
         </div>
         <div class="toolbar-group">
           <span id="resultCount" class="result-count"></span>
@@ -399,7 +410,7 @@
       return;
     }
     grid.innerHTML = `
-      <div class="plant-grid">${shown.map(plantCard).join('')}</div>
+      <div class="plant-grid" style="--library-columns:${state.libraryColumns}">${shown.map(plantCard).join('')}</div>
       ${shown.length < results.length ? `<div style="display:flex;justify-content:center;margin-top:22px;"><button class="button secondary" data-action="load-more">Show more (${results.length - shown.length} remaining)</button></div>` : ''}
     `;
   }
@@ -2942,6 +2953,12 @@
     if (event.target.id === 'categoryFilter') {
       state.libraryCategory = event.target.value;
       state.libraryLimit = 48;
+      updateLibraryResults();
+    }
+    if (event.target.id === 'libraryColumns') {
+      const columns = Number(event.target.value);
+      state.libraryColumns = [4, 5, 6, 7].includes(columns) ? columns : 6;
+      saveAll();
       updateLibraryResults();
     }
     if (event.target.id === 'sheetCategoryFilter') {
