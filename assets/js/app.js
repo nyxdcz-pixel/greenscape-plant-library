@@ -433,7 +433,6 @@
           <div class="plant-meta"><span>${sizeCount} available size${sizeCount === 1 ? '' : 's'}</span></div>
           <div class="plant-card-actions">
             <button class="button secondary small" data-action="plant-detail" data-plant-id="${escapeHTML(plant.id)}">View details</button>
-            <button class="button primary small" data-action="add-to-project" data-plant-id="${escapeHTML(plant.id)}">Add to list</button>
           </div>
         </div>
       </article>`;
