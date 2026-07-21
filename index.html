@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-liquid2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-glass1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -190,77 +190,184 @@
       }
     }
 
-
-    /* Refined liquid-fill interaction for control buttons.
-       Fully hidden at rest; a soft liquid layer rises on hover or tap. */
+    /* iOS-inspired liquid-glass treatment for interactive buttons.
+       Keeps Greenscape colors while adding translucent depth, blur,
+       inner highlights, and a soft press response. */
     button:not(.plant-image):not([disabled]) {
+      --glass-bg-top: rgba(255, 255, 255, .62);
+      --glass-bg-bottom: rgba(239, 247, 242, .44);
+      --glass-border: rgba(255, 255, 255, .72);
+      --glass-text: var(--forest-900, #173f31);
+      --glass-shadow: rgba(10, 55, 39, .14);
+      --glass-glow: rgba(255, 255, 255, .58);
       position: relative;
-      overflow: hidden;
       isolation: isolate;
+      overflow: hidden;
+      color: var(--glass-text) !important;
+      border: 1px solid var(--glass-border) !important;
+      background:
+        linear-gradient(180deg, var(--glass-bg-top), var(--glass-bg-bottom)) !important;
+      -webkit-backdrop-filter: blur(14px) saturate(165%);
+      backdrop-filter: blur(14px) saturate(165%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .80),
+        inset 0 -1px 0 rgba(18, 67, 47, .08),
+        0 7px 18px var(--glass-shadow),
+        0 1px 2px rgba(12, 47, 35, .08) !important;
+      text-shadow: 0 1px 0 rgba(255,255,255,.24);
+      transform: translateZ(0);
+      transition:
+        transform .20s cubic-bezier(.2,.8,.2,1),
+        box-shadow .22s ease,
+        border-color .22s ease,
+        filter .22s ease !important;
     }
 
     button:not(.plant-image):not([disabled])::before {
       content: "";
       position: absolute;
       z-index: 0;
-      left: -12%;
-      top: 100%;
-      width: 124%;
-      height: 220%;
-      border-radius: 46% 54% 0 0 / 12% 16% 0 0;
-      color: inherit;
-      background: currentColor;
-      opacity: 0;
+      inset: 1px 10% auto;
+      height: 42%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--glass-glow), transparent);
+      opacity: .72;
       pointer-events: none;
-      transform: translateY(0) rotate(-2deg);
-      transform-origin: 50% 0;
-      transition:
-        transform .52s cubic-bezier(.22,.76,.26,1),
-        opacity .18s ease;
+      filter: blur(.2px);
+      transition: opacity .22s ease, transform .22s ease;
     }
 
-    /* Keep icons and button content above the liquid layer. */
+    button:not(.plant-image):not([disabled])::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      width: 44%;
+      height: 180%;
+      left: -36%;
+      top: -40%;
+      border-radius: 50%;
+      background: linear-gradient(110deg, transparent 18%, rgba(255,255,255,.50) 48%, transparent 78%);
+      opacity: 0;
+      pointer-events: none;
+      transform: rotate(12deg);
+      transition: left .48s cubic-bezier(.2,.75,.2,1), opacity .18s ease;
+    }
+
     button:not(.plant-image):not([disabled]) > * {
       position: relative;
       z-index: 1;
     }
 
+    /* Primary Greenscape glass */
+    .button.primary,
+    .button.terracotta,
+    .feedback-launcher,
+    .nav-item.active,
+    button[style*="background:var(--forest"],
+    button[style*="background: var(--forest"] {
+      --glass-bg-top: rgba(58, 120, 89, .88);
+      --glass-bg-bottom: rgba(18, 72, 51, .86);
+      --glass-border: rgba(255, 255, 255, .38);
+      --glass-text: #fff;
+      --glass-shadow: rgba(6, 47, 33, .24);
+      --glass-glow: rgba(255, 255, 255, .42);
+      text-shadow: 0 1px 2px rgba(0,0,0,.18);
+    }
+
+    /* Neutral / secondary frosted glass */
+    .button.secondary,
+    .button.ghost,
+    .icon-button,
+    .moodboard-zoom-controls button {
+      --glass-bg-top: rgba(255, 255, 255, .76);
+      --glass-bg-bottom: rgba(234, 244, 238, .54);
+      --glass-border: rgba(255, 255, 255, .86);
+      --glass-text: var(--forest-900, #173f31);
+      --glass-shadow: rgba(22, 69, 50, .12);
+    }
+
+    /* Sidebar glass buttons */
+    .nav-item:not(.active) {
+      --glass-bg-top: rgba(255, 255, 255, .10);
+      --glass-bg-bottom: rgba(255, 255, 255, .045);
+      --glass-border: rgba(255, 255, 255, .12);
+      --glass-text: #dce9e1;
+      --glass-shadow: rgba(0, 0, 0, .10);
+      --glass-glow: rgba(255, 255, 255, .18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.10),
+        inset 0 -1px 0 rgba(0,0,0,.08) !important;
+    }
+
+    .feedback-close {
+      --glass-bg-top: rgba(255, 255, 255, .20);
+      --glass-bg-bottom: rgba(255, 255, 255, .08);
+      --glass-border: rgba(255, 255, 255, .24);
+      --glass-text: #fff;
+      --glass-shadow: rgba(0, 0, 0, .12);
+      --glass-glow: rgba(255, 255, 255, .28);
+    }
+
+    /* Danger glass */
+    .button.danger,
+    .danger-text,
+    .sheet-category-delete {
+      --glass-bg-top: rgba(174, 78, 61, .88);
+      --glass-bg-bottom: rgba(125, 47, 37, .84);
+      --glass-border: rgba(255, 255, 255, .34);
+      --glass-text: #fff;
+      --glass-shadow: rgba(91, 31, 24, .22);
+      --glass-glow: rgba(255, 255, 255, .38);
+      text-shadow: 0 1px 2px rgba(0,0,0,.16);
+    }
+
     @media (hover: hover) and (pointer: fine) {
+      button:not(.plant-image):not([disabled]):hover {
+        transform: translateY(-1px) scale(1.012);
+        border-color: rgba(255,255,255,.92) !important;
+        filter: brightness(1.035) saturate(1.05);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, .92),
+          inset 0 -1px 0 rgba(18, 67, 47, .06),
+          0 11px 24px var(--glass-shadow),
+          0 2px 4px rgba(12, 47, 35, .08) !important;
+      }
       button:not(.plant-image):not([disabled]):hover::before {
-        opacity: .13;
-        transform: translateY(-59%) rotate(1deg);
+        opacity: .94;
+        transform: translateY(-1px) scaleX(1.04);
+      }
+      button:not(.plant-image):not([disabled]):hover::after {
+        left: 92%;
+        opacity: .72;
       }
     }
 
-    button:not(.plant-image):not([disabled]):active::before,
-    button:not(.plant-image).liquid-fill-active::before {
-      opacity: .17;
-      transform: translateY(-63%) rotate(0deg);
+    button:not(.plant-image):not([disabled]):active {
+      transform: translateY(1px) scale(.972);
+      filter: brightness(.98) saturate(1.03);
+      box-shadow:
+        inset 0 2px 5px rgba(8, 46, 32, .16),
+        inset 0 1px 0 rgba(255, 255, 255, .48),
+        0 3px 9px var(--glass-shadow) !important;
+      transition-duration: .07s !important;
     }
 
-    button:not(.plant-image):not([disabled]):active,
-    button:not(.plant-image).liquid-fill-active {
-      transform: translateY(0) scale(.985);
+    button:not(.plant-image):focus-visible {
+      outline: 3px solid rgba(220, 233, 141, .82) !important;
+      outline-offset: 3px;
     }
 
-    @media (hover: none) {
-      button:not(.plant-image):not([disabled]):hover::before {
-        opacity: 0;
-        transform: translateY(0) rotate(-2deg);
-      }
-      button:not(.plant-image).liquid-fill-active::before {
-        opacity: .17;
-        transform: translateY(-63%) rotate(0deg);
+    @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+      button:not(.plant-image):not([disabled]) {
+        background: linear-gradient(180deg, var(--glass-bg-top), var(--glass-bg-bottom)) !important;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      button:not(.plant-image):not([disabled])::before {
+      button:not(.plant-image):not([disabled]),
+      button:not(.plant-image):not([disabled])::before,
+      button:not(.plant-image):not([disabled])::after {
         transition-duration: .01ms !important;
-      }
-      button:not(.plant-image):not([disabled]):active,
-      button:not(.plant-image).liquid-fill-active {
-        transform: none;
       }
     }
 
@@ -402,32 +509,5 @@
       }, true);
     })();
   </script>
-
-  <script>
-    (() => {
-      const selector = 'button:not(.plant-image):not([disabled])';
-      const timers = new WeakMap();
-
-      document.addEventListener('pointerdown', event => {
-        if (!(event.target instanceof Element)) return;
-        const button = event.target.closest(selector);
-        if (!button) return;
-
-        const previousTimer = timers.get(button);
-        if (previousTimer) window.clearTimeout(previousTimer);
-
-        button.classList.remove('liquid-fill-active');
-        void button.offsetWidth;
-        button.classList.add('liquid-fill-active');
-
-        const timer = window.setTimeout(() => {
-          button.classList.remove('liquid-fill-active');
-          timers.delete(button);
-        }, 480);
-        timers.set(button, timer);
-      }, { passive: true });
-    })();
-  </script>
-
 </body>
 </html>
