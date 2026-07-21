@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-glass-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,20 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-apple-liquid-glass1">
+
+  <script>
+    (() => {
+      try {
+        const savedTheme = localStorage.getItem('greenscape-glass-theme');
+        if (['light', 'dark', 'dim'].includes(savedTheme)) {
+          document.documentElement.dataset.glassTheme = savedTheme;
+          document.documentElement.style.colorScheme = savedTheme === 'light' ? 'light' : 'dark';
+        }
+      } catch (_) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-theme-switcher1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -543,6 +556,318 @@
       }
     }
 
+
+
+    /* =========================================================
+       Light / Dark / Dim Liquid Glass theme switcher
+       ========================================================= */
+    html[data-glass-theme="light"] {
+      color-scheme: light;
+      --cream: #f5f2e9;
+      --paper: #fffdf8;
+      --ink: #17231e;
+      --muted: #6f7a74;
+      --line: #dfe3dc;
+      --theme-topbar: rgba(245, 242, 233, .86);
+      --theme-surface: rgba(255, 253, 248, .88);
+      --theme-input: rgba(255, 255, 255, .88);
+      --theme-soft: rgba(238, 243, 238, .88);
+      --theme-shadow: rgba(21, 45, 35, .10);
+    }
+
+    html[data-glass-theme="dark"] {
+      color-scheme: dark;
+      --forest-950: #071b13;
+      --forest-900: #0c2e21;
+      --forest-800: #15533b;
+      --forest-700: #267256;
+      --forest-100: #243c32;
+      --cream: #0c1511;
+      --paper: #14231c;
+      --ink: #eef6f1;
+      --muted: #a8b8af;
+      --line: #30443a;
+      --terracotta: #d18466;
+      --terracotta-dark: #e2a084;
+      --warning: #dda75d;
+      --danger: #d46a62;
+      --shadow: 0 14px 38px rgba(0, 0, 0, .30);
+      --theme-topbar: rgba(11, 25, 19, .78);
+      --theme-surface: rgba(20, 35, 28, .84);
+      --theme-input: rgba(24, 42, 34, .88);
+      --theme-soft: rgba(29, 47, 39, .90);
+      --theme-shadow: rgba(0, 0, 0, .30);
+    }
+
+    html[data-glass-theme="dim"] {
+      color-scheme: dark;
+      --forest-950: #10251b;
+      --forest-900: #19382a;
+      --forest-800: #285b45;
+      --forest-700: #3a775d;
+      --forest-100: #344b40;
+      --cream: #1b2420;
+      --paper: #27312c;
+      --ink: #edf2ee;
+      --muted: #b3bdb7;
+      --line: #405148;
+      --terracotta: #cf8265;
+      --terracotta-dark: #dfa087;
+      --warning: #d9aa65;
+      --danger: #d26c63;
+      --shadow: 0 13px 34px rgba(0, 0, 0, .22);
+      --theme-topbar: rgba(29, 39, 34, .82);
+      --theme-surface: rgba(39, 49, 44, .88);
+      --theme-input: rgba(46, 58, 52, .88);
+      --theme-soft: rgba(49, 62, 55, .88);
+      --theme-shadow: rgba(0, 0, 0, .23);
+    }
+
+    html,
+    body,
+    .main-area,
+    .topbar,
+    .page-content,
+    .panel,
+    .stat-card,
+    .plant-card,
+    .project-card,
+    .table-wrap,
+    .modal-card,
+    .feedback-panel {
+      transition: background-color .28s ease, color .28s ease, border-color .28s ease, box-shadow .28s ease;
+    }
+
+    body,
+    .main-area {
+      background: var(--cream) !important;
+      color: var(--ink) !important;
+    }
+
+    .topbar {
+      background: var(--theme-topbar) !important;
+      border-bottom-color: color-mix(in srgb, var(--line) 72%, transparent) !important;
+      -webkit-backdrop-filter: blur(22px) saturate(155%);
+      backdrop-filter: blur(22px) saturate(155%);
+    }
+
+    :where(
+      .stat-card,
+      .panel,
+      .plant-card,
+      .project-card,
+      .table-wrap,
+      .modal-card,
+      .feedback-panel,
+      .detail-panel,
+      .plant-size-details,
+      .moodboard-controls,
+      .moodboard-stage,
+      .summary-box,
+      .info-item
+    ) {
+      background-color: var(--theme-surface) !important;
+      border-color: var(--line) !important;
+      color: var(--ink) !important;
+      box-shadow: 0 10px 28px var(--theme-shadow);
+    }
+
+    :where(.search-input, .select-input, .text-input, .number-input, textarea) {
+      color: var(--ink) !important;
+      background: var(--theme-input) !important;
+      border-color: var(--line) !important;
+    }
+
+    :where(.search-input, .text-input, .number-input, textarea)::placeholder {
+      color: color-mix(in srgb, var(--muted) 82%, transparent) !important;
+    }
+
+    :where(.library-toolbar, .sheet-toolbar, .toolbar.library-toolbar, .toolbar.sheet-toolbar) {
+      background: color-mix(in srgb, var(--theme-topbar) 92%, transparent) !important;
+      border-color: var(--line) !important;
+    }
+
+    html[data-glass-theme="dark"] :where(th, .panel-header, .plant-meta),
+    html[data-glass-theme="dim"] :where(th, .panel-header, .plant-meta) {
+      border-color: var(--line) !important;
+    }
+
+    html[data-glass-theme="dark"] :where(.bar-track, .plant-image, .image-fallback),
+    html[data-glass-theme="dim"] :where(.bar-track, .plant-image, .image-fallback) {
+      background: var(--theme-soft) !important;
+    }
+
+    html[data-glass-theme="dark"] .category-pill,
+    html[data-glass-theme="dim"] .category-pill {
+      color: var(--ink) !important;
+      background: color-mix(in srgb, var(--theme-surface) 90%, transparent) !important;
+    }
+
+    .topbar-notices {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .theme-switcher {
+      --switch-size: 34px;
+      position: relative;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(3, var(--switch-size));
+      gap: 2px;
+      margin: 0;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, .56);
+      border-radius: 999px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,.44), rgba(255,255,255,.14)),
+        color-mix(in srgb, var(--theme-topbar) 82%, transparent);
+      -webkit-backdrop-filter: blur(22px) saturate(175%);
+      backdrop-filter: blur(22px) saturate(175%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.70),
+        inset 0 -1px 0 rgba(18,67,47,.09),
+        0 8px 22px var(--theme-shadow);
+      isolation: isolate;
+    }
+
+    .theme-switcher__legend,
+    .theme-switcher__text {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .theme-switcher__lens {
+      position: absolute;
+      z-index: 0;
+      top: 4px;
+      left: 4px;
+      width: var(--switch-size);
+      height: var(--switch-size);
+      border: 1px solid rgba(255,255,255,.76);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 22%, rgba(255,255,255,.92), rgba(255,255,255,.34) 30%, transparent 55%),
+        linear-gradient(145deg, rgba(47,106,82,.80), rgba(23,63,49,.70));
+      -webkit-backdrop-filter: blur(12px) saturate(185%);
+      backdrop-filter: blur(12px) saturate(185%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.84),
+        inset 0 -1px 0 rgba(0,0,0,.14),
+        0 6px 14px rgba(8,52,36,.26);
+      transform: translateX(0);
+      transition: transform .38s cubic-bezier(.2,.9,.24,1.14), background .25s ease;
+      pointer-events: none;
+      filter: url(#theme-switcher-distortion);
+    }
+
+    .theme-switcher:has(input[value="dark"]:checked) .theme-switcher__lens {
+      transform: translateX(calc(var(--switch-size) + 2px));
+      background:
+        radial-gradient(circle at 32% 22%, rgba(255,255,255,.52), rgba(255,255,255,.10) 31%, transparent 58%),
+        linear-gradient(145deg, rgba(20,45,35,.94), rgba(6,22,16,.90));
+    }
+
+    .theme-switcher:has(input[value="dim"]:checked) .theme-switcher__lens {
+      transform: translateX(calc((var(--switch-size) + 2px) * 2));
+      background:
+        radial-gradient(circle at 32% 22%, rgba(255,255,255,.62), rgba(255,255,255,.12) 31%, transparent 58%),
+        linear-gradient(145deg, rgba(80,98,88,.92), rgba(38,53,46,.88));
+    }
+
+    .theme-switcher__option {
+      position: relative;
+      z-index: 1;
+      width: var(--switch-size);
+      height: var(--switch-size);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color .22s ease, transform .16s ease;
+    }
+
+    .theme-switcher__option:hover {
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .theme-switcher__input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .theme-switcher__icon {
+      width: 18px;
+      height: 18px;
+      display: block;
+      fill: currentColor;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,.18));
+    }
+
+    .theme-switcher__input:checked + .theme-switcher__icon {
+      color: #fff;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,.22));
+    }
+
+    .theme-switcher__input:focus-visible + .theme-switcher__icon {
+      outline: 3px solid rgba(220, 233, 141, .88);
+      outline-offset: 5px;
+      border-radius: 50%;
+    }
+
+    .theme-switcher__filter-svg {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-notices {
+        gap: 6px;
+      }
+      .theme-switcher {
+        --switch-size: 30px;
+        padding: 3px;
+      }
+      .theme-switcher__lens {
+        top: 3px;
+        left: 3px;
+      }
+      .theme-switcher__icon {
+        width: 16px;
+        height: 16px;
+      }
+      .company-use-notice {
+        display: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .theme-switcher__lens,
+      .theme-switcher__option,
+      html,
+      body,
+      .main-area,
+      .topbar {
+        transition-duration: .01ms !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -591,6 +916,44 @@
           <p class="topbar-context">Plant Library &amp; Landscape Database</p>
         </div>
         <div class="topbar-notices">
+
+          <fieldset class="theme-switcher" id="themeSwitcher" aria-label="Choose appearance">
+            <legend class="theme-switcher__legend">Choose appearance</legend>
+            <span class="theme-switcher__lens" aria-hidden="true"></span>
+
+            <label class="theme-switcher__option" title="Light theme">
+              <input class="theme-switcher__input" type="radio" name="glass-theme" value="light" checked>
+              <svg class="theme-switcher__icon" viewBox="0 0 36 36" aria-hidden="true">
+                <path fill="currentColor" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
+                <path fill="currentColor" d="M17 6a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V6Zm7.2 1.7a1 1 0 0 1 1.6 1.2l-1.7 2.4a1 1 0 1 1-1.6-1.2l1.7-2.4ZM29.1 13.4a1 1 0 0 1 .6 1.9l-2.8.9a1 1 0 1 1-.6-1.9l2.8-.9Zm.6 7.4a1 1 0 0 1-.6 1.9l-2.8-.9a1 1 0 1 1 .6-1.9l2.8.9Zm-3.9 6.4a1 1 0 1 1-1.6 1.2L22.5 26a1 1 0 1 1 1.6-1.2l1.7 2.4ZM19 30a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm-7.2-1.7a1 1 0 1 1-1.6-1.2l1.7-2.4a1 1 0 1 1 1.6 1.2l-1.7 2.4ZM6.9 22.7a1 1 0 1 1-.6-1.9l2.8-.9a1 1 0 1 1 .6 1.9l-2.8.9Zm-.6-7.4a1 1 0 1 1 .6-1.9l2.8.9a1 1 0 1 1-.6 1.9l-2.8-.9Zm3.9-6.4a1 1 0 1 1 1.6-1.2l1.7 2.4a1 1 0 1 1-1.6 1.2l-1.7-2.4Z"/>
+              </svg>
+              <span class="theme-switcher__text">Light</span>
+            </label>
+
+            <label class="theme-switcher__option" title="Dark theme">
+              <input class="theme-switcher__input" type="radio" name="glass-theme" value="dark">
+              <svg class="theme-switcher__icon" viewBox="0 0 36 36" aria-hidden="true">
+                <path fill="currentColor" d="M12.5 8.5a11 11 0 0 1 8.8-1 7.5 7.5 0 0 0 7.4 12.9 11 11 0 1 1-16.2-11.9Zm4.2.6a9 9 0 1 0 8.4 14.5 9.5 9.5 0 0 1-9.5-11.9c.2-.9.6-1.8 1.1-2.6Z"/>
+              </svg>
+              <span class="theme-switcher__text">Dark</span>
+            </label>
+
+            <label class="theme-switcher__option" title="Dim theme">
+              <input class="theme-switcher__input" type="radio" name="glass-theme" value="dim">
+              <svg class="theme-switcher__icon" viewBox="0 0 36 36" aria-hidden="true">
+                <path fill="currentColor" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Zm7 4a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm3 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1Zm3-16a6 6 0 0 1 5.9 7h-2A4 4 0 0 0 18 15a4 4 0 0 0-3.9 5h-2a6 6 0 0 1 5.9-7Zm-1-6a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V7Zm7.2 1.7a1 1 0 1 1 1.6 1.2l-1.7 2.4a1 1 0 1 1-1.6-1.2l1.7-2.4Zm4.9 5.7a1 1 0 0 1 .6 1.9l-2.8.9a1 1 0 1 1-.6-1.9l2.8-.9ZM6.3 16.3a1 1 0 1 1 .6-1.9l2.8.9a1 1 0 1 1-.6 1.9l-2.8-.9Zm3.9-6.4a1 1 0 1 1 1.6-1.2l1.7 2.4a1 1 0 1 1-1.6 1.2l-1.7-2.4Z"/>
+              </svg>
+              <span class="theme-switcher__text">Dim</span>
+            </label>
+
+            <svg class="theme-switcher__filter-svg" aria-hidden="true">
+              <filter id="theme-switcher-distortion" x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.018 0.032" numOctaves="2" seed="19" result="noise"/>
+                <feGaussianBlur in="noise" stdDeviation="0.7" result="softNoise"/>
+                <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="2.8" xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
+            </svg>
+          </fieldset>
           <div class="company-use-notice" role="note" aria-label="Internal company use notice">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M7 10V8a5 5 0 0 1 10 0v2m-11 0h12v10H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -779,6 +1142,55 @@
           button.classList.remove('is-glass-hovered', 'is-glass-pressed');
           resetOptics(button);
         });
+      });
+    })();
+  </script>
+
+
+  <script>
+    /* Persisted Light / Dark / Dim glass appearance. */
+    (() => {
+      const storageKey = 'greenscape-glass-theme';
+      const allowedThemes = new Set(['light', 'dark', 'dim']);
+      const root = document.documentElement;
+      const switcher = document.getElementById('themeSwitcher');
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+      if (!switcher) return;
+
+      function applyTheme(theme, persist = true) {
+        const safeTheme = allowedThemes.has(theme) ? theme : 'light';
+        root.dataset.glassTheme = safeTheme;
+        root.style.colorScheme = safeTheme === 'light' ? 'light' : 'dark';
+
+        const activeInput = switcher.querySelector(`input[value="${safeTheme}"]`);
+        if (activeInput) activeInput.checked = true;
+
+        if (metaThemeColor) {
+          metaThemeColor.content = safeTheme === 'light'
+            ? '#f5f2e9'
+            : safeTheme === 'dim'
+              ? '#1b2420'
+              : '#0c1511';
+        }
+
+        if (persist) {
+          try { localStorage.setItem(storageKey, safeTheme); } catch (_) {}
+        }
+      }
+
+      let initialTheme = root.dataset.glassTheme || 'light';
+      try {
+        const savedTheme = localStorage.getItem(storageKey);
+        if (allowedThemes.has(savedTheme)) initialTheme = savedTheme;
+      } catch (_) {}
+
+      applyTheme(initialTheme, false);
+
+      switcher.addEventListener('change', event => {
+        const input = event.target.closest('input[name="glass-theme"]');
+        if (!input) return;
+        applyTheme(input.value);
       });
     })();
   </script>
