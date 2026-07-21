@@ -1030,6 +1030,62 @@
       }
     }
 
+    /* Plant List Editor: stronger clear-glass treatment only while the toolbar is stuck. */
+    .toolbar.sheet-toolbar {
+      transition:
+        background .22s ease,
+        box-shadow .22s ease,
+        -webkit-backdrop-filter .22s ease,
+        backdrop-filter .22s ease !important;
+    }
+
+    .toolbar.sheet-toolbar.is-stuck {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.42), rgba(244,249,246,.20)) !important;
+      border: 0 !important;
+      -webkit-backdrop-filter: blur(26px) saturate(185%) contrast(1.03) !important;
+      backdrop-filter: blur(26px) saturate(185%) contrast(1.03) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.86),
+        inset 0 -1px 0 rgba(14,73,49,.08),
+        0 14px 34px rgba(7,53,39,.15),
+        0 2px 8px rgba(7,53,39,.08) !important;
+    }
+
+    .sheet-toolbar.is-stuck .search-input,
+    .sheet-toolbar.is-stuck .select-input {
+      border-color: rgba(255,255,255,.62) !important;
+      background: rgba(255,255,255,.28) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(165%) !important;
+      backdrop-filter: blur(18px) saturate(165%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.82),
+        inset 0 -1px 0 rgba(14,73,49,.07),
+        0 5px 14px rgba(7,53,39,.08) !important;
+    }
+
+    .sheet-toolbar.is-stuck .result-count {
+      border: 0 !important;
+      background: rgba(255,255,255,.22) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(165%) !important;
+      backdrop-filter: blur(16px) saturate(165%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.76),
+        0 5px 14px rgba(7,53,39,.07) !important;
+    }
+
+    .sheet-toolbar.is-stuck .button {
+      border: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      -webkit-backdrop-filter: blur(17px) saturate(170%) !important;
+      backdrop-filter: blur(17px) saturate(170%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -1px 0 rgba(14,73,49,.08),
+        0 6px 16px rgba(7,53,39,.09) !important;
+    }
+
     /* End Plant Library sticky toolbar + responsive card defaults */
 
   </style>
@@ -1075,7 +1131,6 @@
     <main class="main-area">
       <header class="topbar">
         <div class="topbar-title">
-          <p class="eyebrow">GREENSCAPE LANDSCAPING SERVICES</p>
           <h1 id="pageTitle">Dashboard</h1>
           <p class="topbar-context">Plant Library &amp; Landscape Database</p>
         </div>
@@ -1268,6 +1323,41 @@
           resetOptics(button);
         });
       });
+    })();
+  </script>
+  <script>
+    /* Add a stronger glass state only when the Plant List Editor toolbar is actually stuck. */
+    (() => {
+      const root = document.documentElement;
+      const content = document.getElementById('pageContent');
+      let frame = 0;
+
+      const update = () => {
+        frame = 0;
+        const toolbar = document.querySelector('.sheet-toolbar');
+        if (!toolbar) return;
+
+        const rawOffset = getComputedStyle(root).getPropertyValue('--sheet-sticky-top');
+        const stickyTop = Number.parseFloat(rawOffset) || 0;
+        const stuck = window.scrollY > 4 && toolbar.getBoundingClientRect().top <= stickyTop + 1;
+        toolbar.classList.toggle('is-stuck', stuck);
+      };
+
+      const schedule = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule, { passive: true });
+      window.addEventListener('hashchange', schedule, { passive: true });
+
+      if (content && 'MutationObserver' in window) {
+        const observer = new MutationObserver(schedule);
+        observer.observe(content, { childList: true, subtree: true });
+      }
+
+      schedule();
     })();
   </script>
   <script>
