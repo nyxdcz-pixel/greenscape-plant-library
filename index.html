@@ -18,7 +18,7 @@
   <meta property="og:description" content="Plant Library & Landscape Database for Greenscape Landscaping Services.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260722-sticky-grid1">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260722-sheet-sticky1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -1004,6 +1004,32 @@
         font-size: 6.5px !important;
       }
     }
+    /* Plant List Editor: keep search, filters, count, and actions visible while scrolling. */
+    :root {
+      --sheet-sticky-top: var(--library-sticky-top, 124px);
+    }
+
+    .toolbar.sheet-toolbar {
+      position: sticky !important;
+      top: var(--sheet-sticky-top) !important;
+      z-index: 26 !important;
+      isolation: isolate;
+      margin-top: 0 !important;
+      background: rgba(255, 255, 255, .90) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+      backdrop-filter: blur(18px) saturate(150%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.68),
+        0 8px 22px rgba(21,45,35,.10) !important;
+    }
+
+    @media (max-width: 760px) {
+      .toolbar.sheet-toolbar {
+        top: 46px !important;
+        z-index: 41 !important;
+      }
+    }
+
     /* End Plant Library sticky toolbar + responsive card defaults */
 
   </style>
@@ -1245,27 +1271,30 @@
     })();
   </script>
   <script>
-    /* Keep the sticky Plant Library toolbar directly below the real header height. */
+    /* Keep the sticky Plant Library and Plant List Editor toolbars below the real header height. */
     (() => {
       const root = document.documentElement;
       const header = document.querySelector('.topbar');
       if (!header) return;
 
-      const updateLibraryStickyOffset = () => {
+      const updateStickyOffsets = () => {
         if (window.matchMedia('(max-width: 760px)').matches) {
           root.style.setProperty('--library-sticky-top', '46px');
+          root.style.setProperty('--sheet-sticky-top', '46px');
           return;
         }
         const headerHeight = Math.ceil(header.getBoundingClientRect().height);
-        root.style.setProperty('--library-sticky-top', `${headerHeight + 8}px`);
+        const offset = `${headerHeight + 8}px`;
+        root.style.setProperty('--library-sticky-top', offset);
+        root.style.setProperty('--sheet-sticky-top', offset);
       };
 
-      updateLibraryStickyOffset();
-      window.addEventListener('resize', updateLibraryStickyOffset, { passive: true });
-      window.addEventListener('load', updateLibraryStickyOffset, { once: true });
+      updateStickyOffsets();
+      window.addEventListener('resize', updateStickyOffsets, { passive: true });
+      window.addEventListener('load', updateStickyOffsets, { once: true });
 
       if ('ResizeObserver' in window) {
-        const observer = new ResizeObserver(updateLibraryStickyOffset);
+        const observer = new ResizeObserver(updateStickyOffsets);
         observer.observe(header);
       }
     })();
