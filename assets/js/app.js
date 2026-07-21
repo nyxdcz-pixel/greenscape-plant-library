@@ -2995,6 +2995,24 @@
     }
   });
 
+
+  // Keep the liquid-fill click effect visible long enough on touch devices.
+  document.addEventListener('pointerdown', event => {
+    const control = event.target.closest(
+      '.button, .nav-item, .website-link, .icon-button, .text-button, .sheet-open-link'
+    );
+    if (!control || control.hasAttribute('disabled')) return;
+
+    control.classList.remove('button-wave-click');
+    // Restart the animation when the same control is tapped repeatedly.
+    void control.offsetWidth;
+    control.classList.add('button-wave-click');
+
+    window.setTimeout(() => {
+      control.classList.remove('button-wave-click');
+    }, 920);
+  }, { passive: true });
+
   document.querySelectorAll('.nav-item').forEach(button => button.classList.toggle('active', button.dataset.view === state.view));
   render();
 })();
