@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-layered-glass2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260722-apple-liquid-glass1">
 
   <style>
     /* Compact sidebar + consistent navigation icons */
@@ -188,208 +188,6 @@
       .page-content {
         padding-top: 14px !important;
       }
-    }
-
-
-    /* =========================================================
-       Layered Liquid Glass sidebar
-       Uses the supplied glass-filter / overlay / specular system
-       with a subtle SVG displacement map and safe fallbacks.
-       ========================================================= */
-    .sidebar.glass-container--sidebar {
-      --sidebar-glass-x: 34%;
-      --sidebar-glass-y: 12%;
-      position: sticky;
-      isolation: isolate;
-      overflow: hidden !important;
-      color: #eef8f2 !important;
-      border-right: 1px solid rgba(255, 255, 255, .26) !important;
-      background: transparent !important;
-      box-shadow:
-        inset 1px 0 0 rgba(255, 255, 255, .20),
-        inset -1px 0 0 rgba(255, 255, 255, .08),
-        12px 0 34px rgba(4, 39, 27, .20),
-        2px 0 8px rgba(4, 39, 27, .12) !important;
-    }
-
-    .sidebar .glass-filter,
-    .sidebar .glass-overlay,
-    .sidebar .glass-specular {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .sidebar .glass-filter {
-      z-index: 0;
-      inset: -7%;
-      background:
-        radial-gradient(
-          circle at var(--sidebar-glass-x) var(--sidebar-glass-y),
-          rgba(255, 255, 255, .29) 0,
-          rgba(255, 255, 255, .12) 16%,
-          transparent 43%
-        ),
-        linear-gradient(
-          162deg,
-          rgba(38, 117, 84, .74) 0%,
-          rgba(12, 76, 53, .68) 48%,
-          rgba(4, 45, 32, .72) 100%
-        );
-      -webkit-backdrop-filter: blur(30px) saturate(185%) contrast(1.05);
-      backdrop-filter: blur(30px) saturate(185%) contrast(1.05);
-      filter: url(#lg-sidebar-dist);
-      opacity: .98;
-      transform: scale(1.035);
-      transform-origin: center;
-    }
-
-    .sidebar .glass-overlay {
-      z-index: 1;
-      background:
-        radial-gradient(
-          115% 72% at 4% 103%,
-          rgba(220, 233, 141, .17),
-          transparent 61%
-        ),
-        radial-gradient(
-          84% 46% at 98% 8%,
-          rgba(151, 216, 182, .12),
-          transparent 68%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(7, 66, 46, .20),
-          rgba(2, 35, 25, .32)
-        );
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .18),
-        inset -1px 0 0 rgba(255, 255, 255, .07);
-    }
-
-    .sidebar .glass-specular {
-      z-index: 2;
-      background:
-        radial-gradient(
-          circle at var(--sidebar-glass-x) var(--sidebar-glass-y),
-          rgba(255, 255, 255, .32) 0,
-          rgba(255, 255, 255, .14) 13%,
-          transparent 38%
-        ),
-        linear-gradient(
-          112deg,
-          rgba(255, 255, 255, .17) 0%,
-          rgba(255, 255, 255, .055) 25%,
-          transparent 45%
-        );
-      mix-blend-mode: screen;
-      opacity: .88;
-      box-shadow:
-        inset 1px 0 0 rgba(255, 255, 255, .16),
-        inset 0 1px 0 rgba(255, 255, 255, .20),
-        inset 0 -1px 0 rgba(0, 0, 0, .10);
-      transition: background-position .22s ease, opacity .22s ease;
-    }
-
-    .sidebar .glass-content--sidebar {
-      position: relative;
-      z-index: 3;
-      width: 100%;
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
-      display: flex;
-      flex: 1 1 auto;
-      flex-direction: column;
-    }
-
-    .brand-mark {
-      border: 1px solid rgba(255,255,255,.30) !important;
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255,255,255,.30), transparent 38%),
-        linear-gradient(155deg, rgba(255,255,255,.17), rgba(255,255,255,.055)) !important;
-      -webkit-backdrop-filter: blur(16px) saturate(155%);
-      backdrop-filter: blur(16px) saturate(155%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.30),
-        inset 0 -1px 0 rgba(0,0,0,.08),
-        0 8px 18px rgba(0,0,0,.12) !important;
-    }
-
-    .sidebar-confidentiality {
-      border-color: rgba(255,255,255,.16) !important;
-      background:
-        linear-gradient(155deg, rgba(255,255,255,.10), rgba(255,255,255,.035)) !important;
-      -webkit-backdrop-filter: blur(16px) saturate(145%);
-      backdrop-filter: blur(16px) saturate(145%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.11),
-        0 6px 18px rgba(0,0,0,.08) !important;
-    }
-
-    .website-link {
-      border: 1px solid rgba(255,255,255,.16) !important;
-      background:
-        linear-gradient(155deg, rgba(255,255,255,.11), rgba(255,255,255,.04)) !important;
-      -webkit-backdrop-filter: blur(14px) saturate(145%);
-      backdrop-filter: blur(14px) saturate(145%);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.11) !important;
-    }
-
-    @media (min-width: 761px) {
-      .sidebar.glass-container--sidebar {
-        top: 0;
-        height: 100vh;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .sidebar.glass-container--sidebar {
-        --sidebar-glass-x: 18%;
-        --sidebar-glass-y: 28%;
-        border-right: 0 !important;
-        border-bottom: 1px solid rgba(255,255,255,.24) !important;
-        box-shadow:
-          inset 0 -1px 0 rgba(255,255,255,.08),
-          0 10px 28px rgba(4,39,27,.18) !important;
-        overflow: hidden !important;
-      }
-      .sidebar .glass-filter {
-        inset: -18% -6%;
-        background:
-          radial-gradient(circle at var(--sidebar-glass-x) var(--sidebar-glass-y), rgba(255,255,255,.26), transparent 40%),
-          linear-gradient(100deg, rgba(31,109,77,.80), rgba(6,52,37,.78));
-        -webkit-backdrop-filter: blur(24px) saturate(175%);
-        backdrop-filter: blur(24px) saturate(175%);
-      }
-      .sidebar .glass-overlay {
-        background:
-          linear-gradient(112deg, rgba(255,255,255,.08), transparent 45%),
-          linear-gradient(90deg, rgba(220,233,141,.07), transparent 55%);
-      }
-      .sidebar .glass-content--sidebar {
-        height: 36px;
-        flex-direction: row;
-        align-items: center;
-        gap: 4px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: none;
-      }
-      .sidebar .glass-content--sidebar::-webkit-scrollbar { display: none; }
-    }
-
-    @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-      .sidebar .glass-filter {
-        background:
-          radial-gradient(circle at var(--sidebar-glass-x) var(--sidebar-glass-y), rgba(255,255,255,.22), transparent 40%),
-          linear-gradient(162deg, #256f51, #0b4b35 52%, #063a2a);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .sidebar .glass-filter { filter: none; }
-      .sidebar .glass-specular { transition: none; }
     }
 
     /* =========================================================
@@ -749,11 +547,7 @@
 </head>
 <body>
   <div class="app-shell">
-    <aside class="sidebar glass-container glass-container--sidebar" aria-label="Main navigation">
-      <div class="glass-filter" aria-hidden="true"></div>
-      <div class="glass-overlay" aria-hidden="true"></div>
-      <div class="glass-specular" aria-hidden="true"></div>
-      <div class="glass-content glass-content--sidebar">
+    <aside class="sidebar" aria-label="Main navigation">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 48 48" role="img">
@@ -787,7 +581,6 @@
       <div class="sidebar-actions">
         <a class="website-link" href="https://greenscapelandscapingph.com/" target="_blank" rel="noopener">Visit Greenscape website <span>↗</span></a>
       </div>
-      </div>
     </aside>
 
     <main class="main-area">
@@ -814,16 +607,6 @@
     </main>
   </div>
 
-  <!-- Liquid-glass displacement map used by the layered sidebar. -->
-  <svg class="liquid-glass-defs" aria-hidden="true" width="0" height="0" focusable="false" style="position:absolute;overflow:hidden;pointer-events:none">
-    <defs>
-      <filter id="lg-sidebar-dist" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.010 0.014" numOctaves="2" seed="92" result="noise"/>
-        <feGaussianBlur in="noise" stdDeviation="1.6" result="blurredNoise"/>
-        <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="24" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-    </defs>
-  </svg>
 
   <div class="feedback-widget" id="feedbackWidget">
     <button class="feedback-launcher" id="feedbackToggle" type="button" aria-expanded="false" aria-controls="feedbackPanel">
@@ -997,43 +780,6 @@
           resetOptics(button);
         });
       });
-    })();
-  </script>
-
-
-  <script>
-    /* Pointer-responsive reflection for the full glass sidebar. */
-    (() => {
-      const sidebar = document.querySelector('.sidebar');
-      if (!sidebar) return;
-      let frame = 0;
-
-      function updateReflection(clientX, clientY) {
-        if (frame) cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => {
-          const rect = sidebar.getBoundingClientRect();
-          if (!rect.width || !rect.height) return;
-          const x = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
-          const y = Math.min(100, Math.max(0, ((clientY - rect.top) / rect.height) * 100));
-          sidebar.style.setProperty('--sidebar-glass-x', `${x.toFixed(1)}%`);
-          sidebar.style.setProperty('--sidebar-glass-y', `${y.toFixed(1)}%`);
-          frame = 0;
-        });
-      }
-
-      sidebar.addEventListener('pointermove', event => {
-        if (event.pointerType === 'touch') return;
-        updateReflection(event.clientX, event.clientY);
-      }, { passive: true });
-
-      sidebar.addEventListener('pointerdown', event => {
-        updateReflection(event.clientX, event.clientY);
-      }, { passive: true });
-
-      sidebar.addEventListener('pointerleave', () => {
-        sidebar.style.setProperty('--sidebar-glass-x', window.innerWidth <= 760 ? '18%' : '34%');
-        sidebar.style.setProperty('--sidebar-glass-y', window.innerWidth <= 760 ? '28%' : '12%');
-      }, { passive: true });
     })();
   </script>
 
