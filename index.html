@@ -2307,6 +2307,106 @@
   </style>
   <!-- GREENSCAPE_COMPACT_ORGANIZED_PLANT_FORM_STYLES_END -->
 
+
+  <style id="moodboardCompactBoardDetailsStyles">
+    /* MOODBOARD_COMPACT_BOARD_DETAILS_START */
+    /* Compact and organized Board Details panel */
+    .moodboard-controls > .moodboard-control-section:first-child {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 7px 8px !important;
+      padding: 12px !important;
+      background:
+        linear-gradient(180deg, rgba(242, 248, 244, .92), rgba(255, 255, 255, .98)) !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:first-child > h3 {
+      grid-column: 1 / -1 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      margin: 0 0 2px !important;
+      padding-bottom: 7px !important;
+      border-bottom: 1px solid rgba(20, 100, 70, .10) !important;
+      font-size: 11px !important;
+      line-height: 1.15 !important;
+      letter-spacing: .01em !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:first-child > h3::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 50%;
+      background: #176647;
+      box-shadow: 0 0 0 3px rgba(23, 102, 71, .10);
+    }
+
+    .moodboard-controls > .moodboard-control-section:first-child > .field {
+      min-width: 0 !important;
+      gap: 3px !important;
+      margin: 0 !important;
+    }
+
+    /* Make the main title and footer easier to scan. */
+    .moodboard-controls > .moodboard-control-section:first-child > .field:nth-of-type(1),
+    .moodboard-controls > .moodboard-control-section:first-child > .field:nth-of-type(4) {
+      grid-column: 1 / -1 !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:first-child > .field > span {
+      font-size: 8px !important;
+      line-height: 1.1 !important;
+      font-weight: 800 !important;
+      letter-spacing: .035em !important;
+      text-transform: uppercase !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:first-child .input {
+      min-height: 32px !important;
+      height: 32px !important;
+      padding: 5px 8px !important;
+      border-radius: 9px !important;
+      font-size: 10px !important;
+      line-height: 1.2 !important;
+    }
+
+    /* Keep the whole control sidebar visually tighter. */
+    .moodboard-controls {
+      border-radius: 16px !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:not(:first-child) {
+      padding: 13px !important;
+    }
+
+    .moodboard-controls > .moodboard-control-section:not(:first-child) > h3 {
+      margin-bottom: 9px !important;
+      font-size: 11px !important;
+    }
+
+    @media (min-width: 1181px) {
+      .moodboard-workspace {
+        grid-template-columns: 300px minmax(0, 1fr) !important;
+        gap: 16px !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .moodboard-controls > .moodboard-control-section:first-child {
+        grid-template-columns: 1fr !important;
+        padding: 11px !important;
+      }
+
+      .moodboard-controls > .moodboard-control-section:first-child > .field:nth-of-type(1),
+      .moodboard-controls > .moodboard-control-section:first-child > .field:nth-of-type(4) {
+        grid-column: auto !important;
+      }
+    }
+    /* MOODBOARD_COMPACT_BOARD_DETAILS_END */
+  </style>
+
 </head>
 <body>
   <div class="app-shell">
