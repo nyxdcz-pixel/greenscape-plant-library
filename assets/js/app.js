@@ -992,23 +992,23 @@
     toast(`${sheetFieldLabels[pending.field] || 'Edit'} saved.`);
   }
 
-  function sheetField(plant, field, value, className, placeholder) {
-    return `<input class="sheet-cell-input ${className || ''}" data-sheet-field="${escapeHTML(field)}" data-plant-id="${escapeHTML(plant.id)}" value="${escapeHTML(value || '')}" placeholder="${escapeHTML(placeholder || '')}">`;
+  function sheetField(plant, field, value, className) {
+    return `<input class="sheet-cell-input ${className || ''}" data-sheet-field="${escapeHTML(field)}" data-plant-id="${escapeHTML(plant.id)}" value="${escapeHTML(value || '')}">`;
   }
 
-  function sheetTextarea(plant, field, value, placeholder) {
-    return `<textarea class="sheet-cell-textarea" data-sheet-field="${escapeHTML(field)}" data-plant-id="${escapeHTML(plant.id)}" placeholder="${escapeHTML(placeholder || '')}">${escapeHTML(value || '')}</textarea>`;
+  function sheetTextarea(plant, field, value) {
+    return `<textarea class="sheet-cell-textarea" data-sheet-field="${escapeHTML(field)}" data-plant-id="${escapeHTML(plant.id)}">${escapeHTML(value || '')}</textarea>`;
   }
 
   function sheetLinkField(plant) {
     const href = safeLink(plant.link);
-    return `<div class="sheet-link-cell">${sheetField(plant, 'link', plant.link || '', '', 'https://...')}${href ? `<a class="sheet-open-link" href="${href}" target="_blank" rel="noopener noreferrer" title="Open link">↗</a>` : ''}</div>`;
+    return `<div class="sheet-link-cell">${sheetField(plant, 'link', plant.link || '')}${href ? `<a class="sheet-open-link" href="${href}" target="_blank" rel="noopener noreferrer" title="Open link">↗</a>` : ''}</div>`;
   }
 
   function sheetCategorySelect(plant) {
     const list = categories();
     if (!list.includes('Heliconias & Aquatics')) list.push('Heliconias & Aquatics');
-    return `<select class="sheet-cell-select" data-sheet-field="category" data-plant-id="${escapeHTML(plant.id)}">${list.sort().map(category => `<option value="${escapeHTML(category)}"${plant.category === category ? ' selected' : ''}>${escapeHTML(category)}</option>`).join('')}</select>`;
+    return `<select class="sheet-cell-select" data-sheet-field="category" data-plant-id="${escapeHTML(plant.id)}"><option value=""${plant.category ? '' : ' selected'}></option>${list.sort().map(category => `<option value="${escapeHTML(category)}"${plant.category === category ? ' selected' : ''}>${escapeHTML(category)}</option>`).join('')}</select>`;
   }
 
   function renderPlantSheet() {
@@ -1089,21 +1089,21 @@
     const duplicate = isDuplicateCode(plant.code);
     const duplicateHint = duplicateCodeTooltip(plant.code, plant.id);
     return `<tr data-sheet-row="${escapeHTML(plant.id)}">
-      <td><div class="sheet-photo" data-sheet-thumbnail="${escapeHTML(plant.id)}">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div><label class="sheet-photo-upload">${image ? 'Replace' : 'Add photo'}<input type="file" accept="image/*" data-sheet-image="${escapeHTML(plant.id)}" hidden></label></td>
-      <td><div class="sheet-code-wrap${duplicate ? ' has-duplicate' : ''}" data-sheet-code-wrap="${escapeHTML(plant.id)}" title="${escapeHTML(duplicate ? duplicateHint : 'Plant code')}">${sheetField(plant, 'code', plant.code, `sheet-code-input${duplicate ? ' duplicate-code' : ''}`, 'AEg')}<span class="sheet-code-error${duplicate ? ' visible' : ''}" data-sheet-code-error="${escapeHTML(plant.id)}">${duplicate ? 'Duplicate code — hover to see matching plant' : ''}</span></div></td>
-      <td>${sheetField(plant, 'commonName', plant.commonName, '', 'Common name')}</td>
-      <td>${sheetField(plant, 'scientificName', plant.scientificName || plant.material, '', 'Genus species')}</td>
+      <td><div class="sheet-photo" data-sheet-thumbnail="${escapeHTML(plant.id)}">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div></td>
+      <td><div class="sheet-code-wrap${duplicate ? ' has-duplicate' : ''}" data-sheet-code-wrap="${escapeHTML(plant.id)}" title="${escapeHTML(duplicate ? duplicateHint : 'Plant code')}">${sheetField(plant, 'code', plant.code, `sheet-code-input${duplicate ? ' duplicate-code' : ''}`)}<span class="sheet-code-error${duplicate ? ' visible' : ''}" data-sheet-code-error="${escapeHTML(plant.id)}">${duplicate ? 'Duplicate code — hover to see matching plant' : ''}</span></div></td>
+      <td>${sheetField(plant, 'commonName', plant.commonName)}</td>
+      <td>${sheetField(plant, 'scientificName', plant.scientificName || plant.material)}</td>
       <td>${sheetCategorySelect(plant)}</td>
-      <td>${sheetTextarea(plant, 'sizes', sizesToSheetText(plant.sizes), '100 cm | pc/s; 200 cm | pc/s')}<span class="sheet-help">Use semicolons between sizes.</span></td>
-      <td>${sheetField(plant, 'sun', plant.sun, '', 'Full sun')}</td>
-      <td>${sheetField(plant, 'water', plant.water, '', 'Moderate')}</td>
-      <td>${sheetField(plant, 'spacing', plant.spacing, '', '1.5 m O.C.')}</td>
-      <td>${sheetField(plant, 'matureHeight', plant.matureHeight, '', 'Height')}</td>
-      <td>${sheetField(plant, 'matureSpread', plant.matureSpread, '', 'Spread')}</td>
-      <td>${sheetTextarea(plant, 'landscapeUse', plant.landscapeUse, 'Screening, specimen')}</td>
-      <td>${sheetTextarea(plant, 'growingCondition', plant.growingCondition, 'Site and soil condition')}</td>
-      <td>${sheetTextarea(plant, 'plantingNotes', plant.plantingNotes, 'Planting instruction')}</td>
-      <td>${sheetTextarea(plant, 'tags', (plant.tags || []).join(', '), 'coastal, native')}</td>
+      <td>${sheetTextarea(plant, 'sizes', sizesToSheetText(plant.sizes))}<span class="sheet-help">Use semicolons between sizes.</span></td>
+      <td>${sheetField(plant, 'sun', plant.sun)}</td>
+      <td>${sheetField(plant, 'water', plant.water)}</td>
+      <td>${sheetField(plant, 'spacing', plant.spacing)}</td>
+      <td>${sheetField(plant, 'matureHeight', plant.matureHeight)}</td>
+      <td>${sheetField(plant, 'matureSpread', plant.matureSpread)}</td>
+      <td>${sheetTextarea(plant, 'landscapeUse', plant.landscapeUse)}</td>
+      <td>${sheetTextarea(plant, 'growingCondition', plant.growingCondition)}</td>
+      <td>${sheetTextarea(plant, 'plantingNotes', plant.plantingNotes)}</td>
+      <td>${sheetTextarea(plant, 'tags', (plant.tags || []).join(', '))}</td>
       <td>${sheetLinkField(plant)}</td>
       <td><div class="sheet-row-actions"><button class="icon-button" title="Open card details" data-action="plant-detail" data-plant-id="${escapeHTML(plant.id)}">↗</button><button class="icon-button" title="Delete plant" data-action="sheet-delete-plant" data-plant-id="${escapeHTML(plant.id)}">×</button></div></td>
     </tr>`;
@@ -1168,8 +1168,15 @@
       plant.sizes = parseSheetSizes(rawValue);
     } else if (field === 'tags') {
       plant.tags = rawValue.split(',').map(value => value.trim()).filter(Boolean);
+      syncPlantCareTags(plant, [plant.sun, plant.water]);
     } else {
+      const previousCareTags = [plant.sun, plant.water];
       plant[field] = rawValue;
+      if (field === 'sun' || field === 'water') {
+        syncPlantCareTags(plant, previousCareTags);
+        const tagsInput = document.querySelector(`[data-sheet-field="tags"][data-plant-id="${CSS.escape(plant.id)}"]`);
+        if (tagsInput) tagsInput.value = (plant.tags || []).join(', ');
+      }
       if (field === 'scientificName' && plant.category === 'Landscape Materials') plant.material = rawValue;
       if (field === 'category') {
         plant.isPlant = rawValue !== 'Landscape Materials';
@@ -2265,15 +2272,14 @@
       <div class="form-field" data-plant-field="category"><label for="plantCategory">Category *</label><select class="select-input" required name="category" id="plantCategory" aria-describedby="plantCategoryError"><option value="">Select a category</option>${categoriesList.sort().map(c => `<option value="${escapeHTML(c)}"${selectedCategory === c ? ' selected' : ''}>${escapeHTML(c)}</option>`).join('')}</select><span class="form-error" id="plantCategoryError"></span></div>
       <div class="form-field" data-plant-field="commonName"><label for="plantCommonName">Common name *</label><input class="text-input" required name="commonName" id="plantCommonName" value="${escapeHTML(plant?.commonName || '')}" aria-describedby="plantCommonNameError"><span class="form-error" id="plantCommonNameError"></span></div>
       <div class="form-field" data-plant-field="scientificName"><label for="plantScientificName">Scientific name *</label><input class="text-input" required name="scientificName" id="plantScientificName" value="${escapeHTML(plant?.scientificName || '')}" placeholder="Genus species" aria-describedby="plantScientificNameError"><span class="form-error" id="plantScientificNameError"></span></div>
-      <div class="form-field"><label>Sun requirement</label><input class="text-input" name="sun" placeholder="Full sun, partial shade" value="${escapeHTML(plant?.sun || '')}"></div>
-      <div class="form-field"><label>Water requirement</label><input class="text-input" name="water" placeholder="Low, moderate, high" value="${escapeHTML(plant?.water || '')}"></div>
+      <div class="form-field"><label>Sun requirement</label><input class="text-input" name="sun" placeholder="e.g. Full sun, partial shade" value="${escapeHTML(plant?.sun || '')}"></div>
+      <div class="form-field"><label>Water requirement</label><input class="text-input" name="water" placeholder="e.g. Low, moderate, high" value="${escapeHTML(plant?.water || '')}"></div>
       <div class="form-field"><label>Recommended spacing</label><input class="text-input" name="spacing" placeholder="e.g. 1.5 m O.C." value="${escapeHTML(plant?.spacing || '')}"></div>
-      <div class="form-field"><label>Landscape use</label><input class="text-input" name="landscapeUse" placeholder="Screening, specimen, groundcover" value="${escapeHTML(plant?.landscapeUse || '')}"></div>
       <div class="form-field"><label>Mature height</label><input class="text-input" name="matureHeight" value="${escapeHTML(plant?.matureHeight || '')}"></div>
       <div class="form-field"><label>Mature spread</label><input class="text-input" name="matureSpread" value="${escapeHTML(plant?.matureSpread || '')}"></div>
       <div class="form-field full"><label>Growing condition</label><input class="text-input" name="growingCondition" placeholder="Coastal, well-drained soil, sheltered shade" value="${escapeHTML(plant?.growingCondition || '')}"></div>
       <div class="form-field full"><label>Planting notes</label><textarea name="plantingNotes">${escapeHTML(plant?.plantingNotes || '')}</textarea></div>
-      <div class="form-field full"><label>Tags</label><input class="text-input" name="tags" placeholder="coastal, tropical, low-maintenance" value="${escapeHTML((plant?.tags || []).join(', '))}"></div>
+      <div class="form-field full"><label>Tags</label><input class="text-input" name="tags" placeholder="Add manual tags separated by commas" value="${escapeHTML((plant?.tags || []).join(', '))}"><span class="form-help">Sun and water requirements are added automatically. You can also add manual tags.</span></div>
       <div class="form-field"><label>Link</label><input class="text-input" type="url" name="link" placeholder="Optional website or reference link" value="${escapeHTML(plant?.link || (plant?.image && /^https?:/i.test(plant.image) ? plant.image : ''))}"><span class="form-help">This link appears as a clickable reference in plant details.</span></div>
       <div class="form-field"><label>Upload image</label><input class="text-input" style="padding:8px;" name="imageFile" type="file" accept="image/*"><span class="form-help">Uploaded images are resized before saving.</span></div>
       <div class="form-section"><h3>Available sizes</h3><p>Add one row for each nursery size.</p><div id="sizeEditor" class="size-editor">${(plant?.sizes?.length ? plant.sizes : [{}]).map(sizeRow).join('')}</div><button type="button" class="button ghost small" style="margin-top:9px;" data-action="add-size-row">+ Add size</button></div>
@@ -2283,11 +2289,13 @@
     const form = document.getElementById('plantForm');
     form.addEventListener('submit', savePlantForm);
     setupPlantCodeForm(form, plant);
+    setupAutomaticPlantTags(form, plant);
   }
 
   async function savePlantForm(event) {
     event.preventDefault();
     const form = event.currentTarget;
+    form.syncAutomaticTags?.();
     const initialData = new FormData(form);
     const existing = initialData.get('id') ? getPlant(initialData.get('id')) : null;
     if (!validatePlantForm(form, existing?.id, true)) return;
@@ -2329,7 +2337,7 @@
       spacing: String(fd.get('spacing') || '').trim(),
       matureHeight: String(fd.get('matureHeight') || '').trim(),
       matureSpread: String(fd.get('matureSpread') || '').trim(),
-      landscapeUse: String(fd.get('landscapeUse') || '').trim(),
+      landscapeUse: existing?.landscapeUse || '',
       growingCondition: String(fd.get('growingCondition') || '').trim(),
       plantingNotes: String(fd.get('plantingNotes') || '').trim(),
       tags: String(fd.get('tags') || '').split(',').map(v => v.trim()).filter(Boolean),
@@ -2412,6 +2420,43 @@
     return [...new Set(values.map(value => value.toLowerCase()))]
       .map(key => values.find(value => value.toLowerCase() === key))
       .slice(0, 3);
+  }
+
+  function uniquePlantTags(values) {
+    const seen = new Set();
+    return values.map(value => String(value || '').trim()).filter(value => {
+      const key = value.toLowerCase();
+      if (!value || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function syncPlantCareTags(plant, previousCareTags) {
+    const previous = new Set((previousCareTags || []).map(value => String(value || '').trim().toLowerCase()).filter(Boolean));
+    const manual = (plant.tags || []).filter(tag => !previous.has(String(tag || '').trim().toLowerCase()));
+    plant.tags = uniquePlantTags([plant.sun, plant.water, ...manual]);
+    return plant.tags;
+  }
+
+  function setupAutomaticPlantTags(form, plant) {
+    const tagsInput = form?.elements?.tags;
+    const sunInput = form?.elements?.sun;
+    const waterInput = form?.elements?.water;
+    if (!tagsInput || !sunInput || !waterInput) return;
+
+    let automaticTags = [plant?.sun, plant?.water].map(value => String(value || '').trim()).filter(Boolean);
+    const sync = () => {
+      const automaticKeys = new Set(automaticTags.map(value => value.toLowerCase()));
+      const manualTags = String(tagsInput.value || '').split(/[,;]/).map(value => value.trim()).filter(value => value && !automaticKeys.has(value.toLowerCase()));
+      automaticTags = [sunInput.value, waterInput.value].map(value => String(value || '').trim()).filter(Boolean);
+      tagsInput.value = uniquePlantTags([...automaticTags, ...manualTags]).join(', ');
+    };
+
+    sunInput.addEventListener('input', sync);
+    waterInput.addEventListener('input', sync);
+    form.syncAutomaticTags = sync;
+    sync();
   }
 
   function setPlantFieldError(form, fieldName, message) {

@@ -76,7 +76,7 @@
       .website-link {
         min-height: 36px !important;
         padding: 8px 9px !important;
-        font-size: 8px !important;
+        font-size: 11px !important;
       }
     }
 
@@ -2964,6 +2964,32 @@
     .plant-image-download {
       color: #fff !important;
     }
+    .modal-close {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+      color: #0b4632 !important;
+      background: rgba(255, 255, 255, .62) !important;
+      border-color: rgba(185, 208, 194, .82) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.94), 0 7px 18px rgba(14,62,44,.14) !important;
+      opacity: 1 !important;
+    }
+    @media (min-width: 1051px) {
+      #plantForm .plant-form-care-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+    @media (max-width: 1050px) and (min-width: 761px) {
+      #plantForm .plant-form-care-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+    @media (max-width: 760px) {
+      #plantForm .plant-form-care-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+      }
+    }
 
     .project-back-button {
       display: inline-flex !important;
@@ -3252,7 +3278,7 @@
   <div id="toastRoot" class="toast-root" aria-live="polite"></div>
 
   <script src="assets/js/data.js?v=20260721-navlabels2"></script>
-  <script src="assets/js/app.js?v=20260723-projects1"></script>
+  <script src="assets/js/app.js?v=20260723-sheet1"></script>
   <script>
     (() => {
       const form = document.getElementById('feedbackForm');
@@ -4027,12 +4053,11 @@
         sun: 'optional',
         water: 'optional',
         spacing: 'optional',
-        landscapeUse: 'optional',
         matureHeight: 'optional',
         matureSpread: 'optional',
         growingCondition: 'optional',
         plantingNotes: 'optional',
-        tags: 'optional',
+        tags: 'automatic',
         imageFile: 'optional',
         sizeLabel: 'optional',
         sizeUnit: 'optional'
@@ -4160,14 +4185,13 @@
 
         const care = createCard(
           'plant-form-care-card', '04', 'Use & care',
-          'Light, water, spacing, and landscape function.',
+          'Light, water, and recommended spacing.',
           'plant-form-care-grid'
         );
         move(care.grid, [
           fieldByName(form, 'sun'),
           fieldByName(form, 'water'),
-          fieldByName(form, 'spacing'),
-          fieldByName(form, 'landscapeUse')
+          fieldByName(form, 'spacing')
         ]);
 
         const notes = createCard(
