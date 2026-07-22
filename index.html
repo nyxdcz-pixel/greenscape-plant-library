@@ -3978,5 +3978,34 @@
     })();
   </script>
 
+
+  <!-- GREENSCAPE_REMOVE_MOODBOARD_TOOLBAR_LABELS_SOURCE_FIX -->
+  <script id="greenscape-remove-moodboard-toolbar-labels-source-fix">
+    (() => {
+      'use strict';
+
+      const selector = '.moodboard-page-toolbar > strong, .moodboard-page-toolbar > span';
+
+      function removeLabels(root = document) {
+        if (root instanceof Element && root.matches(selector)) root.remove();
+        root.querySelectorAll?.(selector).forEach(label => label.remove());
+      }
+
+      removeLabels();
+
+      const target = document.getElementById('pageContent') || document.body;
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          mutation.addedNodes.forEach(node => {
+            if (node instanceof Element) removeLabels(node);
+          });
+        });
+      });
+
+      observer.observe(target, { childList: true, subtree: true });
+    })();
+  </script>
+  <!-- /GREENSCAPE_REMOVE_MOODBOARD_TOOLBAR_LABELS_SOURCE_FIX -->
+
 </body>
 </html>
