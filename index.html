@@ -2435,6 +2435,237 @@
     }
   </style>
 
+
+  <style id="phonePlantListCompactStyles">
+    /* Compact Plant List Editor on phones only. */
+    @media (max-width: 760px) {
+      .page-content:has(.sheet-toolbar) {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+        padding-bottom: 24px !important;
+      }
+
+      .toolbar.sheet-toolbar,
+      .toolbar.sheet-toolbar.is-stuck {
+        margin-bottom: 7px !important;
+        padding: 5px !important;
+        gap: 4px !important;
+        border-radius: 10px !important;
+      }
+
+      .sheet-toolbar .toolbar-group {
+        gap: 4px !important;
+      }
+
+      .sheet-toolbar .toolbar-group:first-child {
+        grid-template-columns: minmax(0, 1fr) 100px !important;
+      }
+
+      .sheet-toolbar .search-input,
+      .sheet-toolbar .select-input {
+        min-height: 29px !important;
+        height: 29px !important;
+        padding: 4px 7px !important;
+        border-radius: 8px !important;
+        font-size: 9px !important;
+      }
+
+      .sheet-toolbar .select-input {
+        width: 100px !important;
+        min-width: 100px !important;
+      }
+
+      .sheet-toolbar .toolbar-group:last-child {
+        gap: 3px !important;
+        padding-bottom: 1px !important;
+      }
+
+      .sheet-toolbar .result-count,
+      .sheet-toolbar .button {
+        min-height: 27px !important;
+        height: 27px !important;
+        padding: 3px 7px !important;
+        border-radius: 999px !important;
+        font-size: 8px !important;
+        line-height: 1 !important;
+      }
+
+      .duplicate-alert {
+        gap: 7px !important;
+        margin-bottom: 8px !important;
+        padding: 8px 9px !important;
+        border-radius: 10px !important;
+        font-size: 9px !important;
+        line-height: 1.3 !important;
+      }
+
+      .duplicate-alert > span {
+        width: 20px !important;
+        height: 20px !important;
+        flex: 0 0 20px !important;
+        font-size: 10px !important;
+      }
+
+      #sheetCategoryGroups {
+        display: grid !important;
+        gap: 8px !important;
+      }
+
+      .sheet-category {
+        margin-bottom: 0 !important;
+        border-radius: 11px !important;
+        box-shadow: 0 5px 14px rgba(21,45,35,.05) !important;
+      }
+
+      .sheet-category > summary {
+        min-height: 37px !important;
+        gap: 6px !important;
+        padding: 6px 8px !important;
+        font-size: 10.5px !important;
+      }
+
+      .sheet-category > summary::after {
+        font-size: 14px !important;
+      }
+
+      .sheet-category-actions {
+        gap: 5px !important;
+      }
+
+      .sheet-category-count {
+        padding: 3px 6px !important;
+        font-size: 7.5px !important;
+      }
+
+      .sheet-category-delete {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 12px !important;
+      }
+
+      .sheet-scroll {
+        width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .plant-sheet-table {
+        font-size: 9px !important;
+      }
+
+      .plant-sheet-table th {
+        padding: 5px 4px !important;
+        font-size: 7px !important;
+        letter-spacing: .025em !important;
+      }
+
+      .plant-sheet-table td {
+        padding: 3px !important;
+      }
+
+      .sheet-photo-col { width: 52px !important; }
+      .sheet-code-col { width: 62px !important; }
+      .sheet-name-col { width: 112px !important; }
+      .sheet-scientific-col { width: 128px !important; }
+      .sheet-category-col { width: 112px !important; }
+      .sheet-sizes-col { width: 150px !important; }
+      .sheet-short-col { width: 88px !important; }
+      .sheet-medium-col { width: 120px !important; }
+      .sheet-long-col { width: 150px !important; }
+      .sheet-actions-col { width: 42px !important; }
+
+      .sheet-photo {
+        width: 38px !important;
+        height: 32px !important;
+        border-radius: 6px !important;
+      }
+
+      .sheet-photo .image-fallback {
+        font-size: 8px !important;
+      }
+
+      .sheet-photo-upload {
+        margin-top: 2px !important;
+        font-size: 7px !important;
+      }
+
+      .sheet-cell-input,
+      .sheet-cell-select,
+      .sheet-cell-textarea {
+        border-radius: 5px !important;
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+      }
+
+      .sheet-cell-input,
+      .sheet-cell-select {
+        min-height: 27px !important;
+        height: 27px !important;
+        padding: 3px 5px !important;
+      }
+
+      .sheet-cell-textarea {
+        min-height: 34px !important;
+        height: 34px !important;
+        padding: 4px 5px !important;
+        resize: none !important;
+      }
+
+      .sheet-help {
+        display: none !important;
+      }
+
+      .sheet-code-error {
+        margin-top: 2px !important;
+        font-size: 6.5px !important;
+        line-height: 1.15 !important;
+      }
+
+      .sheet-link-cell {
+        grid-template-columns: minmax(92px, 1fr) 24px !important;
+        gap: 3px !important;
+      }
+
+      .sheet-open-link {
+        width: 24px !important;
+        height: 24px !important;
+        border-radius: 6px !important;
+        font-size: 9px !important;
+      }
+
+      .sheet-row-actions {
+        gap: 3px !important;
+      }
+
+      .sheet-row-actions .icon-button {
+        width: 26px !important;
+        height: 25px !important;
+        min-height: 25px !important;
+        padding: 0 !important;
+        font-size: 10px !important;
+      }
+
+      .sheet-empty-category {
+        padding: 14px 8px !important;
+        font-size: 9px !important;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .sheet-toolbar .toolbar-group:first-child {
+        grid-template-columns: minmax(0, 1fr) 92px !important;
+      }
+
+      .sheet-toolbar .select-input {
+        width: 92px !important;
+        min-width: 92px !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <div class="app-shell">
