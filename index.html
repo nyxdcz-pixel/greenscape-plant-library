@@ -1459,7 +1459,22 @@
        One automatic reference generated from plant names.
        ========================================================= */
     .plant-reference-field {
-      grid-column: 1 / -1 !important;
+      grid-column: auto !important;
+    }
+
+    /* Keep Upload Image and Google AI Reference together in the first row. */
+    .plant-form-image-top,
+    .plant-form-reference-top {
+      grid-column: auto !important;
+      align-self: start;
+      min-width: 0;
+    }
+
+    @media (max-width: 760px) {
+      .plant-form-image-top,
+      .plant-form-reference-top {
+        grid-column: 1 / -1 !important;
+      }
     }
 
     .plant-reference-heading {
@@ -2898,6 +2913,7 @@
   </script>
 
 
+  <!-- GREENSCAPE_TOP_IMAGE_REFERENCE_ROW_UPDATE -->
   <script id="greenscape-plant-form-layout-controller">
     (() => {
       'use strict';
@@ -2916,17 +2932,19 @@
         // Wait until the automatic Google reference and image editor are installed.
         if (!referenceField || !imageField || !sizesSection) return;
 
-        imageField.classList.add('full', 'plant-form-image-top');
-        referenceField.classList.add('full', 'plant-form-reference-top');
+        imageField.classList.remove('full');
+        referenceField.classList.remove('full');
+        imageField.classList.add('plant-form-image-top');
+        referenceField.classList.add('plant-form-reference-top');
         fieldByName(form, 'tags')?.classList.add('full');
         fieldByName(form, 'plantingNotes')?.classList.add('full');
         fieldByName(form, 'growingCondition')?.classList.add('full');
 
         const desiredOrder = [
           imageField,
+          referenceField,
           fieldByName(form, 'code'),
           fieldByName(form, 'category'),
-          referenceField,
           fieldByName(form, 'commonName'),
           fieldByName(form, 'scientificName'),
           fieldByName(form, 'sun'),
