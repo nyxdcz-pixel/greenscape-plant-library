@@ -41,7 +41,7 @@ This means:
 1. Open Chrome, Safari, or another modern browser.
 2. Go to:
 
-   `https://nyxdcz-pixel.github.io/greenscape-plant-library/`
+   `https://nyxdcz.github.io/greenscape-plant-library/`
 
 3. Bookmark the page for easier access.
 4. On a phone, use **Add to Home Screen** to create an app-like shortcut.
@@ -50,7 +50,7 @@ This means:
 
 1. Open the repository:
 
-   `https://github.com/nyxdcz-pixel/greenscape-plant-library`
+   `https://github.com/nyxdcz/greenscape-plant-library`
 
 2. Go to **Settings → Pages**.
 3. Under **Build and deployment**, confirm:
@@ -102,6 +102,24 @@ assets/
 └── images/
     └── plant and interface images
 ```
+
+## Local Validation
+
+The project has no framework or generated build output. It uses dependency-free Node.js checks so repository updates can be verified consistently.
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+- `npm run lint` checks both JavaScript files for syntax errors.
+- `npm test` validates the HTML structure, metadata, manifest, and local asset paths.
+- `npm run build` runs the same validation in static-build mode; GitHub Pages serves the repository files directly.
+
+## Privacy and Search Indexing
+
+This is an internal company tool published on a public GitHub Pages URL. The page metadata and `robots.txt` ask search engines not to index or archive it. This discourages discovery but does not provide access control—anyone with the public URL may still open the site.
 
 ## Troubleshooting
 

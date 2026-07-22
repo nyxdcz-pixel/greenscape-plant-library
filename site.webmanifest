@@ -2,9 +2,11 @@
   "name": "Greenscape Plant Library",
   "short_name": "Greenscape",
   "description": "Plant Library & Landscape Database for Greenscape Landscaping Services.",
+  "id": "./",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
+  "lang": "en",
   "background_color": "#f5f2e9",
   "theme_color": "#0b4632",
   "icons": [
