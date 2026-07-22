@@ -2864,38 +2864,106 @@
     .sidebar .brand {
       display: flex !important;
       align-items: center !important;
+      gap: 8px !important;
+    }
+    .brand-official-lockup {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
     }
     .brand-logo-official {
       display: block;
-      width: 145px;
+      width: 100px;
       max-width: 100%;
       height: auto;
       object-fit: contain;
     }
+    .brand-official-lockup em {
+      display: block;
+      margin: 0 !important;
+      color: #dce98d;
+      font-size: 7px !important;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: .035em;
+    }
+
+    .topbar {
+      isolation: isolate;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, .76) !important;
+      background:
+        radial-gradient(circle at 73% 0%, rgba(205, 232, 216, .40), transparent 36%),
+        linear-gradient(135deg, rgba(255, 255, 255, .68), rgba(239, 248, 242, .40)) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+      backdrop-filter: blur(24px) saturate(165%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .90),
+        inset 0 -1px 0 rgba(16, 72, 49, .07),
+        0 10px 30px rgba(18, 68, 49, .08) !important;
+    }
+    .topbar::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(110deg, rgba(255,255,255,.30), transparent 28%, rgba(255,255,255,.12) 70%, transparent),
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.58), transparent 38%);
+    }
+
+    @media (max-width: 1180px) and (min-width: 721px) {
+      .moodboard-controls {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        align-items: start !important;
+      }
+      .moodboard-controls > .moodboard-control-section:nth-child(1),
+      .moodboard-controls > .moodboard-control-section:nth-child(2) {
+        grid-column: span 2 !important;
+      }
+      .moodboard-controls > .moodboard-control-section:nth-child(3) {
+        grid-column: span 1 !important;
+      }
+      .moodboard-controls > .moodboard-library-section {
+        grid-column: span 3 !important;
+      }
+      .moodboard-controls > .moodboard-control-section {
+        padding: 10px !important;
+      }
+      .moodboard-control-section .input,
+      .moodboard-control-section .select-input {
+        min-height: 32px !important;
+        height: 32px !important;
+      }
+      .moodboard-control-section .field,
+      .moodboard-control-section .check-row {
+        margin-top: 6px !important;
+      }
+    }
     @media (max-width: 760px) {
       .sidebar {
-        grid-template-columns: 72px minmax(0, 1fr) !important;
+        grid-template-columns: 42px minmax(0, 1fr) !important;
       }
       .sidebar .brand {
-        width: 72px !important;
-        min-width: 72px !important;
-        flex: 0 0 72px !important;
+        width: 42px !important;
+        min-width: 42px !important;
+        flex: 0 0 42px !important;
+        gap: 0 !important;
       }
-      .brand-logo-official {
-        width: 72px;
+      .sidebar .brand-official-lockup {
+        display: none !important;
       }
     }
     @media (max-width: 360px) {
       .sidebar {
-        grid-template-columns: 58px minmax(0, 1fr) !important;
+        grid-template-columns: 38px minmax(0, 1fr) !important;
       }
       .sidebar .brand {
-        width: 58px !important;
-        min-width: 58px !important;
-        flex-basis: 58px !important;
-      }
-      .brand-logo-official {
-        width: 58px;
+        width: 38px !important;
+        min-width: 38px !important;
+        flex-basis: 38px !important;
       }
     }
   </style>
@@ -2904,7 +2972,15 @@
   <div class="app-shell">
     <aside class="sidebar" aria-label="Main navigation">
       <div class="brand">
-        <img class="brand-logo-official" src="assets/images/greenscape-logo.png" alt="Greenscape">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M38 8C24 9 13 17 10 31c8 1 16-1 22-7-5 7-11 12-20 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-official-lockup">
+          <img class="brand-logo-official" src="assets/images/greenscape-logo.png" alt="Greenscape">
+          <em>Green today, greener tomorrow</em>
+        </div>
       </div>
 
       <nav class="nav-list">
