@@ -2914,6 +2914,44 @@
         radial-gradient(circle at 18% 0%, rgba(255,255,255,.58), transparent 38%);
     }
 
+    /* Use the same soft field treatment throughout the Mood Board controls. */
+    .moodboard-controls .input,
+    .moodboard-controls .select-input {
+      color: #14291f !important;
+      background-color: #fbfcfa !important;
+      border: .625px solid #d9e3dc !important;
+      border-radius: 14px !important;
+    }
+
+    /* Keep the caption fixed and let the photograph cover every remaining pixel. */
+    .moodboard-plant-card {
+      display: grid !important;
+      grid-template-rows: minmax(0, 1fr) var(--moodboard-caption-height, 2.5cqw) !important;
+    }
+    .moodboard-plant-card .moodboard-remove-card {
+      position: absolute !important;
+      inset: 5px 5px auto auto !important;
+      z-index: 3 !important;
+    }
+    .moodboard-card-photo {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      flex: none !important;
+    }
+    .moodboard-card-photo img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+    .moodboard-card-caption {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      flex: none !important;
+    }
+
     @media (max-width: 1180px) and (min-width: 721px) {
       .moodboard-controls {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
