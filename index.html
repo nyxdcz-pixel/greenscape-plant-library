@@ -1970,6 +1970,343 @@
   </style>
   <!-- Tablet Dashboard Optimization: END -->
 
+
+  <!-- GREENSCAPE_COMPACT_ORGANIZED_PLANT_FORM_STYLES_START -->
+  <style id="greenscape-compact-organized-plant-form-styles">
+    /* Compact, sectioned Add/Edit Plant form. */
+    .modal.plant-form-modal {
+      width: min(1080px, calc(100vw - 34px)) !important;
+      max-width: 1080px !important;
+      max-height: min(92vh, 920px) !important;
+    }
+
+    .modal.plant-form-modal .modal-header {
+      padding: 17px 22px 13px !important;
+    }
+
+    .modal.plant-form-modal .modal-header h2 {
+      font-size: clamp(20px, 2vw, 25px) !important;
+      line-height: 1.05 !important;
+    }
+
+    .modal.plant-form-modal .modal-header p {
+      margin-top: 4px !important;
+      font-size: 10px !important;
+    }
+
+    .modal.plant-form-modal .modal-body {
+      padding: 14px 18px 18px !important;
+      background: linear-gradient(180deg, rgba(246,250,247,.72), rgba(255,255,255,.96));
+    }
+
+    .modal.plant-form-modal .modal-footer {
+      min-height: 64px !important;
+      padding: 11px 18px !important;
+      background: rgba(255,255,255,.88) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(145%);
+      backdrop-filter: blur(16px) saturate(145%);
+    }
+
+    #plantForm.plant-form-organized {
+      display: block !important;
+      width: 100%;
+    }
+
+    #plantForm.plant-form-organized > .plant-form-alert {
+      margin: 0 0 10px !important;
+    }
+
+    #plantForm .plant-form-card {
+      grid-column: 1 / -1 !important;
+      margin: 0 0 10px;
+      padding: 12px;
+      border: 1px solid rgba(20, 88, 59, .10);
+      border-radius: 17px;
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 8px 24px rgba(18, 66, 47, .055), inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    #plantForm .plant-form-card:last-child {
+      margin-bottom: 0;
+    }
+
+    #plantForm .plant-form-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 10px;
+      padding: 0 2px;
+    }
+
+    #plantForm .plant-form-card-header > div {
+      min-width: 0;
+    }
+
+    #plantForm .plant-form-card-header h3 {
+      margin: 0;
+      color: var(--forest-900, #0b4632);
+      font-size: 11px;
+      line-height: 1.15;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    #plantForm .plant-form-card-header p {
+      margin: 3px 0 0;
+      color: var(--muted, #68786f);
+      font-size: 8.5px;
+      line-height: 1.35;
+    }
+
+    #plantForm .plant-form-card-index {
+      flex: 0 0 auto;
+      min-width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #27664d;
+      background: #e9f3ed;
+      font-size: 8px;
+      font-weight: 900;
+    }
+
+    #plantForm .plant-form-card-grid {
+      display: grid;
+      gap: 9px 10px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    #plantForm .plant-form-media-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    #plantForm .plant-form-identity-grid,
+    #plantForm .plant-form-care-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    #plantForm .plant-form-notes-grid {
+      grid-template-columns: minmax(220px, .8fr) minmax(0, 1.6fr);
+    }
+
+    #plantForm .plant-form-growth-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #plantForm .plant-form-growth-grid [name="growingCondition"] {
+      min-width: 0;
+    }
+
+    #plantForm .plant-form-growth-grid .form-field:last-child {
+      grid-column: 1 / -1 !important;
+    }
+
+    #plantForm .form-field,
+    #plantForm .plant-reference-field,
+    #plantForm .form-section {
+      min-width: 0;
+      margin: 0 !important;
+    }
+
+    #plantForm .form-field.full,
+    #plantForm .plant-reference-field.full {
+      grid-column: auto !important;
+    }
+
+    #plantForm .form-field > label,
+    #plantForm .plant-reference-heading label {
+      margin-bottom: 5px !important;
+      font-size: 8.5px !important;
+      line-height: 1.15 !important;
+      letter-spacing: .045em !important;
+    }
+
+    #plantForm .text-input,
+    #plantForm .select-input,
+    #plantForm textarea {
+      min-height: 40px !important;
+      padding: 9px 11px !important;
+      border-radius: 12px !important;
+      font-size: 12px !important;
+    }
+
+    #plantForm textarea {
+      min-height: 72px !important;
+      resize: vertical;
+    }
+
+    #plantForm .form-help,
+    #plantForm .form-error {
+      margin-top: 4px !important;
+      font-size: 8px !important;
+      line-height: 1.3 !important;
+    }
+
+    #plantForm .code-input-wrap .code-rule-label {
+      right: 9px !important;
+      font-size: 8px !important;
+    }
+
+    #plantForm .plant-reference-heading {
+      align-items: center;
+      margin-bottom: 5px !important;
+    }
+
+    #plantForm .plant-reference-heading p {
+      margin-top: 2px !important;
+      font-size: 8px !important;
+      line-height: 1.3 !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #plantForm .plant-reference-heading .button {
+      min-height: 29px !important;
+      padding: 5px 9px !important;
+      font-size: 8px !important;
+    }
+
+    #plantForm .plant-reference-status {
+      min-height: 0 !important;
+      margin-top: 4px !important;
+      font-size: 8px !important;
+    }
+
+    #plantForm .plant-image-edit-preview {
+      grid-template-columns: 58px minmax(0, 1fr) !important;
+      min-height: 56px;
+      gap: 8px !important;
+      margin-bottom: 6px !important;
+      padding: 6px !important;
+      border-radius: 12px !important;
+    }
+
+    #plantForm .plant-image-edit-preview img,
+    #plantForm .plant-image-edit-placeholder {
+      width: 58px !important;
+      height: 46px !important;
+      border-radius: 9px !important;
+    }
+
+    #plantForm .plant-image-edit-copy strong {
+      font-size: 9px !important;
+    }
+
+    #plantForm .plant-image-edit-copy small {
+      margin-top: 2px !important;
+      font-size: 8px !important;
+      line-height: 1.3 !important;
+    }
+
+    #plantForm input[type="file"].text-input {
+      min-height: 38px !important;
+      padding: 5px 7px !important;
+      font-size: 10px !important;
+    }
+
+    #plantForm .plant-form-notes-grid [name="tags"] {
+      min-height: 72px !important;
+    }
+
+    #plantForm .plant-form-sizes-card {
+      padding-bottom: 11px;
+    }
+
+    #plantForm .plant-form-sizes-card > h3,
+    #plantForm .plant-form-sizes-card > p {
+      display: none !important;
+    }
+
+    #plantForm .size-editor {
+      display: grid;
+      gap: 6px !important;
+    }
+
+    #plantForm .size-row {
+      gap: 7px !important;
+      align-items: center !important;
+    }
+
+    #plantForm .size-row .text-input {
+      min-height: 38px !important;
+    }
+
+    #plantForm .size-row .icon-button {
+      width: 34px !important;
+      height: 34px !important;
+      min-width: 34px !important;
+    }
+
+    #plantForm [data-action="add-size-row"] {
+      min-height: 31px !important;
+      margin-top: 7px !important;
+      padding: 5px 10px !important;
+      font-size: 8px !important;
+    }
+
+    @media (max-width: 1040px) {
+      #plantForm .plant-form-identity-grid,
+      #plantForm .plant-form-care-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .modal.plant-form-modal {
+        width: calc(100vw - 18px) !important;
+        max-height: calc(100dvh - 18px) !important;
+      }
+
+      .modal.plant-form-modal .modal-header {
+        padding: 15px 15px 11px !important;
+      }
+
+      .modal.plant-form-modal .modal-body {
+        padding: 10px !important;
+      }
+
+      .modal.plant-form-modal .modal-footer {
+        padding: 9px 10px !important;
+      }
+
+      #plantForm .plant-form-card {
+        margin-bottom: 8px;
+        padding: 10px;
+        border-radius: 15px;
+      }
+
+      #plantForm .plant-form-media-grid,
+      #plantForm .plant-form-notes-grid,
+      #plantForm .plant-form-growth-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #plantForm .plant-form-card-header p {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      #plantForm .plant-form-identity-grid,
+      #plantForm .plant-form-care-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #plantForm .plant-reference-heading {
+        align-items: stretch;
+      }
+
+      #plantForm .plant-reference-heading p {
+        white-space: normal;
+      }
+    }
+  </style>
+  <!-- GREENSCAPE_COMPACT_ORGANIZED_PLANT_FORM_STYLES_END -->
+
 </head>
 <body>
   <div class="app-shell">
@@ -2912,7 +3249,6 @@
     })();
   </script>
 
-
   <!-- GREENSCAPE_TOP_IMAGE_REFERENCE_ROW_UPDATE -->
   <script id="greenscape-plant-form-layout-controller">
     (() => {
@@ -2921,53 +3257,114 @@
       const fieldByName = (form, name) =>
         form.querySelector(`[name="${name}"]`)?.closest('.form-field') || null;
 
-      function reorderPlantForm(form) {
-        if (!form) return;
+      const cardHeader = (index, title, description) => {
+        const header = document.createElement('div');
+        header.className = 'plant-form-card-header';
+        header.innerHTML = `<div><h3>${title}</h3><p>${description}</p></div><span class="plant-form-card-index">${index}</span>`;
+        return header;
+      };
+
+      const createCard = (className, index, title, description, gridClass) => {
+        const card = document.createElement('section');
+        card.className = `plant-form-card ${className}`;
+        card.appendChild(cardHeader(index, title, description));
+        const grid = document.createElement('div');
+        grid.className = `plant-form-card-grid ${gridClass}`;
+        card.appendChild(grid);
+        return { card, grid };
+      };
+
+      function move(grid, nodes) {
+        nodes.filter(Boolean).forEach(node => {
+          node.classList.remove('full', 'plant-form-image-top', 'plant-form-reference-top');
+          grid.appendChild(node);
+        });
+      }
+
+      function organizePlantForm(form) {
+        if (!form || form.dataset.compactOrganizationInstalled === 'true') return;
 
         const referenceField = form.querySelector('.plant-reference-field') || fieldByName(form, 'link');
         const imageField = fieldByName(form, 'imageFile');
         const sizesSection = [...form.querySelectorAll(':scope > .form-section')]
           .find(section => /available sizes/i.test(String(section.querySelector(':scope > h3')?.textContent || '')));
 
-        // Wait until the automatic Google reference and image editor are installed.
+        // Wait for the automatic reference and image tools to finish installing.
         if (!referenceField || !imageField || !sizesSection) return;
 
-        imageField.classList.remove('full');
-        referenceField.classList.remove('full');
-        imageField.classList.add('plant-form-image-top');
-        referenceField.classList.add('plant-form-reference-top');
-        fieldByName(form, 'tags')?.classList.add('full');
-        fieldByName(form, 'plantingNotes')?.classList.add('full');
-        fieldByName(form, 'growingCondition')?.classList.add('full');
+        const alert = form.querySelector(':scope > .plant-form-alert');
 
-        const desiredOrder = [
-          imageField,
-          referenceField,
+        const media = createCard(
+          'plant-form-media-card', '01', 'Image & reference',
+          'Current image, replacement upload, and automatic Google reference.',
+          'plant-form-media-grid'
+        );
+        move(media.grid, [imageField, referenceField]);
+
+        const identity = createCard(
+          'plant-form-identity-card', '02', 'Plant identity',
+          'Code, category, and plant names.',
+          'plant-form-identity-grid'
+        );
+        move(identity.grid, [
           fieldByName(form, 'code'),
           fieldByName(form, 'category'),
           fieldByName(form, 'commonName'),
-          fieldByName(form, 'scientificName'),
+          fieldByName(form, 'scientificName')
+        ]);
+
+        const care = createCard(
+          'plant-form-care-card', '03', 'Use & care',
+          'Light, water, spacing, and landscape function.',
+          'plant-form-care-grid'
+        );
+        move(care.grid, [
           fieldByName(form, 'sun'),
           fieldByName(form, 'water'),
           fieldByName(form, 'spacing'),
-          fieldByName(form, 'landscapeUse'),
+          fieldByName(form, 'landscapeUse')
+        ]);
+
+        const notes = createCard(
+          'plant-form-notes-card', '04', 'Tags & planting notes',
+          'Search labels and practical planting instructions.',
+          'plant-form-notes-grid'
+        );
+        move(notes.grid, [
           fieldByName(form, 'tags'),
-          fieldByName(form, 'plantingNotes'),
+          fieldByName(form, 'plantingNotes')
+        ]);
+
+        const growth = createCard(
+          'plant-form-growth-card', '05', 'Growth details',
+          'Mature dimensions and preferred growing conditions.',
+          'plant-form-growth-grid'
+        );
+        move(growth.grid, [
           fieldByName(form, 'matureHeight'),
           fieldByName(form, 'matureSpread'),
-          fieldByName(form, 'growingCondition'),
-          sizesSection
-        ].filter(Boolean);
+          fieldByName(form, 'growingCondition')
+        ]);
 
-        desiredOrder.forEach(node => form.appendChild(node));
-        form.dataset.fieldLayoutInstalled = 'true';
+        sizesSection.classList.add('plant-form-card', 'plant-form-sizes-card');
+        const sizesHeader = cardHeader('06', 'Available sizes', 'Add one row for each nursery size and unit.');
+        sizesSection.insertBefore(sizesHeader, sizesSection.firstChild);
+
+        // Keep the form clean and predictable: alert first, then grouped sections.
+        [media.card, identity.card, care.card, notes.card, growth.card, sizesSection]
+          .forEach(card => form.appendChild(card));
+        if (alert) form.insertBefore(alert, form.firstChild);
+
+        form.classList.add('plant-form-organized');
+        form.dataset.compactOrganizationInstalled = 'true';
+        form.closest('.modal')?.classList.add('plant-form-modal');
       }
 
       function schedule(form) {
         if (!form) return;
-        requestAnimationFrame(() => reorderPlantForm(form));
-        setTimeout(() => reorderPlantForm(form), 50);
-        setTimeout(() => reorderPlantForm(form), 180);
+        requestAnimationFrame(() => organizePlantForm(form));
+        setTimeout(() => organizePlantForm(form), 60);
+        setTimeout(() => organizePlantForm(form), 220);
       }
 
       function scan(root = document) {
