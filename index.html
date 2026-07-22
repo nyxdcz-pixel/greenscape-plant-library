@@ -2664,6 +2664,174 @@
         min-width: 92px !important;
       }
     }
+  
+
+    /* Phone navigation alignment and spacing fix */
+    @media (max-width: 760px) {
+      .sidebar {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 58px !important;
+        height: 58px !important;
+        display: grid !important;
+        grid-template-columns: auto minmax(0, 1fr) !important;
+        align-items: center !important;
+        column-gap: 8px !important;
+        padding: 7px 8px !important;
+        overflow: hidden !important;
+      }
+
+      .sidebar .brand {
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        align-self: center !important;
+      }
+
+      .sidebar .brand > div:last-child {
+        display: none !important;
+      }
+
+      .sidebar .brand-mark {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        flex: 0 0 42px !important;
+        margin: 0 !important;
+        border-radius: 13px !important;
+      }
+
+      .sidebar .brand-mark svg {
+        width: 23px !important;
+        height: 23px !important;
+      }
+
+      .sidebar .nav-list {
+        width: 100% !important;
+        min-width: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .sidebar .nav-item {
+        width: 40px !important;
+        min-width: 40px !important;
+        max-width: 40px !important;
+        min-height: 42px !important;
+        height: 42px !important;
+        flex: 0 0 40px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        border-radius: 12px !important;
+        font-size: 0 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+      }
+
+      .sidebar .nav-item span {
+        width: 20px !important;
+        height: 20px !important;
+        min-width: 20px !important;
+        flex: 0 0 20px !important;
+        display: grid !important;
+        place-items: center !important;
+        margin: 0 !important;
+      }
+
+      .sidebar .nav-item span::before {
+        width: 20px !important;
+        height: 20px !important;
+        margin: 0 !important;
+      }
+
+      .sidebar .nav-item.active {
+        width: auto !important;
+        min-width: 84px !important;
+        max-width: 132px !important;
+        flex: 1 1 104px !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        padding: 0 4px !important;
+        font-size: clamp(8px, 2.4vw, 10px) !important;
+        line-height: 1.05 !important;
+        letter-spacing: -.02em !important;
+        text-align: center !important;
+      }
+
+      .sidebar .nav-item.active span {
+        flex: 0 0 20px !important;
+      }
+
+      .sidebar .sidebar-confidentiality,
+      .sidebar .sidebar-actions {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .sidebar {
+        min-height: 54px !important;
+        height: 54px !important;
+        column-gap: 6px !important;
+        padding: 6px !important;
+      }
+
+      .sidebar .brand-mark {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        flex-basis: 38px !important;
+        border-radius: 12px !important;
+      }
+
+      .sidebar .brand-mark svg {
+        width: 21px !important;
+        height: 21px !important;
+      }
+
+      .sidebar .nav-list {
+        gap: 3px !important;
+      }
+
+      .sidebar .nav-item {
+        width: 36px !important;
+        min-width: 36px !important;
+        max-width: 36px !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        flex-basis: 36px !important;
+        border-radius: 11px !important;
+      }
+
+      .sidebar .nav-item span,
+      .sidebar .nav-item span::before {
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+      }
+
+      .sidebar .nav-item.active {
+        min-width: 78px !important;
+        max-width: 108px !important;
+        flex-basis: 88px !important;
+        gap: 3px !important;
+        padding: 0 2px !important;
+        font-size: 8px !important;
+      }
+    }
+
   </style>
 
 </head>
