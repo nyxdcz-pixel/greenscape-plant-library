@@ -27,6 +27,13 @@ check(Buffer.byteLength(html) < 20_000, 'index.html should remain below 20 KB.')
 check(/<link\s+rel="canonical"/i.test(html), 'A canonical URL is required.');
 check(/<meta\s+name="robots"\s+content="noindex/i.test(html), 'The internal site must retain its noindex policy.');
 
+const renderedMarkup = `${html}\n${appSource}`;
+const buttonsWithoutType = [...renderedMarkup.matchAll(/<button\b[^>]*>/gi)]
+  .filter(match => !/\btype\s*=/.test(match[0]));
+check(buttonsWithoutType.length === 0, `${buttonsWithoutType.length} button template(s) are missing an explicit type.`);
+check(/class="brand-logo-official"[^>]*\bwidth="\d+"[^>]*\bheight="\d+"/i.test(html), 'The sidebar logo must declare intrinsic dimensions.');
+check(!appSource.includes('.moodboard-page-toolbar > strong'), 'Mood board labels should be omitted at render time, not removed by an observer.');
+
 const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
 const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 check(duplicateIds.length === 0, `Duplicate static IDs: ${[...new Set(duplicateIds)].join(', ')}`);

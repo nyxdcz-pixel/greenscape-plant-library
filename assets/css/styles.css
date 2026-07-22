@@ -1020,7 +1020,7 @@ th { color: #42604f; background: #edf3ef; }
 }
 .moodboard-control-section { padding:18px; border-bottom:1px solid #e7ece8; }
 .moodboard-control-section:last-child { border-bottom:0; }
-.moodboard-control-section h3 { margin:0 0 13px; color:#0d432f; font-size:13px; }
+.moodboard-control-section h2 { margin:0 0 13px; color:#0d432f; font-size:13px; }
 .moodboard-control-section .field { display:grid; gap:5px; margin-top:10px; }
 .moodboard-control-section .field > span { color:#607169; font-size:10px; font-weight:750; }
 .moodboard-control-section .input, .moodboard-control-section .select-input { width:100%; min-height:38px; font-size:11px; }
@@ -1030,7 +1030,7 @@ th { color: #42604f; background: #edf3ef; }
 .moodboard-project-loader .button { width:100%; }
 .moodboard-library-section { padding-bottom:10px; }
 .moodboard-library-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.moodboard-library-heading h3 { margin:0; }
+.moodboard-library-heading h2 { margin:0; }
 .moodboard-library-heading span { padding:4px 8px; border-radius:999px; background:#e8f3ed; color:#126446; font-size:9px; font-weight:850; }
 .search-wrap.compact { min-height:40px; margin:12px 0 8px; }
 .search-wrap.compact .search-input { min-height:38px; font-size:11px; }

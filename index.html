@@ -48,17 +48,17 @@
           </svg>
         </div>
         <div class="brand-official-lockup">
-          <img class="brand-logo-official" src="assets/images/greenscape-logo.png" alt="Greenscape">
+          <img class="brand-logo-official" src="assets/images/greenscape-logo.png" alt="Greenscape" width="600" height="70" decoding="async">
           <em>Green today, greener tomorrow</em>
         </div>
       </div>
 
       <nav class="nav-list" aria-label="Primary navigation">
-        <button class="nav-item active" type="button" data-view="dashboard" aria-current="page"><span>⌂</span> Dashboard</button>
-        <button class="nav-item" type="button" data-view="library"><span>⌕</span> Plant Library</button>
-        <button class="nav-item" type="button" data-view="sheet"><span>▤</span> Plant List Editor</button>
-        <button class="nav-item" type="button" data-view="moodboard"><span>▦</span> Mood Board Creator</button>
-        <button class="nav-item" type="button" data-view="projects"><span>▣</span> Project Lists</button>
+        <button class="nav-item active" type="button" data-view="dashboard" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</button>
+        <button class="nav-item" type="button" data-view="library"><span aria-hidden="true">⌕</span> Plant Library</button>
+        <button class="nav-item" type="button" data-view="sheet"><span aria-hidden="true">▤</span> Plant List Editor</button>
+        <button class="nav-item" type="button" data-view="moodboard"><span aria-hidden="true">▦</span> Mood Board Creator</button>
+        <button class="nav-item" type="button" data-view="projects"><span aria-hidden="true">▣</span> Project Lists</button>
       </nav>
 
       <div class="sidebar-confidentiality" role="note" aria-label="Confidentiality notice">
@@ -107,12 +107,12 @@
       <span class="feedback-beta-badge">Beta</span>
     </button>
 
-    <section class="feedback-panel" id="feedbackPanel" aria-labelledby="feedbackTitle" hidden>
+    <section class="feedback-panel" id="feedbackPanel" role="dialog" aria-labelledby="feedbackTitle" aria-describedby="feedbackDescription" hidden>
       <header class="feedback-panel-header">
         <div>
           <span class="feedback-panel-kicker">Beta — Work in Progress</span>
           <h2 id="feedbackTitle">Report an issue or send a suggestion</h2>
-          <p>This website is still under development. Please describe any error, suggestion, or assistance you need.</p>
+          <p id="feedbackDescription">This website is still under development. Please describe any error, suggestion, or assistance you need.</p>
         </div>
         <button class="feedback-close" id="feedbackClose" type="button" aria-label="Close feedback form">×</button>
       </header>

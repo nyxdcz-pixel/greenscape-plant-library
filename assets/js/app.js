@@ -326,10 +326,10 @@
 
       <section class="two-column">
         <div class="panel">
-          <div class="panel-header"><h2>Plant categories</h2><button class="button ghost small" data-view="library">View all</button></div>
+          <div class="panel-header"><h2>Plant categories</h2><button type="button" class="button ghost small" data-view="library">View all</button></div>
           <div class="panel-body category-bars">
             ${Object.entries(categoryCounts).sort((a,b) => b[1]-a[1]).map(([category, count]) => `
-              <button class="category-row" data-action="filter-category" data-category="${escapeHTML(category)}" title="${escapeHTML(category)}: ${count} entries" style="border:0;background:transparent;width:100%;padding:0;text-align:left;color:inherit;">
+              <button type="button" class="category-row" data-action="filter-category" data-category="${escapeHTML(category)}" title="${escapeHTML(category)}: ${count} entries" style="border:0;background:transparent;width:100%;padding:0;text-align:left;color:inherit;">
                 <span>${escapeHTML(category)}</span>
                 <span class="bar-track"><span class="bar-fill" style="width:${Math.max(6, (count/maxCategory)*100)}%;background:${categoryColor(category)}"></span></span>
                 <span class="category-count" style="color:${categoryColor(category)};font-weight:800;">${count}</span>
@@ -338,11 +338,11 @@
         </div>
 
         <div class="panel">
-          <div class="panel-header"><h2>Recent projects</h2><button class="button ghost small" data-view="projects">Open lists</button></div>
+          <div class="panel-header"><h2>Recent projects</h2><button type="button" class="button ghost small" data-view="projects">Open lists</button></div>
           <div class="panel-body">
             ${recentProjects.length ? recentProjects.map(project => {
               const totals = projectTotals(project);
-              return `<button data-action="open-project" data-project-id="${escapeHTML(project.id)}" style="display:block;width:100%;padding:12px 0;border:0;border-bottom:1px solid #e8ebe6;background:transparent;text-align:left;color:inherit;">
+              return `<button type="button" data-action="open-project" data-project-id="${escapeHTML(project.id)}" style="display:block;width:100%;padding:12px 0;border:0;border-bottom:1px solid #e8ebe6;background:transparent;text-align:left;color:inherit;">
                 <strong style="display:block;font-size:13px;">${escapeHTML(project.name)}</strong>
                 <span style="display:block;margin-top:3px;color:var(--muted);font-size:10px;">${totals.categories} categories · ${number(totals.quantity)} total quantity</span>
               </button>`;
@@ -393,8 +393,8 @@
           </select>
         </div>
         <div class="toolbar-group">
-          <span id="resultCount" class="result-count"></span>
-          <button class="button primary" data-action="new-plant">Add plant</button>
+          <span id="resultCount" class="result-count" role="status" aria-live="polite"></span>
+          <button type="button" class="button primary" data-action="new-plant">Add plant</button>
         </div>
       </div>
       <div id="plantGrid"></div>
@@ -410,12 +410,12 @@
     const shown = results.slice(0, state.libraryLimit);
     count.textContent = `${results.length} ${results.length === 1 ? 'entry' : 'entries'}`;
     if (!results.length) {
-      grid.innerHTML = emptyState('No matching plants', 'Try another plant name or category.', '<button class="button secondary" data-action="clear-filter">Clear filters</button>');
+      grid.innerHTML = emptyState('No matching plants', 'Try another plant name or category.', '<button type="button" class="button secondary" data-action="clear-filter">Clear filters</button>');
       return;
     }
     grid.innerHTML = `
       <div class="plant-grid">${shown.map((plant, index) => plantCard(plant, index)).join('')}</div>
-      ${shown.length < results.length ? `<div style="display:flex;justify-content:center;margin-top:22px;"><button class="button secondary" data-action="load-more">Show more (${results.length - shown.length} remaining)</button></div>` : ''}
+      ${shown.length < results.length ? `<div style="display:flex;justify-content:center;margin-top:22px;"><button type="button" class="button secondary" data-action="load-more">Show more (${results.length - shown.length} remaining)</button></div>` : ''}
     `;
   }
 
@@ -436,8 +436,8 @@
           ${badges.length ? `<div class="plant-badges">${badges.map(value => `<span class="plant-badge">${escapeHTML(value)}</span>`).join('')}</div>` : ''}
           <div class="plant-meta"><span>${sizeCount} available size${sizeCount === 1 ? '' : 's'}</span></div>
           <div class="plant-card-actions">
-            <button class="button secondary small" data-action="plant-detail" data-plant-id="${escapeHTML(plant.id)}">View details</button>
-            <button class="button primary small" data-action="add-to-project" data-plant-id="${escapeHTML(plant.id)}">Add to list</button>
+            <button type="button" class="button secondary small" data-action="plant-detail" data-plant-id="${escapeHTML(plant.id)}">View details</button>
+            <button type="button" class="button primary small" data-action="add-to-project" data-plant-id="${escapeHTML(plant.id)}">Add to list</button>
           </div>
         </div>
       </article>`;
@@ -944,7 +944,7 @@
           <div class="sheet-edit-value new-value"><span>New value</span><div>${sheetEditValueHTML(newValue)}</div></div>
         </div>
       </div>`,
-      `<button class="button secondary" data-action="sheet-cancel-edit">Cancel edit</button><button class="button primary" data-action="sheet-confirm-edit">Save changes</button>`
+      `<button type="button" class="button secondary" data-action="sheet-cancel-edit">Cancel edit</button><button type="button" class="button primary" data-action="sheet-confirm-edit">Save changes</button>`
     );
   }
 
@@ -972,7 +972,7 @@
             <div class="sheet-edit-value new-value"><span>New photo</span><img class="sheet-edit-photo-preview" src="${safeImage(resizedImage)}" alt="New ${escapeHTML(plant.commonName)} photo"></div>
           </div>
         </div>`,
-        `<button class="button secondary" data-action="sheet-cancel-edit">Cancel edit</button><button class="button primary" data-action="sheet-confirm-edit">Save changes</button>`
+        `<button type="button" class="button secondary" data-action="sheet-cancel-edit">Cancel edit</button><button type="button" class="button primary" data-action="sheet-confirm-edit">Save changes</button>`
       );
     } catch (error) {
       input.value = '';
@@ -1003,7 +1003,7 @@
       plant.image = pending.newValue;
       saveAll();
       const thumb = document.querySelector(`[data-sheet-thumbnail="${CSS.escape(plant.id)}"]`);
-      if (thumb) thumb.innerHTML = `<img src="${safeImage(plant.image)}" alt="${escapeHTML(plant.commonName)}">`;
+      if (thumb) thumb.innerHTML = `<img src="${safeImage(plant.image)}" alt="${escapeHTML(plant.commonName)}" width="96" height="96" loading="lazy" decoding="async">`;
       if (pending.input?.isConnected) pending.input.value = '';
       pendingSheetEdit = null;
       closeModal();
@@ -1067,16 +1067,16 @@
         </div>
         <div class="toolbar-group">
           <span class="result-count">${results.length} ${results.length === 1 ? 'entry' : 'entries'}</span>
-          <button class="button secondary" data-action="import-excel">Import Excel</button>
-          <button class="button secondary" data-action="export-excel">Export Excel</button>
-          <button class="button secondary" data-action="new-category">Add category</button>
-          <button class="button primary" data-action="new-plant"${state.sheetCategory !== 'All' ? ` data-category="${escapeHTML(state.sheetCategory)}"` : ''}>Add plant</button>
+          <button type="button" class="button secondary" data-action="import-excel">Import Excel</button>
+          <button type="button" class="button secondary" data-action="export-excel">Export Excel</button>
+          <button type="button" class="button secondary" data-action="new-category">Add category</button>
+          <button type="button" class="button primary" data-action="new-plant"${state.sheetCategory !== 'All' ? ` data-category="${escapeHTML(state.sheetCategory)}"` : ''}>Add plant</button>
           <input id="plantExcelInput" type="file" aria-label="Import plant list from Excel" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
         </div>
       </div>
       ${duplicateCount ? `<div class="duplicate-alert"><span>!</span><div><strong>${duplicateCount} duplicate code${duplicateCount === 1 ? '' : 's'} detected</strong>Duplicate code cells are marked in red. Enter a unique code using the AEg format.</div></div>` : ''}
       <div id="sheetCategoryGroups">
-        ${Object.keys(grouped).sort((a,b) => a.localeCompare(b)).map(category => renderSheetCategory(category, grouped[category])).join('') || emptyState('No matching plants', 'Try another name or category.', '<button class="button secondary" data-action="clear-sheet-filter">Clear filters</button>')}
+        ${Object.keys(grouped).sort((a,b) => a.localeCompare(b)).map(category => renderSheetCategory(category, grouped[category])).join('') || emptyState('No matching plants', 'Try another name or category.', '<button type="button" class="button secondary" data-action="clear-sheet-filter">Clear filters</button>')}
       </div>`;
   }
 
@@ -1112,7 +1112,7 @@
             <th scope="col" class="sheet-medium-col">Reference</th>
             <th scope="col" class="sheet-actions-col">Action</th>
           </tr></thead>
-          <tbody>${records.length ? records.map(sheetPlantRow).join('') : `<tr><td colspan="17"><div class="sheet-empty-category">No plants in this category yet. <button class="button secondary small" data-action="new-plant" data-category="${escapeHTML(category)}">Add plant</button></div></td></tr>`}</tbody>
+          <tbody>${records.length ? records.map(sheetPlantRow).join('') : `<tr><td colspan="17"><div class="sheet-empty-category">No plants in this category yet. <button type="button" class="button secondary small" data-action="new-plant" data-category="${escapeHTML(category)}">Add plant</button></div></td></tr>`}</tbody>
         </table>
       </div>
     </details>`;
@@ -1123,7 +1123,7 @@
     const duplicate = isDuplicateCode(plant.code);
     const duplicateHint = duplicateCodeTooltip(plant.code, plant.id);
     return `<tr data-sheet-row="${escapeHTML(plant.id)}">
-      <td><div class="sheet-photo" data-sheet-thumbnail="${escapeHTML(plant.id)}">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div></td>
+      <td><div class="sheet-photo" data-sheet-thumbnail="${escapeHTML(plant.id)}">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" width="96" height="96" loading="lazy" decoding="async">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div></td>
       <td><div class="sheet-code-wrap${duplicate ? ' has-duplicate' : ''}" data-sheet-code-wrap="${escapeHTML(plant.id)}" title="${escapeHTML(duplicate ? duplicateHint : 'Plant code')}">${sheetField(plant, 'code', plant.code, `sheet-code-input${duplicate ? ' duplicate-code' : ''}`)}<span class="sheet-code-error${duplicate ? ' visible' : ''}" data-sheet-code-error="${escapeHTML(plant.id)}">${duplicate ? 'Duplicate code — hover to see matching plant' : ''}</span></div></td>
       <td>${sheetField(plant, 'commonName', plant.commonName)}</td>
       <td>${sheetField(plant, 'scientificName', plant.scientificName || plant.material)}</td>
@@ -1324,15 +1324,15 @@
           <span>Select plants from the library. Changes to plant names, codes, categories, and photos update here automatically.</span>
         </div>
         <div class="toolbar-group">
-          <button class="button secondary" data-action="moodboard-print">Print / Save PDF</button>
-          <button class="button primary" data-action="moodboard-export-png">Export PNG</button>
+          <button type="button" class="button secondary" data-action="moodboard-print">Print / Save PDF</button>
+          <button type="button" class="button primary" data-action="moodboard-export-png">Export PNG</button>
         </div>
       </div>
 
       <div class="moodboard-workspace">
         <aside class="moodboard-controls">
           <section class="moodboard-control-section">
-            <h3>Board details</h3>
+            <h2>Board details</h2>
             <label class="field"><span>Board title</span><input class="input" data-moodboard-setting="title" value="${escapeHTML(moodboard.title)}" placeholder="PLANT MATERIAL BOARD"></label>
             <label class="field"><span>Project name</span><input class="input" data-moodboard-setting="projectName" value="${escapeHTML(moodboard.projectName)}" placeholder="Project name"></label>
             <label class="field"><span>Location or note</span><input class="input" data-moodboard-setting="location" value="${escapeHTML(moodboard.location)}" placeholder="Site location"></label>
@@ -1340,7 +1340,7 @@
           </section>
 
           <section class="moodboard-control-section">
-            <h3>Board layout</h3>
+            <h2>Board layout</h2>
             <label class="field"><span>Orientation</span><select class="select-input" data-moodboard-setting="orientation">
               <option value="landscape"${moodboard.orientation === 'landscape' ? ' selected' : ''}>Landscape</option>
               <option value="portrait"${moodboard.orientation === 'portrait' ? ' selected' : ''}>Portrait</option>
@@ -1357,20 +1357,20 @@
           </section>
 
           <section class="moodboard-control-section">
-            <h3>Load from project list</h3>
+            <h2>Load from project list</h2>
             <div class="moodboard-project-loader">
               <select id="moodboardProjectSelect" class="select-input" aria-label="Choose a project list to load">
                 <option value="">Choose a project</option>
                 ${projects.map(project => `<option value="${escapeHTML(project.id)}">${escapeHTML(project.name)}</option>`).join('')}
               </select>
-              <button class="button secondary small" data-action="moodboard-load-project"${projects.length ? '' : ' disabled'}>Load plants</button>
+              <button type="button" class="button secondary small" data-action="moodboard-load-project"${projects.length ? '' : ' disabled'}>Load plants</button>
             </div>
           </section>
 
           <section class="moodboard-control-section moodboard-library-section">
             <div class="moodboard-library-heading">
-              <h3>Plant library</h3>
-              <span id="moodboardSelectedCount">${moodboard.selectedIds.length} selected</span>
+              <h2>Plant library</h2>
+              <span id="moodboardSelectedCount" role="status" aria-live="polite">${moodboard.selectedIds.length} selected</span>
             </div>
             <label class="search-wrap compact"><span aria-hidden="true">⌕</span><input id="moodboardSearch" class="search-input" type="search" aria-label="Search mood board plants" placeholder="Search plants" value="${escapeHTML(state.moodboardSearch)}"></label>
             <select id="moodboardCategoryFilter" class="select-input" aria-label="Filter mood board plants by category">
@@ -1378,8 +1378,8 @@
               ${categories().map(category => `<option value="${escapeHTML(category)}"${state.moodboardCategory === category ? ' selected' : ''}>${escapeHTML(category)}</option>`).join('')}
             </select>
             <div class="moodboard-picker-actions">
-              <button class="button ghost small" data-action="moodboard-add-visible">Add visible</button>
-              <button class="button ghost small danger-text" data-action="moodboard-clear">Clear board</button>
+              <button type="button" class="button ghost small" data-action="moodboard-add-visible">Add visible</button>
+              <button type="button" class="button ghost small danger-text" data-action="moodboard-clear">Clear board</button>
             </div>
             <div id="moodboardPlantPicker" class="moodboard-plant-picker">${moodboardPickerHTML()}</div>
           </section>
@@ -1398,8 +1398,8 @@
     return records.map(plant => {
       const selected = moodboard.selectedIds.includes(plant.id);
       const image = safeImage(plant.image);
-      return `<button class="moodboard-picker-item${selected ? ' selected' : ''}" data-action="moodboard-toggle-plant" data-plant-id="${escapeHTML(plant.id)}" title="${selected ? 'Remove from board' : 'Add to board'}">
-        <span class="moodboard-picker-image">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<span>${escapeHTML(plant.code || '—')}</span>`}</span>
+      return `<button type="button" class="moodboard-picker-item${selected ? ' selected' : ''}" data-action="moodboard-toggle-plant" data-plant-id="${escapeHTML(plant.id)}" title="${selected ? 'Remove from board' : 'Add to board'}">
+        <span class="moodboard-picker-image">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" width="96" height="96" loading="lazy" decoding="async">` : `<span>${escapeHTML(plant.code || '—')}</span>`}</span>
         <span class="moodboard-picker-copy"><strong>${escapeHTML(plant.commonName || 'Unnamed plant')}</strong><small>${escapeHTML(plant.scientificName || plant.material || plant.category)}</small></span>
         <span class="moodboard-picker-check">${selected ? '✓' : '+'}</span>
       </button>`;
@@ -1537,7 +1537,7 @@
       `--moodboard-caption-gap:${cqw(metrics.captionGap)}`,
       `--moodboard-line-gap:${cqw(metrics.lineGap)}`
     ].join(';');
-    return `<section class="moodboard-page-preview" data-action="moodboard-fullscreen" data-page-index="${pageIndex}" data-orientation="${orientation}" tabindex="0" title="Click to view this A3 page full screen">
+    return `<section class="moodboard-page-preview" role="button" aria-label="Open mood board page ${pageIndex + 1} full screen" data-action="moodboard-fullscreen" data-page-index="${pageIndex}" data-orientation="${orientation}" tabindex="0" title="Click to view this A3 page full screen">
       <div class="moodboard-page-toolbar">
         <div class="moodboard-zoom-controls" aria-label="Board zoom controls">
           <button type="button" class="moodboard-zoom-button" data-action="moodboard-zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
@@ -1588,8 +1588,8 @@
     const image = safeImage(plant.image);
     const [background, foreground] = moodboardPlantColor(plant);
     return `<article class="moodboard-plant-card" draggable="true" data-moodboard-card="${escapeHTML(plant.id)}">
-      <button class="moodboard-remove-card no-export" data-action="moodboard-remove-plant" data-plant-id="${escapeHTML(plant.id)}" title="Remove from board">×</button>
-      <div class="moodboard-card-photo">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<div class="moodboard-card-fallback">${escapeHTML(plant.code || '—')}</div>`}</div>
+      <button type="button" class="moodboard-remove-card no-export" data-action="moodboard-remove-plant" data-plant-id="${escapeHTML(plant.id)}" title="Remove from board">×</button>
+      <div class="moodboard-card-photo">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" width="480" height="480" loading="lazy" decoding="async">` : `<div class="moodboard-card-fallback">${escapeHTML(plant.code || '—')}</div>`}</div>
       <div class="moodboard-card-caption" style="--moodboard-card-bg:${background};--moodboard-card-text:${foreground}">
         <div class="moodboard-card-names">
           ${moodboard.showCommon ? `<strong><span>CN:</span> ${escapeHTML(plant.commonName || 'Unnamed plant')}</strong>` : ''}
@@ -2022,9 +2022,9 @@
     content.innerHTML = `
       <div class="toolbar">
         <div><p class="muted" style="margin:0;font-size:12px;">Create a separate plant list for each landscape project or sector.</p></div>
-        <button class="button primary" data-action="new-project">New project</button>
+        <button type="button" class="button primary" data-action="new-project">New project</button>
       </div>
-      ${projects.length ? `<div class="project-grid">${projects.map(projectCard).join('')}</div>` : emptyState('No project plant lists', 'Create your first project, then add plants from the library.', '<button class="button primary" data-action="new-project">Create project</button>')}
+      ${projects.length ? `<div class="project-grid">${projects.map(projectCard).join('')}</div>` : emptyState('No project plant lists', 'Create your first project, then add plants from the library.', '<button type="button" class="button primary" data-action="new-project">Create project</button>')}
     `;
   }
 
@@ -2042,8 +2042,8 @@
         <div class="project-stat project-deadline deadline-${deadline.tone}"><strong>${escapeHTML(deadline.display)}</strong><span>${escapeHTML(deadline.status)}</span></div>
       </div>
       <div class="project-card-actions">
-        <button class="button primary small" data-action="open-project" data-project-id="${escapeHTML(project.id)}">Open list</button>
-        <button class="button secondary small" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add plants</button>
+        <button type="button" class="button primary small" data-action="open-project" data-project-id="${escapeHTML(project.id)}">Open list</button>
+        <button type="button" class="button secondary small" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add plants</button>
       </div>
     </article>`;
   }
@@ -2055,15 +2055,15 @@
     content.innerHTML = `
       <div class="detail-header">
         <div>
-          <button class="text-button project-back-button" data-action="back-projects">← All project lists</button>
+          <button type="button" class="text-button project-back-button" data-action="back-projects">← All project lists</button>
           <p class="breadcrumb">Project plant list</p>
           <h2>${escapeHTML(project.name)}</h2>
           <p class="detail-subtitle">${escapeHTML(project.location || 'Location not set')}${project.client ? ` · ${escapeHTML(project.client)}` : ''}</p>
         </div>
         <div class="detail-actions no-print">
-          <button class="button secondary" data-action="edit-project" data-project-id="${escapeHTML(project.id)}">Edit project</button>
-          <button class="button secondary" data-action="project-schedule" data-project-id="${escapeHTML(project.id)}">View schedule</button>
-          <button class="button primary" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add plant</button>
+          <button type="button" class="button secondary" data-action="edit-project" data-project-id="${escapeHTML(project.id)}">Edit project</button>
+          <button type="button" class="button secondary" data-action="project-schedule" data-project-id="${escapeHTML(project.id)}">View schedule</button>
+          <button type="button" class="button primary" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add plant</button>
         </div>
       </div>
       <div class="project-info-grid">
@@ -2080,8 +2080,8 @@
         ${summaryBox('Total categories', totals.categories)}
         ${summaryBox('Total quantity', number(totals.quantity))}
       </div>
-      ${items.length ? projectItemsTable(project) : emptyState('This plant list is empty', 'Add plants from the library and select the size, quantity, spacing, and zone.', `<button class="button primary" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add first plant</button>`)}
-      <div class="no-print" style="display:flex;justify-content:flex-end;margin-top:18px;"><button class="button ghost small" data-action="delete-project" data-project-id="${escapeHTML(project.id)}">Delete project</button></div>
+      ${items.length ? projectItemsTable(project) : emptyState('This plant list is empty', 'Add plants from the library and select the size, quantity, spacing, and zone.', `<button type="button" class="button primary" data-action="add-to-project" data-project-id="${escapeHTML(project.id)}">Add first plant</button>`)}
+      <div class="no-print" style="display:flex;justify-content:flex-end;margin-top:18px;"><button type="button" class="button ghost small" data-action="delete-project" data-project-id="${escapeHTML(project.id)}">Delete project</button></div>
     `;
   }
 
@@ -2109,7 +2109,7 @@
             <td>${escapeHTML(item.zone || '—')}</td>
             <td>${escapeHTML(item.spacing || '—')}</td>
             <td>${escapeHTML(item.notes || plant?.plantingNotes || '—')}</td>
-            ${scheduleMode ? '' : `<td class="no-print"><div class="row-actions"><button class="icon-button" title="Edit" data-action="edit-project-item" data-project-id="${escapeHTML(project.id)}" data-item-id="${escapeHTML(item.id)}">✎</button><button class="icon-button" title="Remove" data-action="remove-project-item" data-project-id="${escapeHTML(project.id)}" data-item-id="${escapeHTML(item.id)}">×</button></div></td>`}
+            ${scheduleMode ? '' : `<td class="no-print"><div class="row-actions"><button type="button" class="icon-button" title="Edit" data-action="edit-project-item" data-project-id="${escapeHTML(project.id)}" data-item-id="${escapeHTML(item.id)}">✎</button><button type="button" class="icon-button" title="Remove" data-action="remove-project-item" data-project-id="${escapeHTML(project.id)}" data-item-id="${escapeHTML(item.id)}">×</button></div></td>`}
           </tr>`;
         }).join('')}</tbody>
       </table>
@@ -2118,7 +2118,7 @@
 
   function renderSchedule() {
     if (!projects.length) {
-      content.innerHTML = emptyState('No project schedule available', 'Create a project list and add plants before generating a schedule.', '<button class="button primary" data-action="new-project">Create project</button>');
+      content.innerHTML = emptyState('No project schedule available', 'Create a project list and add plants before generating a schedule.', '<button type="button" class="button primary" data-action="new-project">Create project</button>');
       return;
     }
     if (!getProject(state.scheduleProjectId)) state.scheduleProjectId = projects[0].id;
@@ -2132,8 +2132,8 @@
           </select>
         </div>
         <div class="toolbar-group">
-          <button class="button secondary" data-action="export-csv" data-project-id="${escapeHTML(project.id)}">Export CSV</button>
-          <button class="button primary" data-action="print-schedule">Print / Save PDF</button>
+          <button type="button" class="button secondary" data-action="export-csv" data-project-id="${escapeHTML(project.id)}">Export CSV</button>
+          <button type="button" class="button primary" data-action="print-schedule">Print / Save PDF</button>
         </div>
       </div>
       <div class="detail-header">
@@ -2143,7 +2143,7 @@
       <div class="summary-strip">
         ${summaryBox('Total categories', totals.categories)}${summaryBox('Schedule lines', totals.lines)}${summaryBox('Total quantity', number(totals.quantity))}
       </div>
-      ${(project.items || []).length ? projectItemsTable(project, true) : emptyState('This schedule is empty', 'Return to the project list and add plants.', `<button class="button primary" data-action="open-project" data-project-id="${escapeHTML(project.id)}">Open project</button>`)}
+      ${(project.items || []).length ? projectItemsTable(project, true) : emptyState('This schedule is empty', 'Return to the project list and add plants.', `<button type="button" class="button primary" data-action="open-project" data-project-id="${escapeHTML(project.id)}">Open project</button>`)}
     `;
   }
 
@@ -2177,7 +2177,7 @@
     const tags = Array.isArray(plant.tags) ? plant.tags.filter(Boolean) : [];
     const body = `
       <div class="plant-detail-grid">
-        <div class="detail-photo">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div>
+        <div class="detail-photo">${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" width="900" height="900" decoding="async">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}</div>
         <div class="detail-info">
           <div class="plant-code-row" title="Plant code"><span class="plant-code">${escapeHTML(plant.code)}</span></div>
           <h3>${escapeHTML(plant.commonName)}</h3>
@@ -2209,7 +2209,7 @@
       </details>
     `;
     openModal(plant.commonName, '', body,
-      `<button class="button secondary" data-action="edit-plant" data-plant-id="${escapeHTML(plant.id)}">Edit plant</button><button class="button primary" data-action="add-to-project" data-plant-id="${escapeHTML(plant.id)}">Add to project</button>`, true);
+      `<button type="button" class="button secondary" data-action="edit-plant" data-plant-id="${escapeHTML(plant.id)}">Edit plant</button><button type="button" class="button primary" data-action="add-to-project" data-plant-id="${escapeHTML(plant.id)}">Add to project</button>`, true);
     document.querySelector('#modalRoot .modal')?.classList.add('plant-detail-modal');
   }
 
@@ -2232,7 +2232,7 @@
       <div class="form-field full"><span class="form-help">The new category will appear in the Plant List Editor, Plant Library filters, and plant forms.</span></div>
     </form>`;
     openModal('Add category', 'Create a new group for your plant records.', body,
-      `<button class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="categoryForm">Add category</button>`, true);
+      `<button type="button" class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="categoryForm">Add category</button>`, true);
     document.getElementById('categoryForm').addEventListener('submit', saveCategoryForm);
     setTimeout(() => document.querySelector('#categoryForm [name="categoryName"]')?.focus(), 0);
   }
@@ -2282,7 +2282,7 @@
       <input type="hidden" name="category" value="${escapeHTML(name)}">
     </form>`;
     openModal('Delete category?', `${count} ${count === 1 ? 'entry' : 'entries'} will be affected.`, body,
-      `<button class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" type="submit" form="deleteCategoryForm">Delete category</button>`, true);
+      `<button type="button" class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" type="submit" form="deleteCategoryForm">Delete category</button>`, true);
     document.getElementById('deleteCategoryForm').addEventListener('submit', deleteCategoryForm);
     setTimeout(() => document.querySelector('#deleteCategoryForm [name="confirmCategory"]')?.focus(), 0);
   }
@@ -2342,7 +2342,7 @@
       <div class="form-section"><h3>Available sizes</h3><p>Add one row for each nursery size.</p><div id="sizeEditor" class="size-editor">${(plant?.sizes?.length ? plant.sizes : [{}]).map(sizeRow).join('')}</div><button type="button" class="button ghost small" style="margin-top:9px;" data-action="add-size-row">+ Add size</button></div>
     </form>`;
     openModal(plant ? 'Edit plant' : 'Add plant', plant ? 'Update the plant record and size options.' : 'Create a new record in your local plant library.', body,
-      `<button class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="plantForm">${plant ? 'Save changes' : 'Add plant'}</button>`, true);
+      `<button type="button" class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="plantForm">${plant ? 'Save changes' : 'Add plant'}</button>`, true);
     const form = document.getElementById('plantForm');
     form.addEventListener('submit', savePlantForm);
     setupPlantCodeForm(form, plant);
@@ -2681,7 +2681,7 @@
       <div class="form-field full"><label>Project notes</label><textarea name="notes">${escapeHTML(project?.notes || '')}</textarea></div>
     </form>`;
     openModal(project ? 'Edit project' : 'New project list', 'Store project details, costs, site conditions, and plants for one landscape project or sector.', body,
-      `<button class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="projectForm">${project ? 'Save changes' : 'Create project'}</button>`, true);
+      `<button type="button" class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="projectForm">${project ? 'Save changes' : 'Create project'}</button>`, true);
     document.getElementById('projectForm').addEventListener('submit', saveProjectForm);
   }
 
@@ -2742,7 +2742,7 @@
       <div class="form-field full"><label>Project planting notes</label><textarea name="notes" placeholder="Project-specific planting instruction">${escapeHTML(editingItem?.notes || selectedPlant?.plantingNotes || '')}</textarea></div>
     </form>`;
     openModal(editingItem ? 'Edit project plant' : 'Add plant to project', selectedPlant ? `${selectedPlant.commonName} · ${selectedPlant.scientificName || selectedPlant.category}` : '', body,
-      `<button class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="addToProjectForm">${editingItem ? 'Save changes' : 'Add to project'}</button>`);
+      `<button type="button" class="button secondary" data-action="close-modal">Cancel</button><button class="button primary" type="submit" form="addToProjectForm">${editingItem ? 'Save changes' : 'Add to project'}</button>`);
     const form = document.getElementById('addToProjectForm');
     form.addEventListener('submit', saveProjectItem);
     document.getElementById('addPlantSelect').addEventListener('change', refreshAddPlantSizes);
@@ -3369,15 +3369,17 @@
         backdrop.id = 'moodboardActionBackdrop';
         backdrop.className = 'moodboard-action-backdrop';
         backdrop.hidden = true;
-        backdrop.innerHTML = '<section class="moodboard-action-dialog" role="dialog" aria-modal="true" aria-labelledby="moodboardActionTitle"><div id="moodboardActionContent"></div></section>';
+        backdrop.innerHTML = '<section class="moodboard-action-dialog" role="dialog" aria-modal="true" aria-labelledby="moodboardActionTitle" tabindex="-1"><div id="moodboardActionContent"></div></section>';
         document.body.appendChild(backdrop);
         return backdrop;
       }
 
       function closeDialog() {
         const backdrop = ensureDialog();
+        const returnTarget = activeSourceButton;
         backdrop.hidden = true;
         activeSourceButton = null;
+        if (returnTarget?.isConnected) requestAnimationFrame(() => returnTarget.focus({ preventScroll: true }));
       }
 
       function openAddDialog(button) {
@@ -3551,7 +3553,31 @@
       });
 
       document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && !ensureDialog().hidden) closeDialog();
+        const backdrop = document.getElementById('moodboardActionBackdrop');
+        if (!backdrop || backdrop.hidden) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeDialog();
+          return;
+        }
+        if (event.key !== 'Tab') return;
+        const dialog = backdrop.querySelector('.moodboard-action-dialog');
+        const focusable = Array.from(dialog?.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])') || [])
+          .filter(element => !element.hidden && element.getClientRects().length);
+        if (!focusable.length) {
+          event.preventDefault();
+          dialog?.focus();
+          return;
+        }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       });
 
       if (content && 'MutationObserver' in window) {
