@@ -4008,9 +4008,8 @@
   <!-- /GREENSCAPE_REMOVE_MOODBOARD_TOOLBAR_LABELS_SOURCE_FIX -->
 
 
-  <!-- GREENSCAPE_LOCAL_PLANT_IDENTIFIER_V1 -->
-  <style id="greenscape-local-plant-identifier-styles">
-    /* Dashboard entry point */
+  <!-- GREENSCAPE_GOOGLE_LENS_IDENTIFIER_V1 -->
+  <style id="greenscape-google-lens-identifier-styles">
     .greenscape-identifier-hero-button {
       white-space: nowrap;
     }
@@ -4027,18 +4026,17 @@
       display: block;
     }
 
-    /* On-device Plant Identifier */
-    .local-identifier-page {
-      --identifier-green: var(--forest-900, #173f31);
-      --identifier-green-2: var(--forest-700, #2f6a52);
-      --identifier-soft: #eef5f0;
-      --identifier-line: #dce7df;
+    .lens-identifier-page {
+      --lens-green: var(--forest-900, #173f31);
+      --lens-green-2: var(--forest-700, #2f6a52);
+      --lens-soft: #eef5f0;
+      --lens-line: #dce7df;
       display: grid;
       gap: 18px;
-      max-width: 1240px;
+      max-width: 1180px;
       margin: 0 auto;
     }
-    .local-identifier-intro {
+    .lens-identifier-intro {
       position: relative;
       overflow: hidden;
       display: grid;
@@ -4054,7 +4052,7 @@
         linear-gradient(145deg, #0f4935, #1d674a);
       box-shadow: 0 18px 45px rgba(15, 65, 47, .15);
     }
-    .local-identifier-intro::after {
+    .lens-identifier-intro::after {
       content: "";
       position: absolute;
       width: 180px;
@@ -4064,7 +4062,7 @@
       border: 1px solid rgba(255,255,255,.18);
       border-radius: 50%;
     }
-    .local-identifier-kicker {
+    .lens-identifier-kicker {
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -4075,7 +4073,7 @@
       letter-spacing: .13em;
       text-transform: uppercase;
     }
-    .local-identifier-intro h2 {
+    .lens-identifier-intro h2 {
       margin: 0;
       max-width: 720px;
       font-family: Georgia, "Times New Roman", serif;
@@ -4083,15 +4081,15 @@
       font-weight: 500;
       line-height: 1.06;
     }
-    .local-identifier-intro p {
+    .lens-identifier-intro p {
       max-width: 760px;
       margin: 10px 0 0;
       color: #d4e3da;
       font-size: 13px;
       line-height: 1.58;
     }
-    .local-identifier-privacy {
-      min-width: 190px;
+    .lens-identifier-badge {
+      min-width: 205px;
       display: grid;
       gap: 4px;
       padding: 14px 16px;
@@ -4100,68 +4098,69 @@
       background: rgba(255,255,255,.08);
       backdrop-filter: blur(12px);
     }
-    .local-identifier-privacy strong {
+    .lens-identifier-badge strong {
       font-size: 12px;
     }
-    .local-identifier-privacy span {
+    .lens-identifier-badge span {
       color: #c8dbd0;
       font-size: 9px;
       line-height: 1.45;
     }
-    .local-identifier-workspace {
+    .lens-identifier-workspace {
       display: grid;
-      grid-template-columns: minmax(330px, .78fr) minmax(0, 1.22fr);
+      grid-template-columns: minmax(320px, .82fr) minmax(0, 1.18fr);
       gap: 18px;
       align-items: start;
     }
-    .local-identifier-card {
-      border: 1px solid var(--identifier-line);
+    .lens-identifier-card {
+      border: 1px solid var(--lens-line);
       border-radius: 22px;
       background: var(--paper, #fffdf8);
       box-shadow: 0 9px 27px rgba(21, 61, 44, .07);
     }
-    .local-identifier-upload-card {
+    .lens-identifier-upload-card {
       position: sticky;
       top: 126px;
       overflow: hidden;
     }
-    .local-identifier-card-header {
+    .lens-identifier-card-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
       padding: 18px 19px 14px;
-      border-bottom: 1px solid var(--identifier-line);
+      border-bottom: 1px solid var(--lens-line);
     }
-    .local-identifier-card-header h3 {
+    .lens-identifier-card-header h3 {
       margin: 0;
-      color: var(--identifier-green);
+      color: var(--lens-green);
       font-size: 15px;
     }
-    .local-identifier-card-header p {
+    .lens-identifier-card-header p {
       margin: 4px 0 0;
       color: var(--muted, #6f7a74);
       font-size: 9px;
       line-height: 1.45;
     }
-    .local-identifier-step {
-      min-width: 28px;
-      height: 28px;
+    .lens-identifier-step {
+      min-width: 30px;
+      height: 30px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      color: var(--identifier-green);
+      color: var(--lens-green);
       background: #e5efe9;
       font-size: 9px;
       font-weight: 900;
     }
-    .local-identifier-upload-body {
+    .lens-identifier-upload-body,
+    .lens-identifier-details-body {
       display: grid;
       gap: 13px;
       padding: 17px 19px 19px;
     }
-    .local-identifier-dropzone {
-      min-height: 230px;
+    .lens-identifier-dropzone {
+      min-height: 250px;
       display: grid;
       place-items: center;
       padding: 20px;
@@ -4171,62 +4170,63 @@
       text-align: center;
       transition: border-color .2s ease, transform .2s ease, background .2s ease;
     }
-    .local-identifier-dropzone.is-dragging {
-      border-color: var(--identifier-green-2);
+    .lens-identifier-dropzone.is-dragging {
+      border-color: var(--lens-green-2);
       background: #e7f2eb;
       transform: scale(.995);
     }
-    .local-identifier-camera-icon {
-      width: 58px;
-      height: 58px;
+    .lens-identifier-camera-icon {
+      width: 60px;
+      height: 60px;
       display: grid;
       place-items: center;
       margin: 0 auto 12px;
       border-radius: 18px;
-      color: var(--identifier-green-2);
+      color: var(--lens-green-2);
       background: #dff0e6;
     }
-    .local-identifier-camera-icon svg {
-      width: 30px;
-      height: 30px;
+    .lens-identifier-camera-icon svg {
+      width: 31px;
+      height: 31px;
     }
-    .local-identifier-dropzone strong {
+    .lens-identifier-dropzone strong {
       display: block;
-      color: var(--identifier-green);
+      color: var(--lens-green);
       font-size: 15px;
     }
-    .local-identifier-dropzone p {
+    .lens-identifier-dropzone p {
       margin: 5px 0 0;
       color: var(--muted, #6f7a74);
       font-size: 10px;
       line-height: 1.45;
     }
-    .local-identifier-upload-actions {
+    .lens-identifier-upload-actions {
       display: grid;
       grid-template-columns: 1fr;
       gap: 8px;
       margin-top: 15px;
     }
-    .local-identifier-upload-actions .button {
+    .lens-identifier-upload-actions .button {
       width: 100%;
-      min-height: 39px;
+      min-height: 41px;
     }
-    .local-identifier-preview {
+    .lens-identifier-preview {
       position: relative;
       overflow: hidden;
-      min-height: 230px;
+      width: 100%;
+      min-height: 250px;
       border-radius: 16px;
       background: #e8efea;
     }
-    .local-identifier-preview[hidden] {
+    .lens-identifier-preview[hidden] {
       display: none;
     }
-    .local-identifier-preview img {
+    .lens-identifier-preview img {
       width: 100%;
-      height: 270px;
+      height: 285px;
       object-fit: cover;
     }
-    .local-identifier-preview-actions {
+    .lens-identifier-preview-actions {
       position: absolute;
       left: 10px;
       right: 10px;
@@ -4235,12 +4235,14 @@
       justify-content: space-between;
       gap: 8px;
     }
-    .local-identifier-preview-actions .button {
+    .lens-identifier-preview-actions .button {
       min-height: 34px;
       padding: 6px 10px;
       font-size: 10px;
     }
-    .local-identifier-tip {
+    .lens-identifier-tip,
+    .lens-identifier-note,
+    .lens-identifier-warning {
       display: flex;
       gap: 9px;
       padding: 11px 12px;
@@ -4248,255 +4250,94 @@
       color: #446253;
       background: #f0f5f1;
       font-size: 9px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
-    .local-identifier-tip span:first-child {
-      font-weight: 900;
+    .lens-identifier-tip strong,
+    .lens-identifier-note strong,
+    .lens-identifier-warning strong {
+      flex: 0 0 auto;
     }
-    .local-identifier-identify-button {
+    .lens-identifier-warning {
+      border: 1px solid #eadbc6;
+      color: #715b3d;
+      background: #fff8ed;
+    }
+    .lens-identifier-open-button {
       width: 100%;
-      min-height: 47px !important;
+      min-height: 48px !important;
       font-size: 13px !important;
     }
-    .local-identifier-identify-button[disabled] {
+    .lens-identifier-open-button[disabled] {
       opacity: .48;
       cursor: not-allowed;
       transform: none !important;
     }
-    .local-identifier-progress {
+    .lens-identifier-steps {
       display: grid;
-      gap: 7px;
-    }
-    .local-identifier-progress[hidden] {
-      display: none;
-    }
-    .local-identifier-progress-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: #567065;
-      font-size: 9px;
-    }
-    .local-identifier-progress-track {
-      height: 7px;
-      overflow: hidden;
-      border-radius: 99px;
-      background: #e3ebe6;
-    }
-    .local-identifier-progress-fill {
-      width: 0%;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #2f6a52, #86a94d);
-      transition: width .22s ease;
-    }
-    .local-identifier-results-card {
-      min-height: 480px;
-    }
-    .local-identifier-results-body {
-      padding: 18px;
-    }
-    .local-identifier-empty {
-      min-height: 370px;
-      display: grid;
-      place-items: center;
-      padding: 38px 22px;
-      text-align: center;
-    }
-    .local-identifier-empty-icon {
-      width: 72px;
-      height: 72px;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 14px;
-      border: 1px solid #cee0d5;
-      border-radius: 24px;
-      color: var(--identifier-green-2);
-      background: #f1f7f3;
-      font-size: 31px;
-    }
-    .local-identifier-empty h3 {
-      margin: 0;
-      color: var(--identifier-green);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 21px;
-      font-weight: 500;
-    }
-    .local-identifier-empty p {
-      max-width: 430px;
-      margin: 8px auto 0;
-      color: var(--muted, #6f7a74);
-      font-size: 11px;
-      line-height: 1.55;
-    }
-    .local-identifier-results-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 11px;
-    }
-    .local-identifier-result {
-      position: relative;
-      display: grid;
-      gap: 11px;
-      padding: 15px;
+      gap: 9px;
+      padding: 14px;
       border: 1px solid #dfe8e2;
-      border-radius: 17px;
-      background: #fff;
+      border-radius: 16px;
+      background: #f8fbf9;
     }
-    .local-identifier-result.is-best {
-      border-color: #90b49e;
-      box-shadow: 0 9px 22px rgba(32,83,63,.08);
+    .lens-identifier-step-row {
+      display: grid;
+      grid-template-columns: 27px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      color: #536b5f;
+      font-size: 10px;
+      line-height: 1.48;
     }
-    .local-identifier-result-rank {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      min-width: 25px;
-      height: 25px;
+    .lens-identifier-step-row b {
+      width: 27px;
+      height: 27px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      color: var(--identifier-green);
-      background: #edf4ef;
+      color: #fff;
+      background: var(--lens-green-2);
       font-size: 9px;
-      font-weight: 900;
     }
-    .local-identifier-best-badge {
-      width: max-content;
-      padding: 4px 7px;
-      border-radius: 99px;
-      color: #254d39;
-      background: #dce98d;
-      font-size: 7px;
-      font-weight: 900;
-      letter-spacing: .08em;
+    .lens-identifier-form {
+      display: grid;
+      gap: 12px;
+    }
+    .lens-identifier-field {
+      display: grid;
+      gap: 6px;
+    }
+    .lens-identifier-field > span {
+      color: #315b45;
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .06em;
       text-transform: uppercase;
     }
-    .local-identifier-result h4 {
-      max-width: calc(100% - 34px);
-      margin: 0;
-      color: var(--identifier-green);
-      font-size: 14px;
-      line-height: 1.25;
+    .lens-identifier-field input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #d8e2db;
+      border-radius: 13px;
+      outline: none;
+      color: var(--ink, #17231e);
+      background: #fff;
     }
-    .local-identifier-result em {
-      display: block;
-      min-height: 17px;
-      color: #6c7d73;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 10px;
+    .lens-identifier-field input:focus {
+      border-color: var(--lens-green-2);
+      box-shadow: 0 0 0 4px rgba(47,106,82,.10);
     }
-    .local-identifier-confidence-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 9px;
-      color: #5f7368;
-      font-size: 9px;
-    }
-    .local-identifier-confidence-row strong {
-      color: var(--identifier-green);
-      font-size: 12px;
-    }
-    .local-identifier-confidence-track {
-      height: 6px;
-      overflow: hidden;
-      border-radius: 99px;
-      background: #edf1ee;
-    }
-    .local-identifier-confidence-fill {
-      height: 100%;
-      border-radius: inherit;
-    }
-    .local-identifier-confidence-fill.high { background: #2f805a; }
-    .local-identifier-confidence-fill.medium { background: #c7923b; }
-    .local-identifier-confidence-fill.low { background: #b86d52; }
-    .local-identifier-result-actions {
+    .lens-identifier-form-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 7px;
+      gap: 8px;
     }
-    .local-identifier-result-actions .button {
+    .lens-identifier-form-actions .button {
       width: 100%;
-      min-height: 34px;
-      padding: 6px 8px;
-      font-size: 9px;
+      min-height: 42px;
     }
-    .local-identifier-warning {
-      display: flex;
-      gap: 9px;
-      margin-top: 13px;
-      padding: 11px 12px;
-      border: 1px solid #eadbc6;
-      border-radius: 13px;
-      color: #715b3d;
-      background: #fff8ed;
-      font-size: 9px;
-      line-height: 1.5;
-    }
-    .local-identifier-error {
-      display: grid;
-      gap: 10px;
-      padding: 16px;
-      border: 1px solid #efcec9;
-      border-radius: 16px;
-      color: #7f3934;
-      background: #fff4f2;
-    }
-    .local-identifier-error h3 {
-      margin: 0;
-      font-size: 14px;
-    }
-    .local-identifier-error p {
-      margin: 0;
-      font-size: 10px;
-      line-height: 1.5;
-    }
-    .local-identifier-error-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-    .local-identifier-selection {
-      display: grid;
-      gap: 14px;
-    }
-    .local-identifier-selected-summary {
-      display: grid;
-      grid-template-columns: 88px minmax(0, 1fr);
-      gap: 13px;
-      padding: 14px;
-      border: 1px solid #dce7df;
-      border-radius: 17px;
-      background: #f8fbf9;
-    }
-    .local-identifier-selected-summary img {
-      width: 88px;
-      height: 88px;
-      object-fit: cover;
-      border-radius: 13px;
-      background: #e5ece7;
-    }
-    .local-identifier-selected-summary h3 {
-      margin: 0;
-      color: var(--identifier-green);
-      font-size: 17px;
-      line-height: 1.2;
-    }
-    .local-identifier-selected-summary em {
-      display: block;
-      margin-top: 4px;
-      color: #6d7d74;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 11px;
-    }
-    .local-identifier-selected-summary p {
-      margin: 8px 0 0;
-      color: #607269;
-      font-size: 9px;
-      line-height: 1.5;
-    }
-    .local-identifier-duplicate {
+    .lens-identifier-duplicate {
       padding: 11px 12px;
       border: 1px solid #e3c6bd;
       border-radius: 13px;
@@ -4505,44 +4346,41 @@
       font-size: 9px;
       line-height: 1.5;
     }
-    .local-identifier-selection-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .lens-identifier-duplicate[hidden] {
+      display: none;
     }
-
-    .local-identifier-model-note {
+    .lens-identifier-error {
+      padding: 12px;
+      border: 1px solid #efcec9;
+      border-radius: 13px;
+      color: #7f3934;
+      background: #fff4f2;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+    .lens-identifier-error[hidden] {
+      display: none;
+    }
+    .lens-identifier-privacy-copy {
       margin: 0;
       color: #718078;
       font-size: 8px;
       line-height: 1.5;
     }
 
-    @media (max-width: 1050px) {
-      .local-identifier-workspace {
-        grid-template-columns: minmax(290px, .85fr) minmax(0, 1.15fr);
-      }
-      .local-identifier-results-list {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (max-width: 820px) {
-      .local-identifier-intro {
+      .lens-identifier-intro {
         grid-template-columns: 1fr;
       }
-      .local-identifier-privacy {
+      .lens-identifier-badge {
         min-width: 0;
         width: 100%;
       }
-      .local-identifier-workspace {
+      .lens-identifier-workspace {
         grid-template-columns: 1fr;
       }
-      .local-identifier-upload-card {
+      .lens-identifier-upload-card {
         position: static;
-      }
-      .local-identifier-results-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -4559,62 +4397,39 @@
         font-size: 10px !important;
         white-space: nowrap;
       }
-      .hero-actions .greenscape-identifier-hero-button {
-        grid-column: auto;
-      }
-      .local-identifier-page {
+      .lens-identifier-page {
         gap: 12px;
       }
-      .local-identifier-intro {
+      .lens-identifier-intro {
         padding: 19px 18px;
         border-radius: 20px;
       }
-      .local-identifier-intro h2 {
+      .lens-identifier-intro h2 {
         font-size: 28px;
       }
-      .local-identifier-intro p {
+      .lens-identifier-intro p {
         font-size: 10px;
       }
-      .local-identifier-privacy {
-        padding: 11px 12px;
-      }
-      .local-identifier-card {
+      .lens-identifier-card {
         border-radius: 18px;
       }
-      .local-identifier-card-header {
+      .lens-identifier-card-header {
         padding: 15px 15px 12px;
       }
-      .local-identifier-upload-body,
-      .local-identifier-results-body {
+      .lens-identifier-upload-body,
+      .lens-identifier-details-body {
         padding: 14px;
       }
-      .local-identifier-dropzone {
-        min-height: 205px;
+      .lens-identifier-dropzone {
+        min-height: 215px;
         padding: 17px 13px;
       }
-      .local-identifier-preview,
-      .local-identifier-preview img {
+      .lens-identifier-preview,
+      .lens-identifier-preview img {
         min-height: 215px;
         height: 235px;
       }
-      .local-identifier-results-list {
-        grid-template-columns: 1fr;
-      }
-      .local-identifier-result-actions {
-        grid-template-columns: 1fr 1fr;
-      }
-      .local-identifier-empty {
-        min-height: 300px;
-        padding: 28px 14px;
-      }
-      .local-identifier-selection-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .local-identifier-selection-actions .button:first-child {
-        grid-column: 1 / -1;
-      }
-      .local-identifier-identify-button {
+      .lens-identifier-open-button {
         position: sticky;
         bottom: calc(10px + env(safe-area-inset-bottom));
         z-index: 5;
@@ -4622,47 +4437,24 @@
     }
 
     @media (max-width: 390px) {
-      .hero-actions {
+      .hero-actions,
+      .lens-identifier-form-actions {
         grid-template-columns: 1fr !important;
-      }
-      .hero-actions .greenscape-identifier-hero-button {
-        grid-column: auto;
-      }
-      .local-identifier-upload-actions,
-      .local-identifier-result-actions,
-      .local-identifier-selection-actions {
-        grid-template-columns: 1fr;
-      }
-      .local-identifier-selection-actions .button:first-child {
-        grid-column: auto;
-      }
-      .local-identifier-selected-summary {
-        grid-template-columns: 70px minmax(0, 1fr);
-      }
-      .local-identifier-selected-summary img {
-        width: 70px;
-        height: 70px;
       }
     }
   </style>
 
-  <script id="greenscape-local-plant-identifier-controller">
+  <script id="greenscape-google-lens-identifier-controller">
     (() => {
       'use strict';
 
-      const MODEL_ID = 'onnx-community/FloraSense-ONNX';
-      const TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+      const LENS_URL = 'https://www.google.com/?olud=';
       const PLANT_STORAGE_KEY = 'greenscape-plant-library-plants-v1';
-      const MAX_FILE_BYTES = 15 * 1024 * 1024;
-      const SUPPORTED_TYPES = new Set(['image/jpeg', 'image/png']);
+      const MAX_FILE_BYTES = 20 * 1024 * 1024;
       const pageContent = document.getElementById('pageContent');
       const pageTitle = document.getElementById('pageTitle');
       let identifierOpen = false;
       let selectedImage = null;
-      let predictions = [];
-      let selectedPrediction = null;
-      let classifierPromise = null;
-      let isIdentifying = false;
 
       const escapeHTML = value => String(value ?? '')
         .replace(/&/g, '&amp;')
@@ -4670,10 +4462,6 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
-
-      const titleCase = value => String(value || '')
-        .toLowerCase()
-        .replace(/(^|[\s-])([a-z])/g, (_, start, letter) => `${start}${letter.toUpperCase()}`);
 
       function cameraLeafIcon() {
         return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h3l1.3-2h7.4l1.3 2h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.8 3.8c-2.4.1-4.1 1.1-4.8 2.8 1.9.2 3.6-.5 4.8-2.8Z" fill="currentColor"/></svg>`;
@@ -4683,80 +4471,90 @@
         const actions = root.querySelector?.('.hero-actions') || (root.matches?.('.hero-actions') ? root : null);
         if (!actions) return;
         actions.querySelector('[data-action="new-project"]')?.remove();
-        if (actions.querySelector('[data-action="open-local-identifier"]')) return;
+        if (actions.querySelector('[data-action="open-google-lens-identifier"]')) return;
+        actions.querySelector('[data-action="open-local-identifier"]')?.remove();
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'button secondary greenscape-identifier-hero-button';
-        button.dataset.action = 'open-local-identifier';
+        button.dataset.action = 'open-google-lens-identifier';
         button.innerHTML = `<span class="identifier-button-icon">${cameraLeafIcon()}</span><span>Plant Identifier</span>`;
         actions.appendChild(button);
       }
 
       function identifierPageHTML() {
         return `
-          <section class="local-identifier-page" aria-label="On-device Plant Identifier">
-            <header class="local-identifier-intro">
+          <section class="lens-identifier-page" aria-label="Google Lens Plant Identifier">
+            <header class="lens-identifier-intro">
               <div>
-                <span class="local-identifier-kicker">${cameraLeafIcon()} On-device identification</span>
-                <h2>Identify a plant from a photo.</h2>
-                <p>Upload one clear plant photo. The identification model downloads to your browser on first use, then analyzes the image on your device without an API key.</p>
+                <span class="lens-identifier-kicker">${cameraLeafIcon()} Google Lens workflow</span>
+                <h2>Identify a plant using Google Lens.</h2>
+                <p>Choose a plant photo, open Google Lens, then return here and enter the identified common and scientific names before adding the plant to your library.</p>
               </div>
-              <div class="local-identifier-privacy">
+              <div class="lens-identifier-badge">
                 <strong>No API key required</strong>
-                <span>Your selected photo is processed in the browser. Internet is required the first time to download the model files.</span>
+                <span>Google Lens opens separately. Your Greenscape website does not send or store the photo on an identification server.</span>
               </div>
             </header>
 
-            <div class="local-identifier-workspace">
-              <section class="local-identifier-card local-identifier-upload-card">
-                <header class="local-identifier-card-header">
-                  <div><h3>Upload plant photo</h3><p>Use a sharp, well-lit photo with the plant filling most of the frame.</p></div>
-                  <span class="local-identifier-step">01</span>
+            <div class="lens-identifier-workspace">
+              <section class="lens-identifier-card lens-identifier-upload-card">
+                <header class="lens-identifier-card-header">
+                  <div><h3>Choose plant photo</h3><p>Use the same photo again when Google Lens asks you to select an image.</p></div>
+                  <span class="lens-identifier-step">01</span>
                 </header>
-                <div class="local-identifier-upload-body">
-                  <div class="local-identifier-dropzone" id="localIdentifierDropzone">
-                    <div id="localIdentifierEmptyUpload">
-                      <span class="local-identifier-camera-icon">${cameraLeafIcon()}</span>
+                <div class="lens-identifier-upload-body">
+                  <div class="lens-identifier-dropzone" id="lensIdentifierDropzone">
+                    <div id="lensIdentifierEmptyUpload">
+                      <span class="lens-identifier-camera-icon">${cameraLeafIcon()}</span>
                       <strong>Choose a plant photo</strong>
-                      <p>JPG or PNG · maximum 15 MB</p>
-                      <div class="local-identifier-upload-actions">
-                        <button class="button primary" type="button" data-local-identifier-action="choose-photo">Choose photo</button>
+                      <p>JPG, PNG, WEBP, or supported phone image · maximum 20 MB</p>
+                      <div class="lens-identifier-upload-actions">
+                        <button class="button primary" type="button" data-lens-identifier-action="choose-photo">Choose photo</button>
                       </div>
                     </div>
-                    <div class="local-identifier-preview" id="localIdentifierPreview" hidden>
-                      <img id="localIdentifierPreviewImage" alt="Selected plant photo">
-                      <div class="local-identifier-preview-actions">
-                        <button class="button secondary small" type="button" data-local-identifier-action="replace-photo">Replace</button>
-                        <button class="button secondary small" type="button" data-local-identifier-action="remove-photo">Remove</button>
+                    <div class="lens-identifier-preview" id="lensIdentifierPreview" hidden>
+                      <img id="lensIdentifierPreviewImage" alt="Selected plant photo">
+                      <div class="lens-identifier-preview-actions">
+                        <button class="button secondary small" type="button" data-lens-identifier-action="replace-photo">Replace</button>
+                        <button class="button secondary small" type="button" data-lens-identifier-action="remove-photo">Remove</button>
                       </div>
                     </div>
                   </div>
-                  <input id="localIdentifierGalleryInput" type="file" accept="image/jpeg,image/png" hidden>
-                  <div class="local-identifier-tip"><span>Tip</span><span>For better results, photograph a clear leaf, flower, fruit, bark, or the full plant against a simple background.</span></div>
-                  <div class="local-identifier-progress" id="localIdentifierProgress" hidden>
-                    <div class="local-identifier-progress-top"><span id="localIdentifierProgressText">Preparing model…</span><strong id="localIdentifierProgressValue">0%</strong></div>
-                    <div class="local-identifier-progress-track"><div class="local-identifier-progress-fill" id="localIdentifierProgressFill"></div></div>
-                  </div>
-                  <button class="button primary local-identifier-identify-button" id="localIdentifierIdentifyButton" type="button" disabled>Identify Plant</button>
-                  <p class="local-identifier-model-note">Model: FloraSense ONNX. Results are ranked suggestions and may be less accurate for visually similar, tropical, or rare plants.</p>
+                  <input id="lensIdentifierGalleryInput" type="file" accept="image/*" hidden>
+                  <div class="lens-identifier-tip"><strong>Tip</strong><span>Choose a clear leaf, flower, fruit, bark, or full-plant photo against a simple background.</span></div>
+                  <button class="button primary lens-identifier-open-button" id="lensIdentifierOpenButton" type="button" disabled>Open Google Lens</button>
+                  <p class="lens-identifier-privacy-copy">Google Lens opens in a new tab. Select the same photo there to view possible plant names, similar images, and related results.</p>
                 </div>
               </section>
 
-              <section class="local-identifier-card local-identifier-results-card">
-                <header class="local-identifier-card-header">
-                  <div><h3>Possible matches</h3><p>Review the ranked suggestions, then verify the selected plant before adding it to the library.</p></div>
-                  <span class="local-identifier-step">02</span>
+              <section class="lens-identifier-card">
+                <header class="lens-identifier-card-header">
+                  <div><h3>Enter identified plant details</h3><p>Return from Google Lens and enter the name you want to save.</p></div>
+                  <span class="lens-identifier-step">02</span>
                 </header>
-                <div class="local-identifier-results-body" id="localIdentifierResults">
-                  ${identifierEmptyHTML()}
+                <div class="lens-identifier-details-body">
+                  <div class="lens-identifier-steps">
+                    <div class="lens-identifier-step-row"><b>1</b><span>Tap <strong>Open Google Lens</strong>.</span></div>
+                    <div class="lens-identifier-step-row"><b>2</b><span>Choose the same plant photo in Google Lens and review the suggested matches.</span></div>
+                    <div class="lens-identifier-step-row"><b>3</b><span>Return here and enter the common and scientific names you verified.</span></div>
+                  </div>
+
+                  <div class="lens-identifier-form">
+                    <label class="lens-identifier-field"><span>Common name</span><input id="lensIdentifierCommonName" type="text" autocomplete="off" placeholder="Example: Garden dahlia"></label>
+                    <label class="lens-identifier-field"><span>Scientific name</span><input id="lensIdentifierScientificName" type="text" autocomplete="off" placeholder="Example: Dahlia pinnata"></label>
+                    <div class="lens-identifier-duplicate" id="lensIdentifierDuplicate" hidden></div>
+                    <div class="lens-identifier-error" id="lensIdentifierError" hidden></div>
+                    <div class="lens-identifier-form-actions">
+                      <button class="button secondary" type="button" data-lens-identifier-action="verify-names">Verify names</button>
+                      <button class="button primary" type="button" data-lens-identifier-action="add-to-library">Open Add Plant form</button>
+                    </div>
+                  </div>
+
+                  <div class="lens-identifier-warning"><strong>Important</strong><span>Google Lens results are suggestions. Confirm edible, toxic, medicinal, or important plants with a qualified plant professional.</span></div>
                 </div>
               </section>
             </div>
           </section>`;
-      }
-
-      function identifierEmptyHTML() {
-        return `<div class="local-identifier-empty"><div><div class="local-identifier-empty-icon">⌕</div><h3>Your results will appear here.</h3><p>Upload a plant photo, then tap Identify Plant. The first analysis can take longer while the browser downloads and caches the model.</p></div></div>`;
       }
 
       function showIdentifierPage(pushHistory = true) {
@@ -4771,11 +4569,14 @@
       }
 
       function bindIdentifierPage() {
-        const galleryInput = document.getElementById('localIdentifierGalleryInput');
-        const identifyButton = document.getElementById('localIdentifierIdentifyButton');
-        const dropzone = document.getElementById('localIdentifierDropzone');
+        const galleryInput = document.getElementById('lensIdentifierGalleryInput');
+        const openButton = document.getElementById('lensIdentifierOpenButton');
+        const dropzone = document.getElementById('lensIdentifierDropzone');
         galleryInput?.addEventListener('change', event => handleFiles(event.target.files));
-        identifyButton?.addEventListener('click', identifySelectedPhoto);
+        openButton?.addEventListener('click', openGoogleLens);
+        ['lensIdentifierCommonName', 'lensIdentifierScientificName'].forEach(id => {
+          document.getElementById(id)?.addEventListener('input', updateDuplicateWarning);
+        });
         if (dropzone) {
           ['dragenter', 'dragover'].forEach(type => dropzone.addEventListener(type, event => {
             event.preventDefault();
@@ -4793,37 +4594,33 @@
       async function handleFiles(fileList) {
         const file = fileList?.[0];
         if (!file) return;
-        if (!SUPPORTED_TYPES.has(file.type)) {
-          showIdentifierError('Unsupported file type', 'Choose a JPG or PNG plant photo. HEIC images should be exported or converted to JPG first.');
-          clearFileInputs();
+        clearError();
+        if (!String(file.type || '').startsWith('image/')) {
+          showError('Choose an image file such as JPG, PNG, WEBP, HEIC, or HEIF.');
+          clearFileInput();
           return;
         }
         if (file.size > MAX_FILE_BYTES) {
-          showIdentifierError('Photo is too large', 'Choose a photo smaller than 15 MB.');
-          clearFileInputs();
+          showError('Choose a photo smaller than 20 MB.');
+          clearFileInput();
           return;
         }
         try {
-          setProgress(true, 'Optimizing photo…', 12);
-          selectedImage = await optimizeImage(file);
-          predictions = [];
-          selectedPrediction = null;
+          selectedImage = await prepareImage(file);
           renderSelectedImage();
-          document.getElementById('localIdentifierResults').innerHTML = identifierEmptyHTML();
-          setProgress(false);
         } catch (error) {
           selectedImage = null;
           renderSelectedImage();
-          setProgress(false);
-          showIdentifierError('Photo could not be prepared', 'Try another JPG or PNG image.');
+          showError('This browser could not preview the selected image. Try a JPG or PNG version.');
         }
       }
 
-      function optimizeImage(file) {
+      function prepareImage(file) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onerror = reject;
           reader.onload = () => {
+            const dataUrl = String(reader.result || '');
             const image = new Image();
             image.onerror = reject;
             image.onload = () => {
@@ -4839,28 +4636,32 @@
               context.fillRect(0, 0, width, height);
               context.drawImage(image, 0, 0, width, height);
               canvas.toBlob(blob => {
-                if (!blob) { reject(new Error('Image conversion failed')); return; }
-                const optimizedFile = new File([blob], `${file.name.replace(/\.[^.]+$/, '') || 'plant-photo'}.jpg`, { type: 'image/jpeg', lastModified: Date.now() });
+                if (!blob) {
+                  resolve({ file, dataUrl, originalName: file.name });
+                  return;
+                }
+                const optimizedFile = new File([blob], `${file.name.replace(/\.[^.]+$/, '') || 'plant-photo'}.jpg`, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                });
                 resolve({
                   file: optimizedFile,
                   dataUrl: canvas.toDataURL('image/jpeg', .88),
-                  width,
-                  height,
                   originalName: file.name
                 });
               }, 'image/jpeg', .88);
             };
-            image.src = String(reader.result || '');
+            image.src = dataUrl;
           };
           reader.readAsDataURL(file);
         });
       }
 
       function renderSelectedImage() {
-        const empty = document.getElementById('localIdentifierEmptyUpload');
-        const preview = document.getElementById('localIdentifierPreview');
-        const image = document.getElementById('localIdentifierPreviewImage');
-        const button = document.getElementById('localIdentifierIdentifyButton');
+        const empty = document.getElementById('lensIdentifierEmptyUpload');
+        const preview = document.getElementById('lensIdentifierPreview');
+        const image = document.getElementById('lensIdentifierPreviewImage');
+        const button = document.getElementById('lensIdentifierOpenButton');
         if (!empty || !preview || !image || !button) return;
         if (selectedImage?.dataUrl) {
           empty.hidden = true;
@@ -4875,187 +4676,25 @@
         }
       }
 
-      function clearFileInputs() {
-        const gallery = document.getElementById('localIdentifierGalleryInput');
-        if (gallery) gallery.value = '';
+      function clearFileInput() {
+        const input = document.getElementById('lensIdentifierGalleryInput');
+        if (input) input.value = '';
       }
 
       function removeSelectedImage() {
         selectedImage = null;
-        predictions = [];
-        selectedPrediction = null;
-        clearFileInputs();
+        clearFileInput();
         renderSelectedImage();
-        const results = document.getElementById('localIdentifierResults');
-        if (results) results.innerHTML = identifierEmptyHTML();
-        setProgress(false);
+        clearError();
       }
 
-      function setProgress(visible, message = '', percent = 0) {
-        const wrap = document.getElementById('localIdentifierProgress');
-        const text = document.getElementById('localIdentifierProgressText');
-        const value = document.getElementById('localIdentifierProgressValue');
-        const fill = document.getElementById('localIdentifierProgressFill');
-        if (!wrap) return;
-        wrap.hidden = !visible;
-        if (text) text.textContent = message;
-        const safePercent = Math.max(0, Math.min(100, Math.round(Number(percent) || 0)));
-        if (value) value.textContent = `${safePercent}%`;
-        if (fill) fill.style.width = `${safePercent}%`;
-      }
-
-      function modelProgress(progress) {
-        if (!identifierOpen || !progress) return;
-        const status = String(progress.status || '').toLowerCase();
-        const file = String(progress.file || '').split('/').pop() || 'model file';
-        if (status === 'progress') {
-          let percent = Number(progress.progress ?? (progress.total ? progress.loaded / progress.total * 100 : 0));
-          if (percent > 0 && percent <= 1) percent *= 100;
-          setProgress(true, `Downloading ${file}…`, Math.max(8, Math.min(88, percent * .88)));
-        } else if (status === 'ready') {
-          setProgress(true, 'Model ready. Analyzing photo…', 90);
-        } else if (status === 'initiate' || status === 'download') {
-          setProgress(true, `Preparing ${file}…`, 8);
-        }
-      }
-
-      async function loadClassifier() {
-        if (classifierPromise) return classifierPromise;
-        classifierPromise = (async () => {
-          setProgress(true, 'Loading identification engine…', 4);
-          const module = await import(TRANSFORMERS_CDN);
-          module.env.allowLocalModels = false;
-          module.env.useBrowserCache = true;
-          return module.pipeline('image-classification', MODEL_ID, {
-            dtype: 'q8',
-            progress_callback: modelProgress
-          });
-        })().catch(error => {
-          classifierPromise = null;
-          throw error;
-        });
-        return classifierPromise;
-      }
-
-      async function identifySelectedPhoto() {
-        if (isIdentifying) return;
-        if (!selectedImage?.dataUrl) {
-          showIdentifierError('No photo selected', 'Take or choose a plant photo before starting identification.');
+      function openGoogleLens() {
+        if (!selectedImage) {
+          showError('Choose a plant photo first.');
           return;
         }
-        if (!navigator.onLine && !classifierPromise) {
-          showIdentifierError('Internet connection unavailable', 'The plant model must be downloaded at least once before it can work offline from the browser cache.');
-          return;
-        }
-        isIdentifying = true;
-        const button = document.getElementById('localIdentifierIdentifyButton');
-        if (button) {
-          button.disabled = true;
-          button.textContent = 'Identifying plant…';
-        }
-        try {
-          const classifier = await loadClassifier();
-          setProgress(true, 'Analyzing photo on this device…', 94);
-          const output = await classifier(selectedImage.dataUrl, { top_k: 5 });
-          predictions = (Array.isArray(output) ? output : []).slice(0, 5).map((item, index) => parsePrediction(item, index));
-          if (!predictions.length) throw new Error('No predictions returned');
-          setProgress(true, 'Identification complete', 100);
-          renderPredictions();
-          setTimeout(() => setProgress(false), 900);
-        } catch (error) {
-          console.error('Plant identification failed:', error);
-          setProgress(false);
-          showIdentifierError(
-            'Plant identification could not run',
-            'The model download or on-device analysis failed. Check your connection, keep this tab open, and retry. Older phones may not have enough memory for this model.'
-          );
-        } finally {
-          isIdentifying = false;
-          if (button) {
-            button.disabled = !selectedImage;
-            button.textContent = 'Identify Plant';
-          }
-        }
-      }
-
-      function parsePrediction(item, index) {
-        const rawLabel = String(item?.label || `Possible match ${index + 1}`)
-          .replace(/^\d+[:._-]\s*/, '')
-          .replace(/[_]+/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-        const pieces = rawLabel.split(/\s*[|;]\s*|\s+-\s+/).map(value => value.trim()).filter(Boolean);
-        const binomialPattern = /^[A-Z][a-z-]+\s+[a-z][a-z-]+(?:\s+[a-z][a-z-]+)?$/;
-        let scientificName = pieces.find(value => binomialPattern.test(value)) || '';
-        let commonName = pieces.find(value => value !== scientificName) || rawLabel;
-        if (!scientificName && binomialPattern.test(rawLabel)) {
-          scientificName = rawLabel;
-          commonName = rawLabel;
-        }
-        if (!/[A-Z]/.test(commonName.slice(1))) commonName = titleCase(commonName);
-        return {
-          rank: index + 1,
-          rawLabel,
-          commonName,
-          scientificName,
-          score: Math.max(0, Math.min(1, Number(item?.score || 0)))
-        };
-      }
-
-      function confidenceClass(score) {
-        if (score >= .75) return 'high';
-        if (score >= .45) return 'medium';
-        return 'low';
-      }
-
-      function confidenceLabel(score) {
-        if (score >= .75) return 'High confidence';
-        if (score >= .45) return 'Medium confidence';
-        return 'Low confidence';
-      }
-
-      function googleReference(prediction) {
-        const query = [prediction.commonName, prediction.scientificName]
-          .map(value => String(value || '').trim())
-          .filter(Boolean)
-          .filter((value, index, values) => values.indexOf(value) === index)
-          .join(' ');
-        return `https://www.google.com/search?q=${encodeURIComponent(query || prediction.rawLabel)}`;
-      }
-
-      function renderPredictions() {
-        const results = document.getElementById('localIdentifierResults');
-        if (!results) return;
-        results.innerHTML = `
-          <div class="local-identifier-results-list">
-            ${predictions.map(prediction => {
-              const percent = Math.round(prediction.score * 1000) / 10;
-              const level = confidenceClass(prediction.score);
-              return `<article class="local-identifier-result${prediction.rank === 1 ? ' is-best' : ''}" data-local-result-rank="${prediction.rank}">
-                <span class="local-identifier-result-rank">${prediction.rank}</span>
-                ${prediction.rank === 1 ? '<span class="local-identifier-best-badge">Best match</span>' : ''}
-                <div>
-                  <h4>${escapeHTML(prediction.commonName || prediction.rawLabel)}</h4>
-                  <em>${escapeHTML(prediction.scientificName || 'Model label: ' + prediction.rawLabel)}</em>
-                </div>
-                <div>
-                  <div class="local-identifier-confidence-row"><span>${confidenceLabel(prediction.score)}</span><strong>${percent}%</strong></div>
-                  <div class="local-identifier-confidence-track"><div class="local-identifier-confidence-fill ${level}" style="width:${Math.max(2, percent)}%"></div></div>
-                </div>
-                <div class="local-identifier-result-actions">
-                  <a class="button secondary" href="${escapeHTML(googleReference(prediction))}" target="_blank" rel="noopener noreferrer">Verify</a>
-                  <button class="button primary" type="button" data-local-identifier-action="select-result" data-result-rank="${prediction.rank}">Select</button>
-                </div>
-              </article>`;
-            }).join('')}
-          </div>
-          <div class="local-identifier-warning"><strong>Important:</strong><span>Plant identification results are suggestions. Confirm edible, toxic, medicinal, or important plants with a qualified plant professional.</span></div>`;
-      }
-
-      function selectPrediction(rank) {
-        selectedPrediction = predictions.find(item => item.rank === Number(rank)) || null;
-        if (!selectedPrediction) return;
-        renderSelection();
+        const opened = window.open(LENS_URL, '_blank', 'noopener,noreferrer');
+        if (!opened) window.location.href = LENS_URL;
       }
 
       function readStoredPlants() {
@@ -5067,50 +4706,63 @@
         }
       }
 
-      function duplicateMatches(prediction) {
-        const common = String(prediction.commonName || '').trim().toLowerCase();
-        const scientific = String(prediction.scientificName || '').trim().toLowerCase();
+      function enteredNames() {
+        return {
+          commonName: String(document.getElementById('lensIdentifierCommonName')?.value || '').trim(),
+          scientificName: String(document.getElementById('lensIdentifierScientificName')?.value || '').trim()
+        };
+      }
+
+      function duplicateMatches() {
+        const { commonName, scientificName } = enteredNames();
+        const common = commonName.toLowerCase();
+        const scientific = scientificName.toLowerCase();
         return readStoredPlants().filter(plant => {
-          const plantCommon = String(plant.commonName || '').trim().toLowerCase();
-          const plantScientific = String(plant.scientificName || '').trim().toLowerCase();
-          return (common && plantCommon === common) || (scientific && plantScientific === scientific);
+          const existingCommon = String(plant.commonName || '').trim().toLowerCase();
+          const existingScientific = String(plant.scientificName || '').trim().toLowerCase();
+          return (common && common === existingCommon) || (scientific && scientific === existingScientific);
         });
       }
 
-      function renderSelection() {
-        const results = document.getElementById('localIdentifierResults');
-        if (!results || !selectedPrediction) return;
-        const duplicate = duplicateMatches(selectedPrediction);
-        const percent = Math.round(selectedPrediction.score * 1000) / 10;
-        results.innerHTML = `<div class="local-identifier-selection">
-          <div class="local-identifier-selected-summary">
-            <img src="${escapeHTML(selectedImage?.dataUrl || '')}" alt="Selected plant photo">
-            <div>
-              <h3>${escapeHTML(selectedPrediction.commonName || selectedPrediction.rawLabel)}</h3>
-              <em>${escapeHTML(selectedPrediction.scientificName || selectedPrediction.rawLabel)}</em>
-              <p>${percent}% model confidence · Verify the proposed name before saving it to the shared plant workflow.</p>
-            </div>
-          </div>
-          ${duplicate.length ? `<div class="local-identifier-duplicate"><strong>Possible duplicate:</strong> ${escapeHTML(duplicate.slice(0, 3).map(plant => `${plant.commonName || 'Unnamed'} (${plant.scientificName || 'no scientific name'})`).join(', '))}. You can still open the form, but review the existing record first.</div>` : ''}
-          <div class="local-identifier-selection-actions">
-            <button class="button primary" type="button" data-local-identifier-action="add-to-library">Add to Plant Library</button>
-            <button class="button secondary" type="button" data-local-identifier-action="choose-another-result">Choose another result</button>
-            <button class="button secondary" type="button" data-local-identifier-action="identify-another">Identify another plant</button>
-          </div>
-          <div class="local-identifier-warning"><strong>Review first:</strong><span>Category, care requirements, spacing, landscape use, growth details, planting notes, and nursery sizes remain for manual completion.</span></div>
-        </div>`;
+      function updateDuplicateWarning() {
+        const warning = document.getElementById('lensIdentifierDuplicate');
+        if (!warning) return;
+        const matches = duplicateMatches();
+        if (!matches.length) {
+          warning.hidden = true;
+          warning.textContent = '';
+          return;
+        }
+        warning.hidden = false;
+        warning.innerHTML = `<strong>Possible duplicate:</strong> ${escapeHTML(matches.slice(0, 3).map(plant => `${plant.commonName || 'Unnamed'} (${plant.scientificName || 'no scientific name'})`).join(', '))}.`;
       }
 
-      function showIdentifierError(title, message) {
-        const results = document.getElementById('localIdentifierResults');
-        if (!results) return;
-        results.innerHTML = `<div class="local-identifier-error"><h3>${escapeHTML(title)}</h3><p>${escapeHTML(message)}</p><div class="local-identifier-error-actions"><button class="button primary small" type="button" data-local-identifier-action="retry">Retry</button><button class="button secondary small" type="button" data-local-identifier-action="replace-photo">Upload a different photo</button></div></div>`;
+      function googleNameSearch(commonName, scientificName) {
+        const query = [commonName, scientificName].filter(Boolean).join(' ');
+        return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       }
 
-      function openAddPlantFormFromPrediction() {
-        if (!selectedPrediction) return;
-        const duplicate = duplicateMatches(selectedPrediction);
-        if (duplicate.length && !window.confirm('A plant with the same common or scientific name may already exist. Open the Add Plant form anyway?')) return;
+      function verifyEnteredNames() {
+        clearError();
+        const { commonName, scientificName } = enteredNames();
+        if (!commonName && !scientificName) {
+          showError('Enter a common name or scientific name first.');
+          return;
+        }
+        const url = googleNameSearch(commonName, scientificName);
+        const opened = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!opened) window.location.href = url;
+      }
+
+      function openAddPlantForm() {
+        clearError();
+        const { commonName, scientificName } = enteredNames();
+        if (!commonName || !scientificName) {
+          showError('Enter both the common name and scientific name before opening the Add Plant form.');
+          return;
+        }
+        const duplicates = duplicateMatches();
+        if (duplicates.length && !window.confirm('A plant with the same common or scientific name may already exist. Open the Add Plant form anyway?')) return;
 
         const trigger = document.createElement('button');
         trigger.type = 'button';
@@ -5127,16 +4779,16 @@
           const tagsInput = form.querySelector('[name="tags"]');
           const linkInput = form.querySelector('[name="link"], [data-plant-reference-input]');
           if (commonInput) {
-            commonInput.value = selectedPrediction.commonName || selectedPrediction.rawLabel;
+            commonInput.value = commonName;
             commonInput.dispatchEvent(new Event('input', { bubbles: true }));
           }
           if (scientificInput) {
-            scientificInput.value = selectedPrediction.scientificName || '';
+            scientificInput.value = scientificName;
             scientificInput.dispatchEvent(new Event('input', { bubbles: true }));
           }
-          if (tagsInput) tagsInput.value = 'plant identifier, model suggestion';
+          if (tagsInput) tagsInput.value = 'google lens, plant identifier';
           if (linkInput) {
-            linkInput.value = googleReference(selectedPrediction);
+            linkInput.value = googleNameSearch(commonName, scientificName);
             linkInput.dispatchEvent(new Event('input', { bubbles: true }));
           }
           setTimeout(() => attachImageToPlantForm(form), 260);
@@ -5147,7 +4799,10 @@
       function waitForPlantForm() {
         return new Promise(resolve => {
           const existing = document.getElementById('plantForm');
-          if (existing) { resolve(existing); return; }
+          if (existing) {
+            resolve(existing);
+            return;
+          }
           const observer = new MutationObserver(() => {
             const form = document.getElementById('plantForm');
             if (!form) return;
@@ -5155,7 +4810,10 @@
             resolve(form);
           });
           observer.observe(document.getElementById('modalRoot') || document.body, { childList: true, subtree: true });
-          setTimeout(() => { observer.disconnect(); resolve(document.getElementById('plantForm')); }, 1800);
+          setTimeout(() => {
+            observer.disconnect();
+            resolve(document.getElementById('plantForm'));
+          }, 1800);
         });
       }
 
@@ -5172,13 +4830,22 @@
         }
       }
 
-      function returnToDashboard() {
-        identifierOpen = false;
-        document.querySelector('[data-view="dashboard"]')?.click();
+      function showError(message) {
+        const error = document.getElementById('lensIdentifierError');
+        if (!error) return;
+        error.hidden = false;
+        error.textContent = message;
+      }
+
+      function clearError() {
+        const error = document.getElementById('lensIdentifierError');
+        if (!error) return;
+        error.hidden = true;
+        error.textContent = '';
       }
 
       document.addEventListener('click', event => {
-        const dashboardButton = event.target.closest('[data-action="open-local-identifier"]');
+        const dashboardButton = event.target.closest('[data-action="open-google-lens-identifier"]');
         if (dashboardButton) {
           event.preventDefault();
           showIdentifierPage(true);
@@ -5188,17 +4855,13 @@
         const viewButton = event.target.closest('[data-view]');
         if (viewButton && identifierOpen) identifierOpen = false;
 
-        const actionTarget = event.target.closest('[data-local-identifier-action]');
+        const actionTarget = event.target.closest('[data-lens-identifier-action]');
         if (!actionTarget) return;
-        const action = actionTarget.dataset.localIdentifierAction;
-        if (action === 'choose-photo' || action === 'replace-photo') document.getElementById('localIdentifierGalleryInput')?.click();
+        const action = actionTarget.dataset.lensIdentifierAction;
+        if (action === 'choose-photo' || action === 'replace-photo') document.getElementById('lensIdentifierGalleryInput')?.click();
         if (action === 'remove-photo') removeSelectedImage();
-        if (action === 'select-result') selectPrediction(actionTarget.dataset.resultRank);
-        if (action === 'choose-another-result') renderPredictions();
-        if (action === 'identify-another') removeSelectedImage();
-        if (action === 'retry') identifySelectedPhoto();
-        if (action === 'add-to-library') openAddPlantFormFromPrediction();
-        if (action === 'back-dashboard') returnToDashboard();
+        if (action === 'verify-names') verifyEnteredNames();
+        if (action === 'add-to-library') openAddPlantForm();
       }, true);
 
       const dashboardObserver = new MutationObserver(mutations => {
@@ -5227,7 +4890,7 @@
       });
     })();
   </script>
-  <!-- /GREENSCAPE_LOCAL_PLANT_IDENTIFIER_V1 -->
+  <!-- /GREENSCAPE_GOOGLE_LENS_IDENTIFIER_V1 -->
 
 </body>
 </html>
