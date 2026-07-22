@@ -1643,6 +1643,52 @@
     }
   </style>
 
+
+  <style id="greenscape-field-status-styles">
+    /* Clear field guidance for Add/Edit Plant forms. */
+    #plantForm .field-status-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: .01em;
+      text-transform: none;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    #plantForm .field-status-label::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex: 0 0 5px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .85;
+    }
+
+    #plantForm .field-status-label.is-automatic { color: #2f7658; }
+    #plantForm .field-status-label.is-required { color: #a6533f; }
+    #plantForm .field-status-label.is-optional { color: #7b8580; }
+
+    #plantForm .plant-reference-heading label,
+    #plantForm .form-section h3 {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 560px) {
+      #plantForm .field-status-label {
+        margin-left: 4px;
+        font-size: 8px;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <div class="app-shell">
@@ -2167,8 +2213,8 @@
   <script>
     /* =========================================================
        GREENSCAPE AUTO REFERENCE LINKS
-       Uses public plant-search endpoints and stores three links
-       without changing the existing app.js data model.
+       Reference 1 opens a Google Search designed to surface an AI Overview.
+       References 2 and 3 resolve GBIF and Wikipedia records.
        ========================================================= */
     (() => {
       'use strict';
@@ -2176,9 +2222,9 @@
       const REFERENCE_STORAGE_KEY = 'greenscape-plant-reference-links-v1';
       const PLANT_STORAGE_KEY = 'greenscape-plant-library-plants-v1';
       const SOURCES = [
-        { key: 'wikipedia', label: 'Wikipedia', note: 'General plant reference' },
-        { key: 'gbif', label: 'GBIF', note: 'Taxonomy and occurrence' },
-        { key: 'inaturalist', label: 'iNaturalist', note: 'Taxon reference' }
+        { key: 'google-ai', label: '1', provider: 'Google AI Overview', note: 'AI-generated Google Search overview' },
+        { key: 'gbif', label: '2', provider: 'GBIF', note: 'Taxonomy and occurrence' },
+        { key: 'wikipedia', label: '3', provider: 'Wikipedia', note: 'General plant reference' }
       ];
 
       const readJSON = (key, fallback) => {
@@ -2209,11 +2255,20 @@
         return /^https?:\/\//i.test(url) ? url : '';
       };
 
-      const cleanReferences = values => SOURCES.map((source, index) => ({
-        source: source.key,
-        label: source.label,
-        url: cleanUrl(values[index]?.url ?? values[index] ?? '')
-      })).filter(item => item.url);
+      const cleanReferences = values => {
+        const records = Array.isArray(values) ? values : [];
+        const hasSourceMetadata = records.some(item => item && typeof item === 'object' && item.source);
+        return SOURCES.map((source, index) => {
+          const record = hasSourceMetadata
+            ? records.find(item => item?.source === source.key)
+            : records[index];
+          return {
+            source: source.key,
+            label: source.label,
+            url: cleanUrl(record?.url ?? record ?? '')
+          };
+        }).filter(item => item.url);
+      };
 
       const saveReferences = (plantId, values) => {
         if (!plantId) return;
@@ -2244,16 +2299,9 @@
         }
       };
 
-      const wikipediaReference = async query => {
-        const fallback = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
-        try {
-          const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=info&inprop=url&format=json&origin=*`;
-          const data = await timeoutFetchJSON(url);
-          const page = Object.values(data?.query?.pages || {})[0];
-          return cleanUrl(page?.fullurl) || fallback;
-        } catch (error) {
-          return fallback;
-        }
+      const googleAIReference = async query => {
+        const searchPrompt = `${query} plant profile growing conditions sun water spacing mature height landscape use`;
+        return `https://www.google.com/search?q=${encodeURIComponent(searchPrompt)}`;
       };
 
       const gbifReference = async query => {
@@ -2267,12 +2315,13 @@
         }
       };
 
-      const inaturalistReference = async query => {
-        const fallback = `https://www.inaturalist.org/taxa/search?q=${encodeURIComponent(query)}`;
+      const wikipediaReference = async query => {
+        const fallback = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
         try {
-          const data = await timeoutFetchJSON(`https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(query)}&rank=species,genus&per_page=1`);
-          const taxon = Array.isArray(data?.results) ? data.results[0] : null;
-          return taxon?.id ? `https://www.inaturalist.org/taxa/${encodeURIComponent(taxon.id)}` : fallback;
+          const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=info&inprop=url&format=json&origin=*`;
+          const data = await timeoutFetchJSON(url);
+          const page = Object.values(data?.query?.pages || {})[0];
+          return cleanUrl(page?.fullurl) || fallback;
         } catch (error) {
           return fallback;
         }
@@ -2319,9 +2368,9 @@
         setReferenceStatus(form, `Searching references for “${query}”…`, 'searching');
 
         const results = await Promise.all([
-          wikipediaReference(query),
+          googleAIReference(query),
           gbifReference(query),
-          inaturalistReference(query)
+          wikipediaReference(query)
         ]);
 
         if (!form.isConnected || form.dataset.referenceSearchToken !== token) return;
@@ -2336,9 +2385,13 @@
       };
 
       const fieldTemplate = (references, originalLink) => {
+        const originalSourceIndex = /google\./i.test(originalLink) ? 0
+          : /gbif\.org/i.test(originalLink) ? 1
+          : /wikipedia\.org/i.test(originalLink) ? 2
+          : -1;
         const values = SOURCES.map((source, index) => {
-          const stored = references.find(item => item.source === source.key)?.url || references[index]?.url || '';
-          return stored || (index === 0 ? originalLink : '');
+          const stored = references.find(item => item.source === source.key)?.url || '';
+          return stored || (index === originalSourceIndex ? originalLink : '');
         });
 
         return `
@@ -2353,7 +2406,7 @@
             ${SOURCES.map((source, index) => `
               <div class="plant-reference-item">
                 <div class="plant-reference-source">
-                  <span>${source.label}</span>
+                  <span title="${source.provider}">${source.label}</span>
                   <small>${index + 1} of 3</small>
                 </div>
                 <div class="plant-reference-input-wrap">
@@ -2363,14 +2416,14 @@
                     ${index === 0 ? 'name="link"' : `name="referenceLink${index + 1}"`}
                     data-plant-reference-input="${source.key}"
                     value="${String(values[index] || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}"
-                    placeholder="${source.label} reference URL"
+                    placeholder="${source.provider} reference URL"
                     autocomplete="off">
                   <a class="plant-reference-open${cleanUrl(values[index]) ? ' is-ready' : ''}"
                      href="${cleanUrl(values[index]) || '#'}"
                      target="_blank"
                      rel="noopener noreferrer"
-                     title="Open ${source.label} reference"
-                     aria-label="Open ${source.label} reference"
+                     title="Open ${source.provider} reference"
+                     aria-label="Open ${source.provider} reference"
                      aria-disabled="${cleanUrl(values[index]) ? 'false' : 'true'}"
                      tabindex="${cleanUrl(values[index]) ? '0' : '-1'}">↗</a>
                 </div>
@@ -2502,7 +2555,10 @@
         if (!references.length) {
           const existingAnchor = linkPanel.querySelector('a[href]');
           const url = cleanUrl(existingAnchor?.href);
-          if (url) references = [{ source: 'wikipedia', label: 'Plant reference', url }];
+          if (url) {
+            const source = /gbif\.org/i.test(url) ? 'gbif' : /wikipedia\.org/i.test(url) ? 'wikipedia' : 'google-ai';
+            references = [{ source, label: 'Plant reference', url }];
+          }
         }
 
         modal.dataset.referenceDetailsInstalled = 'true';
@@ -2543,6 +2599,84 @@
       });
 
       scan(document);
+    })();
+  </script>
+
+
+  <script id="greenscape-field-status-controller">
+    (() => {
+      const statusByName = {
+        code: 'automatic',
+        category: 'required',
+        commonName: 'required',
+        scientificName: 'required',
+        sun: 'optional',
+        water: 'optional',
+        spacing: 'optional',
+        landscapeUse: 'optional',
+        matureHeight: 'optional',
+        matureSpread: 'optional',
+        growingCondition: 'optional',
+        plantingNotes: 'optional',
+        tags: 'optional',
+        imageFile: 'optional',
+        sizeLabel: 'optional',
+        sizeUnit: 'optional'
+      };
+
+      const statusText = {
+        automatic: 'Automatic',
+        required: 'Required',
+        optional: 'Optional'
+      };
+
+      function addStatus(label, status) {
+        if (!label || !status || label.querySelector(':scope > .field-status-label')) return;
+        const badge = document.createElement('span');
+        badge.className = `field-status-label is-${status}`;
+        badge.textContent = statusText[status];
+        badge.setAttribute('aria-label', statusText[status]);
+        label.appendChild(badge);
+      }
+
+      function decoratePlantForm(form) {
+        if (!form || form.dataset.fieldStatusesInstalled === 'true') return;
+
+        form.querySelectorAll('.form-field').forEach(field => {
+          const input = field.querySelector('input[name], select[name], textarea[name]');
+          const label = field.querySelector(':scope > label');
+          const name = input?.getAttribute('name');
+          if (label && name) addStatus(label, statusByName[name] || 'optional');
+        });
+
+        const referenceLabel = form.querySelector('.plant-reference-heading label');
+        if (referenceLabel) addStatus(referenceLabel, 'automatic');
+
+        form.querySelectorAll('.form-section').forEach(section => {
+          const heading = section.querySelector(':scope > h3');
+          if (/available sizes/i.test(String(heading?.textContent || ''))) addStatus(heading, 'optional');
+        });
+
+        form.dataset.fieldStatusesInstalled = 'true';
+      }
+
+      function scan(root = document) {
+        if (root instanceof Element && root.matches('#plantForm')) decoratePlantForm(root);
+        root.querySelectorAll?.('#plantForm').forEach(decoratePlantForm);
+      }
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+          if (node instanceof Element) scan(node);
+        }));
+      });
+
+      observer.observe(document.getElementById('modalRoot') || document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      scan();
     })();
   </script>
 
