@@ -300,7 +300,7 @@
           </div>
         </div>
         <div class="hero-art">
-          ${heroImage ? `<img class="hero-photo" src="${heroImage}" alt="Greenscape plant collection">` : '<div class="leaf-shape"></div>'}
+          ${heroImage ? `<img class="hero-photo" src="${heroImage}" alt="Greenscape plant collection" width="960" height="640" loading="eager" fetchpriority="high" decoding="async">` : '<div class="leaf-shape"></div>'}
           <div class="hero-image-shade"></div>
         </div>
       </section>
@@ -402,19 +402,19 @@
       return;
     }
     grid.innerHTML = `
-      <div class="plant-grid">${shown.map(plantCard).join('')}</div>
+      <div class="plant-grid">${shown.map((plant, index) => plantCard(plant, index)).join('')}</div>
       ${shown.length < results.length ? `<div style="display:flex;justify-content:center;margin-top:22px;"><button class="button secondary" data-action="load-more">Show more (${results.length - shown.length} remaining)</button></div>` : ''}
     `;
   }
 
-  function plantCard(plant) {
+  function plantCard(plant, index = 0) {
     const image = safeImage(plant.image);
     const badges = plantBadgeValues(plant);
     const sizeCount = (plant.sizes || []).length;
     return `
       <article class="plant-card">
         <button class="plant-image" data-action="plant-detail" data-plant-id="${escapeHTML(plant.id)}" style="width:100%;padding:0;border:0;text-align:left;">
-          ${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" loading="lazy">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}
+          ${image ? `<img src="${image}" alt="${escapeHTML(plant.commonName)}" width="480" height="407" loading="${index < 5 ? 'eager' : 'lazy'}"${index === 0 ? ' fetchpriority="high"' : ''} decoding="async">` : `<div class="image-fallback">${escapeHTML(plant.code || '—')}</div>`}
           <span class="category-pill">${escapeHTML(plant.category)}</span>
         </button>
         <div class="plant-card-body">
@@ -3131,3 +3131,1732 @@
     closeFeedback();
   });
 })();
+
+/* Consolidated page enhancements. */
+
+/* Migrated index script block 1. */
+(() => {
+      const form = document.getElementById('feedbackForm');
+      const messageInput = document.getElementById('feedbackMessage');
+      if (!form || !messageInput) return;
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (!form.reportValidity()) return;
+
+        const message = messageInput.value.trim();
+        const pageTitle = document.getElementById('pageTitle')?.textContent?.trim() || 'Unknown page';
+        const subject = `[Greenscape Beta] Website feedback — ${pageTitle}`;
+        const body = [
+          'GREENSCAPE PLANT LIBRARY FEEDBACK',
+          '',
+          `Page: ${pageTitle}`,
+          `URL: ${window.location.href}`,
+          '',
+          'MESSAGE',
+          message,
+          '',
+          'TECHNICAL DETAILS',
+          navigator.userAgent
+        ].join('\n');
+
+        const email = 'nyxdcz@gmail.com';
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const gmailWindow = window.open(gmailUrl, '_blank');
+        if (!gmailWindow) window.location.href = mailtoUrl;
+      }, true);
+    })();
+
+/* Migrated index script block 2. */
+/* Apple-style interactive Liquid Glass controller.
+       Delegated events also cover buttons rendered later by app.js. */
+    (() => {
+      const selector = [
+        '.button',
+        '.icon-button',
+        '.feedback-launcher',
+        '.feedback-close',
+        '.sheet-category-delete',
+        '.moodboard-zoom-controls button',
+        'button[data-action]:not(.plant-image):not([style*="background:transparent"]):not([style*="background: transparent"])'
+      ].join(',');
+
+      const animationFrames = new WeakMap();
+
+      function glassButtonFrom(target) {
+        if (!(target instanceof Element)) return null;
+        const button = target.closest(selector);
+        if (!button || button.disabled) return null;
+        return button;
+      }
+
+      function updateOptics(button, clientX, clientY) {
+        const previousFrame = animationFrames.get(button);
+        if (previousFrame) cancelAnimationFrame(previousFrame);
+
+        const frame = requestAnimationFrame(() => {
+          const rect = button.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+
+          const localX = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+          const localY = Math.min(1, Math.max(0, (clientY - rect.top) / rect.height));
+          const xPercent = localX * 100;
+          const yPercent = localY * 100;
+          const tiltX = (localX - .5) * 2.2;
+          const tiltY = (.5 - localY) * 1.8;
+
+          button.style.setProperty('--glass-x', `${xPercent.toFixed(1)}%`);
+          button.style.setProperty('--glass-y', `${yPercent.toFixed(1)}%`);
+          button.style.setProperty('--glass-tilt-x', `${tiltX.toFixed(2)}deg`);
+          button.style.setProperty('--glass-tilt-y', `${tiltY.toFixed(2)}deg`);
+          animationFrames.delete(button);
+        });
+
+        animationFrames.set(button, frame);
+      }
+
+      function resetOptics(button) {
+        button.style.setProperty('--glass-x', '50%');
+        button.style.setProperty('--glass-y', '18%');
+        button.style.setProperty('--glass-tilt-x', '0deg');
+        button.style.setProperty('--glass-tilt-y', '0deg');
+      }
+
+      document.addEventListener('pointerover', event => {
+        const button = glassButtonFrom(event.target);
+        if (!button || button.contains(event.relatedTarget)) return;
+        button.classList.add('is-glass-hovered');
+        updateOptics(button, event.clientX, event.clientY);
+      }, { passive: true });
+
+      document.addEventListener('pointermove', event => {
+        const button = glassButtonFrom(event.target);
+        if (!button || event.pointerType === 'touch') return;
+        updateOptics(button, event.clientX, event.clientY);
+      }, { passive: true });
+
+      document.addEventListener('pointerout', event => {
+        const button = glassButtonFrom(event.target);
+        if (!button || button.contains(event.relatedTarget)) return;
+        button.classList.remove('is-glass-hovered');
+        resetOptics(button);
+      }, { passive: true });
+
+      document.addEventListener('pointerdown', event => {
+        const button = glassButtonFrom(event.target);
+        if (!button) return;
+        updateOptics(button, event.clientX, event.clientY);
+        button.classList.add('is-glass-pressed');
+      }, { passive: true });
+
+      const release = event => {
+        const pressedButtons = document.querySelectorAll('.is-glass-pressed');
+        pressedButtons.forEach(button => {
+          button.classList.remove('is-glass-pressed');
+          if (event.pointerType === 'touch') resetOptics(button);
+        });
+      };
+
+      document.addEventListener('pointerup', release, { passive: true });
+      document.addEventListener('pointercancel', release, { passive: true });
+      window.addEventListener('blur', () => {
+        document.querySelectorAll('.is-glass-hovered, .is-glass-pressed').forEach(button => {
+          button.classList.remove('is-glass-hovered', 'is-glass-pressed');
+          resetOptics(button);
+        });
+      });
+    })();
+
+/* Migrated index script block 3. */
+/* Add a stronger glass state only when the Plant List Editor toolbar is actually stuck. */
+    (() => {
+      const root = document.documentElement;
+      const content = document.getElementById('pageContent');
+      let frame = 0;
+
+      const update = () => {
+        frame = 0;
+        const toolbar = document.querySelector('.sheet-toolbar');
+        if (!toolbar) return;
+
+        const rawOffset = getComputedStyle(root).getPropertyValue('--sheet-sticky-top');
+        const stickyTop = Number.parseFloat(rawOffset) || 0;
+        const stuck = window.scrollY > 4 && toolbar.getBoundingClientRect().top <= stickyTop + 1;
+        toolbar.classList.toggle('is-stuck', stuck);
+      };
+
+      const schedule = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule, { passive: true });
+      window.addEventListener('hashchange', schedule, { passive: true });
+
+      if (content && 'MutationObserver' in window) {
+        const observer = new MutationObserver(schedule);
+        observer.observe(content, { childList: true, subtree: true });
+      }
+
+      schedule();
+    })();
+
+/* Migrated index script block 4. */
+/* Keep the sticky Plant Library and Plant List Editor toolbars below the real header height. */
+    (() => {
+      const root = document.documentElement;
+      const header = document.querySelector('.topbar');
+      if (!header) return;
+
+      const updateStickyOffsets = () => {
+        if (window.matchMedia('(max-width: 760px)').matches) {
+          root.style.setProperty('--library-sticky-top', '46px');
+          root.style.setProperty('--sheet-sticky-top', '46px');
+          return;
+        }
+        const headerHeight = Math.ceil(header.getBoundingClientRect().height);
+        const offset = `${headerHeight + 8}px`;
+        root.style.setProperty('--library-sticky-top', offset);
+        root.style.setProperty('--sheet-sticky-top', offset);
+      };
+
+      updateStickyOffsets();
+      window.addEventListener('resize', updateStickyOffsets, { passive: true });
+      window.addEventListener('load', updateStickyOffsets, { once: true });
+
+      if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(updateStickyOffsets);
+        observer.observe(header);
+      }
+    })();
+
+/* Migrated index script block 5. */
+(() => {
+      const content = document.getElementById('pageContent');
+      let bypassAddVisible = false;
+      let bypassClearBoard = false;
+      let activeSourceButton = null;
+
+      const escapeText = value => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      function ensureDialog() {
+        let backdrop = document.getElementById('moodboardActionBackdrop');
+        if (backdrop) return backdrop;
+
+        backdrop = document.createElement('div');
+        backdrop.id = 'moodboardActionBackdrop';
+        backdrop.className = 'moodboard-action-backdrop';
+        backdrop.hidden = true;
+        backdrop.innerHTML = '<section class="moodboard-action-dialog" role="dialog" aria-modal="true" aria-labelledby="moodboardActionTitle"><div id="moodboardActionContent"></div></section>';
+        document.body.appendChild(backdrop);
+        return backdrop;
+      }
+
+      function closeDialog() {
+        const backdrop = ensureDialog();
+        backdrop.hidden = true;
+        activeSourceButton = null;
+      }
+
+      function openAddDialog(button) {
+        activeSourceButton = button;
+        const select = document.getElementById('moodboardCategoryFilter');
+        const categories = select
+          ? Array.from(select.options).map(option => option.value).filter(value => value && value !== 'All')
+          : [];
+        const backdrop = ensureDialog();
+        const contentRoot = document.getElementById('moodboardActionContent');
+        contentRoot.innerHTML = `
+          <header class="moodboard-action-header">
+            <div><strong id="moodboardActionTitle">Add plants to mood board</strong><span>Add the complete library or choose one plant category.</span></div>
+            <button type="button" class="moodboard-action-close" data-moodboard-dialog-close aria-label="Close">×</button>
+          </header>
+          <div class="moodboard-action-body">
+            <button type="button" class="button primary moodboard-add-all" data-moodboard-add-category="All">Add all plants</button>
+            <span class="moodboard-category-choice-label">Add one category</span>
+            <div class="moodboard-category-choice-grid">
+              ${categories.map(category => `<button type="button" class="button secondary moodboard-category-choice" data-moodboard-add-category="${escapeText(category)}">${escapeText(category)}</button>`).join('')}
+            </div>
+          </div>`;
+        backdrop.hidden = false;
+        contentRoot.querySelector('[data-moodboard-add-category]')?.focus();
+      }
+
+      function openClearDialog(button) {
+        const countText = document.getElementById('moodboardSelectedCount')?.textContent || '0 selected';
+        const count = Number.parseInt(countText, 10) || 0;
+        if (!count) return;
+
+        activeSourceButton = button;
+        const backdrop = ensureDialog();
+        const contentRoot = document.getElementById('moodboardActionContent');
+        contentRoot.innerHTML = `
+          <header class="moodboard-action-header">
+            <div><strong id="moodboardActionTitle">Clear the mood board?</strong><span>This action removes every selected plant from the board.</span></div>
+            <button type="button" class="moodboard-action-close" data-moodboard-dialog-close aria-label="Close">×</button>
+          </header>
+          <div class="moodboard-action-body">
+            <div class="moodboard-clear-warning">
+              <div class="moodboard-clear-warning-icon">!</div>
+              <div><strong>${count} selected ${count === 1 ? 'plant' : 'plants'} will be removed.</strong><p>This cannot be undone automatically. Choose Cancel to keep the current mood board.</p></div>
+            </div>
+            <div class="moodboard-action-footer">
+              <button type="button" class="button secondary" data-moodboard-dialog-close>Cancel</button>
+              <button type="button" class="button danger" data-moodboard-confirm-clear>Clear board</button>
+            </div>
+          </div>`;
+        backdrop.hidden = false;
+        contentRoot.querySelector('[data-moodboard-dialog-close]')?.focus();
+      }
+
+      function dispatchValue(element, value, eventName) {
+        if (!element) return;
+        element.value = value;
+        element.dispatchEvent(new Event(eventName, { bubbles: true }));
+      }
+
+      function addCategoryToBoard(category) {
+        const button = activeSourceButton || document.querySelector('[data-action="moodboard-add-visible"]');
+        const categorySelect = document.getElementById('moodboardCategoryFilter');
+        const searchInput = document.getElementById('moodboardSearch');
+        if (!button || !categorySelect || !searchInput) return closeDialog();
+
+        const previousCategory = categorySelect.value;
+        const previousSearch = searchInput.value;
+
+        dispatchValue(searchInput, '', 'input');
+        dispatchValue(categorySelect, category, 'change');
+
+        bypassAddVisible = true;
+        button.click();
+        bypassAddVisible = false;
+
+        dispatchValue(categorySelect, previousCategory, 'change');
+        dispatchValue(searchInput, previousSearch, 'input');
+        closeDialog();
+        requestAnimationFrame(syncMoodboardUI);
+      }
+
+      function confirmClearBoard() {
+        const button = activeSourceButton || document.querySelector('[data-action="moodboard-clear"]');
+        if (!button) return closeDialog();
+
+        const originalConfirm = window.confirm;
+        try {
+          window.confirm = () => true;
+          bypassClearBoard = true;
+          button.click();
+        } finally {
+          bypassClearBoard = false;
+          window.confirm = originalConfirm;
+          closeDialog();
+        }
+      }
+
+      function syncMoodboardUI() {
+        const input = document.getElementById('moodboardSearch');
+        const picker = document.getElementById('moodboardPlantPicker');
+        const addButton = document.querySelector('[data-action="moodboard-add-visible"]');
+        if (!input || !picker) return;
+
+        const active = Boolean(input.value.trim());
+        picker.classList.toggle('is-search-active', active);
+
+        let hint = document.querySelector('.moodboard-picker-hint');
+        if (!hint) {
+          hint = document.createElement('div');
+          hint.className = 'moodboard-picker-hint';
+          hint.textContent = 'Type a plant name in the search field to show matching plants.';
+          picker.before(hint);
+        }
+        hint.hidden = active;
+
+        if (addButton) {
+          if (addButton.textContent.trim() !== 'Add plants') addButton.textContent = 'Add plants';
+          if (addButton.title !== 'Add all plants or choose a category') addButton.title = 'Add all plants or choose a category';
+        }
+      }
+
+      document.addEventListener('click', event => {
+        const categoryChoice = event.target.closest('[data-moodboard-add-category]');
+        if (categoryChoice) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          addCategoryToBoard(categoryChoice.dataset.moodboardAddCategory || 'All');
+          return;
+        }
+
+        if (event.target.closest('[data-moodboard-confirm-clear]')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          confirmClearBoard();
+          return;
+        }
+
+        if (event.target.closest('[data-moodboard-dialog-close]')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          closeDialog();
+          return;
+        }
+
+        const backdrop = event.target.closest('#moodboardActionBackdrop');
+        if (backdrop && event.target === backdrop) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          closeDialog();
+          return;
+        }
+
+        const addButton = event.target.closest('[data-action="moodboard-add-visible"]');
+        if (addButton && !bypassAddVisible) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openAddDialog(addButton);
+          return;
+        }
+
+        const clearButton = event.target.closest('[data-action="moodboard-clear"]');
+        if (clearButton && !bypassClearBoard) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openClearDialog(clearButton);
+        }
+      }, true);
+
+      document.addEventListener('input', event => {
+        if (event.target.id === 'moodboardSearch') requestAnimationFrame(syncMoodboardUI);
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !ensureDialog().hidden) closeDialog();
+      });
+
+      if (content && 'MutationObserver' in window) {
+        const observer = new MutationObserver(() => requestAnimationFrame(syncMoodboardUI));
+        observer.observe(content, { childList: true, subtree: true });
+      }
+
+      window.addEventListener('hashchange', () => requestAnimationFrame(syncMoodboardUI));
+      requestAnimationFrame(syncMoodboardUI);
+    })();
+
+/* Migrated index script block 6. */
+/* =========================================================
+       GREENSCAPE GOOGLE AI OVERVIEW REFERENCE
+       Uses only Common Name + Scientific Name.
+       Also adds View Details reference, image download,
+       current-image preview, and replacement confirmation.
+       ========================================================= */
+    (() => {
+      'use strict';
+
+      const PLANT_STORAGE_KEY = 'greenscape-plant-library-plants-v1';
+      const capturedImages = new Map();
+
+      const cleanUrl = value => {
+        const url = String(value || '').trim();
+        return /^https?:\/\//i.test(url) ? url : '';
+      };
+
+      const escapeAttribute = value => String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      const googleAIReference = (commonName, scientificName) => {
+        const query = [commonName, scientificName]
+          .map(value => String(value || '').trim())
+          .filter(Boolean)
+          .join(' ');
+        return query ? `https://www.google.com/search?q=${encodeURIComponent(query)}` : '';
+      };
+
+      const readStoredPlants = () => {
+        try {
+          const records = JSON.parse(localStorage.getItem(PLANT_STORAGE_KEY) || '[]');
+          return Array.isArray(records) ? records : [];
+        } catch (error) {
+          return [];
+        }
+      };
+
+      const storedPlant = plantId => readStoredPlants().find(record => String(record?.id || '') === String(plantId || ''));
+
+      const plantNamesFromForm = form => ({
+        commonName: String(form.querySelector('#plantCommonName')?.value || '').trim(),
+        scientificName: String(form.querySelector('#plantScientificName')?.value || '').trim()
+      });
+
+      const updateReferenceOpenButton = form => {
+        const input = form.querySelector('[data-plant-reference-input]');
+        const anchor = form.querySelector('.plant-reference-open');
+        if (!input || !anchor) return;
+        const url = cleanUrl(input.value);
+        anchor.href = url || '#';
+        anchor.classList.toggle('is-ready', Boolean(url));
+        anchor.setAttribute('aria-disabled', url ? 'false' : 'true');
+        anchor.tabIndex = url ? 0 : -1;
+      };
+
+      const setReferenceStatus = (form, message, isError = false) => {
+        const status = form.querySelector('[data-reference-status]');
+        if (!status) return;
+        status.textContent = message || '';
+        status.classList.toggle('is-error', Boolean(isError));
+      };
+
+      const refreshReference = form => {
+        const input = form.querySelector('[data-plant-reference-input]');
+        if (!input) return;
+        const { commonName, scientificName } = plantNamesFromForm(form);
+        const url = googleAIReference(commonName, scientificName);
+        input.value = url;
+        updateReferenceOpenButton(form);
+        setReferenceStatus(
+          form,
+          url
+            ? 'Reference ready using Common Name + Scientific Name.'
+            : 'Enter the common and scientific names to create the reference.',
+          !url
+        );
+      };
+
+      const referenceFieldTemplate = value => {
+        const url = cleanUrl(value);
+        return `
+          <div class="plant-reference-heading">
+            <div>
+              <label>Reference</label>
+              <p>Google AI Overview search using only Common Name + Scientific Name.</p>
+            </div>
+            <button class="button ghost small" type="button" data-reference-search>Refresh reference</button>
+          </div>
+          <div class="plant-reference-input-wrap">
+            <input
+              class="text-input"
+              type="url"
+              name="link"
+              data-plant-reference-input
+              value="${escapeAttribute(url)}"
+              placeholder="Google AI Overview reference"
+              autocomplete="off">
+            <a class="plant-reference-open${url ? ' is-ready' : ''}"
+               href="${url || '#'}"
+               target="_blank"
+               rel="noopener noreferrer"
+               title="Open Google AI Overview reference"
+               aria-label="Open Google AI Overview reference"
+               aria-disabled="${url ? 'false' : 'true'}"
+               tabindex="${url ? '0' : '-1'}">↗</a>
+          </div>
+          <div class="plant-reference-status" data-reference-status aria-live="polite"></div>
+        `;
+      };
+
+      const currentImageForForm = form => {
+        const plantId = String(form.elements.id?.value || '').trim();
+        return capturedImages.get(plantId) || cleanUrl(storedPlant(plantId)?.image) || String(storedPlant(plantId)?.image || '').trim();
+      };
+
+      const renderImagePreview = (field, src, title, copy) => {
+        let preview = field.querySelector('.plant-image-edit-preview');
+        if (!preview) {
+          preview = document.createElement('div');
+          preview.className = 'plant-image-edit-preview';
+          field.insertBefore(preview, field.querySelector('input[name="imageFile"]'));
+        }
+        preview.innerHTML = src
+          ? `<img src="${escapeAttribute(src)}" alt="${escapeAttribute(title)}"><div class="plant-image-edit-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(copy)}</small></div>`
+          : `<div class="plant-image-edit-placeholder">No image</div><div class="plant-image-edit-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(copy)}</small></div>`;
+      };
+
+      const installImageEditor = form => {
+        const fileInput = form.querySelector('input[name="imageFile"]');
+        const field = fileInput?.closest('.form-field');
+        if (!fileInput || !field || field.dataset.imageEditorInstalled === 'true') return;
+        field.dataset.imageEditorInstalled = 'true';
+
+        const currentImage = currentImageForForm(form);
+        renderImagePreview(
+          field,
+          currentImage,
+          currentImage ? 'Current image' : 'No image uploaded',
+          currentImage ? 'Choose a new file only when you need to replace this image.' : 'Choose an image to add it to this plant.'
+        );
+
+        fileInput.addEventListener('change', () => {
+          const file = fileInput.files?.[0];
+          if (!file) return;
+
+          if (currentImage) {
+            const confirmed = window.confirm('Replace the current plant image? The existing image will be replaced after you save changes.');
+            if (!confirmed) {
+              fileInput.value = '';
+              renderImagePreview(field, currentImage, 'Current image', 'Image replacement cancelled.');
+              return;
+            }
+          }
+
+          const reader = new FileReader();
+          reader.onload = () => renderImagePreview(
+            field,
+            String(reader.result || ''),
+            'New image selected',
+            'This image will replace the current image after you save changes.'
+          );
+          reader.readAsDataURL(file);
+        });
+      };
+
+      const installPlantReferenceForm = form => {
+        if (!form || form.dataset.referencesInstalled === 'true') return;
+        const originalInput = form.querySelector('input[name="link"]');
+        const originalField = originalInput?.closest('.form-field');
+        if (!originalInput || !originalField) return;
+
+        form.dataset.referencesInstalled = 'true';
+        const { commonName, scientificName } = plantNamesFromForm(form);
+        const generated = googleAIReference(commonName, scientificName);
+        const existing = /google\./i.test(String(originalInput.value || '')) ? cleanUrl(originalInput.value) : '';
+
+        originalField.classList.add('plant-reference-field', 'full');
+        originalField.innerHTML = referenceFieldTemplate(generated || existing);
+
+        originalField.querySelector('[data-reference-search]')?.addEventListener('click', () => refreshReference(form));
+        originalField.querySelector('[data-plant-reference-input]')?.addEventListener('input', () => updateReferenceOpenButton(form));
+
+        let timer = 0;
+        const scheduleRefresh = () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => refreshReference(form), 550);
+        };
+        form.querySelector('#plantCommonName')?.addEventListener('input', scheduleRefresh);
+        form.querySelector('#plantScientificName')?.addEventListener('input', scheduleRefresh);
+
+        updateReferenceOpenButton(form);
+        setReferenceStatus(form, generated ? 'Reference ready using Common Name + Scientific Name.' : 'Enter the plant names to create the reference.');
+        installImageEditor(form);
+      };
+
+      const detailNames = modal => ({
+        commonName: String(modal.querySelector('.detail-info h3')?.textContent || modal.querySelector('.modal-header h2')?.textContent || '').trim(),
+        scientificName: String(modal.querySelector('.detail-info .scientific')?.textContent || '').trim()
+      });
+
+      const reorderDetailPanels = (modal, referencePanel) => {
+        const stack = modal.querySelector('.detail-content-stack');
+        if (!stack || !referencePanel) return;
+        const panels = [...stack.querySelectorAll(':scope > .detail-panel')];
+        const tags = panels.find(panel => /tags/i.test(String(panel.querySelector('.detail-panel-label')?.textContent || '')));
+        const notes = panels.find(panel => /planting notes/i.test(String(panel.querySelector('.detail-panel-label')?.textContent || '')));
+        const others = panels.filter(panel => panel !== referencePanel && panel !== tags && panel !== notes);
+        [referencePanel, tags, notes, ...others].filter(Boolean).forEach(panel => stack.appendChild(panel));
+      };
+
+      const installImageDownload = modal => {
+        const photo = modal.querySelector('.detail-photo');
+        const image = photo?.querySelector('img');
+        if (!photo || !image || photo.querySelector('[data-plant-image-download]')) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'plant-image-download';
+        button.dataset.plantImageDownload = 'true';
+        button.innerHTML = '<span aria-hidden="true">↓</span> Download image';
+        photo.appendChild(button);
+      };
+
+      const installPlantDetailReference = modal => {
+        if (!modal || modal.dataset.referenceDetailsInstalled === 'true') return;
+        const editButton = modal.querySelector('button[data-action="edit-plant"][data-plant-id]');
+        if (!editButton) return;
+
+        const { commonName, scientificName } = detailNames(modal);
+        const url = googleAIReference(commonName, scientificName);
+        let linkPanel = [...modal.querySelectorAll('.detail-panel')].find(panel => {
+          const label = panel.querySelector('.detail-panel-label');
+          return /^(link|reference links?|reference)$/i.test(String(label?.textContent || '').trim());
+        });
+
+        if (!linkPanel) {
+          linkPanel = document.createElement('section');
+          linkPanel.className = 'detail-panel';
+          modal.querySelector('.detail-content-stack')?.prepend(linkPanel);
+        }
+
+        linkPanel.innerHTML = `
+          <span class="detail-panel-label">Reference</span>
+          ${url ? `
+            <a class="plant-reference-detail-link is-direct" href="${url}" target="_blank" rel="noopener noreferrer" title="Open Google AI Overview">
+              <span>Google AI Overview<small>${escapeAttribute([commonName, scientificName].filter(Boolean).join(' '))}</small></span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ` : '<span class="detail-empty">No plant name available for the reference.</span>'}
+        `;
+
+        reorderDetailPanels(modal, linkPanel);
+        installImageDownload(modal);
+        modal.dataset.referenceDetailsInstalled = 'true';
+      };
+
+      const safeFilename = value => String(value || 'plant-image')
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'plant-image';
+
+      const imageExtension = type => {
+        if (/png/i.test(type)) return 'png';
+        if (/webp/i.test(type)) return 'webp';
+        if (/gif/i.test(type)) return 'gif';
+        return 'jpg';
+      };
+
+      const downloadPlantImage = async button => {
+        const modal = button.closest('.modal');
+        const image = button.closest('.detail-photo')?.querySelector('img');
+        const src = image?.currentSrc || image?.src || '';
+        if (!src) return;
+        const { commonName } = detailNames(modal || document);
+
+        try {
+          const response = await fetch(src);
+          if (!response.ok) throw new Error('Image download failed');
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = objectUrl;
+          anchor.download = `${safeFilename(commonName)}.${imageExtension(blob.type)}`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+          setTimeout(() => URL.revokeObjectURL(objectUrl), 1200);
+        } catch (error) {
+          const anchor = document.createElement('a');
+          anchor.href = src;
+          anchor.download = `${safeFilename(commonName)}.jpg`;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener';
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+        }
+      };
+
+      document.addEventListener('click', event => {
+        const editButton = event.target.closest('button[data-action="edit-plant"][data-plant-id]');
+        if (editButton) {
+          const image = editButton.closest('.modal')?.querySelector('.detail-photo img');
+          if (image?.src) capturedImages.set(String(editButton.dataset.plantId || ''), image.src);
+        }
+
+        const downloadButton = event.target.closest('[data-plant-image-download]');
+        if (downloadButton) {
+          event.preventDefault();
+          event.stopPropagation();
+          downloadPlantImage(downloadButton);
+        }
+      }, true);
+
+      const scan = root => {
+        const form = root?.matches?.('#plantForm') ? root : root?.querySelector?.('#plantForm');
+        if (form) installPlantReferenceForm(form);
+
+        const modal = root?.matches?.('.modal') ? root : root?.querySelector?.('.modal');
+        if (modal) installPlantDetailReference(modal);
+      };
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          mutation.addedNodes.forEach(node => {
+            if (node instanceof Element) scan(node);
+          });
+        });
+      });
+
+      observer.observe(document.getElementById('modalRoot') || document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      scan(document);
+    })();
+
+/* Migrated index script block 7. */
+(() => {
+      const statusByName = {
+        code: 'automatic',
+        category: 'required',
+        commonName: 'required',
+        scientificName: 'required',
+        sun: 'optional',
+        water: 'optional',
+        spacing: 'optional',
+        matureHeight: 'optional',
+        matureSpread: 'optional',
+        growingCondition: 'optional',
+        plantingNotes: 'optional',
+        tags: 'automatic',
+        imageFile: 'optional',
+        sizeLabel: 'optional',
+        sizeUnit: 'optional'
+      };
+
+      const statusText = {
+        automatic: 'Automatic',
+        required: 'Required',
+        optional: 'Optional'
+      };
+
+      function addStatus(label, status) {
+        if (!label || !status || label.querySelector(':scope > .field-status-label')) return;
+        const badge = document.createElement('span');
+        badge.className = `field-status-label is-${status}`;
+        badge.textContent = statusText[status];
+        badge.setAttribute('aria-label', statusText[status]);
+        label.appendChild(badge);
+      }
+
+      function decoratePlantForm(form) {
+        if (!form || form.dataset.fieldStatusesInstalled === 'true') return;
+
+        form.querySelectorAll('.form-field').forEach(field => {
+          const input = field.querySelector('input[name], select[name], textarea[name]');
+          const label = field.querySelector(':scope > label');
+          const name = input?.getAttribute('name');
+          if (label && name) addStatus(label, statusByName[name] || 'optional');
+        });
+
+        const referenceLabel = form.querySelector('.plant-reference-heading label');
+        if (referenceLabel) addStatus(referenceLabel, 'automatic');
+
+        form.querySelectorAll('.form-section').forEach(section => {
+          const heading = section.querySelector(':scope > h3');
+          if (/available sizes/i.test(String(heading?.textContent || ''))) addStatus(heading, 'optional');
+        });
+
+        form.dataset.fieldStatusesInstalled = 'true';
+      }
+
+      function scan(root = document) {
+        if (root instanceof Element && root.matches('#plantForm')) decoratePlantForm(root);
+        root.querySelectorAll?.('#plantForm').forEach(decoratePlantForm);
+      }
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+          if (node instanceof Element) scan(node);
+        }));
+      });
+
+      observer.observe(document.getElementById('modalRoot') || document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      scan();
+    })();
+
+/* Migrated index script block 8. */
+(() => {
+      'use strict';
+
+      const fieldByName = (form, name) =>
+        form.querySelector(`[name="${name}"]`)?.closest('.form-field') || null;
+
+      const cardHeader = (index, title, description) => {
+        const header = document.createElement('div');
+        header.className = 'plant-form-card-header';
+        header.innerHTML = `<div><h3>${title}</h3><p>${description}</p></div><span class="plant-form-card-index">${index}</span>`;
+        return header;
+      };
+
+      const createCard = (className, index, title, description, gridClass) => {
+        const card = document.createElement('section');
+        card.className = `plant-form-card ${className}`;
+        card.appendChild(cardHeader(index, title, description));
+        const grid = document.createElement('div');
+        grid.className = `plant-form-card-grid ${gridClass}`;
+        card.appendChild(grid);
+        return { card, grid };
+      };
+
+      function move(grid, nodes) {
+        nodes.filter(Boolean).forEach(node => {
+          node.classList.remove('full', 'plant-form-image-top', 'plant-form-reference-top');
+          grid.appendChild(node);
+        });
+      }
+
+      function organizePlantForm(form) {
+        if (!form || form.dataset.compactOrganizationInstalled === 'true') return;
+
+        const referenceField = form.querySelector('.plant-reference-field') || fieldByName(form, 'link');
+        const imageField = fieldByName(form, 'imageFile');
+        const sizesSection = [...form.querySelectorAll(':scope > .form-section')]
+          .find(section => /available sizes/i.test(String(section.querySelector(':scope > h3')?.textContent || '')));
+
+        // Wait for the automatic reference and image tools to finish installing.
+        if (!referenceField || !imageField || !sizesSection) return;
+
+        const alert = form.querySelector(':scope > .plant-form-alert');
+
+        const media = createCard(
+          'plant-form-media-card', '01', 'Image & reference',
+          'Current image, replacement upload, and automatic Google reference.',
+          'plant-form-media-grid'
+        );
+        move(media.grid, [imageField, referenceField]);
+
+        const identity = createCard(
+          'plant-form-identity-card', '02', 'Plant identity',
+          'Code, category, and plant names.',
+          'plant-form-identity-grid'
+        );
+        move(identity.grid, [
+          fieldByName(form, 'code'),
+          fieldByName(form, 'category'),
+          fieldByName(form, 'commonName'),
+          fieldByName(form, 'scientificName')
+        ]);
+
+        const care = createCard(
+          'plant-form-care-card', '04', 'Use & care',
+          'Light, water, and recommended spacing.',
+          'plant-form-care-grid'
+        );
+        move(care.grid, [
+          fieldByName(form, 'sun'),
+          fieldByName(form, 'water'),
+          fieldByName(form, 'spacing')
+        ]);
+
+        const notes = createCard(
+          'plant-form-notes-card', '03', 'Tags & planting notes',
+          'Search labels and practical planting instructions.',
+          'plant-form-notes-grid'
+        );
+        move(notes.grid, [
+          fieldByName(form, 'tags'),
+          fieldByName(form, 'plantingNotes')
+        ]);
+
+        const growth = createCard(
+          'plant-form-growth-card', '05', 'Growth details',
+          'Mature dimensions and preferred growing conditions.',
+          'plant-form-growth-grid'
+        );
+        move(growth.grid, [
+          fieldByName(form, 'matureHeight'),
+          fieldByName(form, 'matureSpread'),
+          fieldByName(form, 'growingCondition')
+        ]);
+
+        sizesSection.classList.add('plant-form-card', 'plant-form-sizes-card');
+        const sizesHeader = cardHeader('06', 'Available sizes', 'Add one row for each nursery size and unit.');
+        sizesSection.insertBefore(sizesHeader, sizesSection.firstChild);
+
+        // Keep the form clean and predictable: alert first, then grouped sections.
+        [media.card, identity.card, notes.card, care.card, growth.card, sizesSection]
+          .forEach(card => form.appendChild(card));
+        if (alert) form.insertBefore(alert, form.firstChild);
+
+        form.classList.add('plant-form-organized');
+        form.dataset.compactOrganizationInstalled = 'true';
+        form.closest('.modal')?.classList.add('plant-form-modal');
+      }
+
+      function schedule(form) {
+        if (!form) return;
+        requestAnimationFrame(() => organizePlantForm(form));
+        setTimeout(() => organizePlantForm(form), 60);
+        setTimeout(() => organizePlantForm(form), 220);
+      }
+
+      function scan(root = document) {
+        if (root instanceof Element && root.matches('#plantForm')) schedule(root);
+        root.querySelectorAll?.('#plantForm').forEach(schedule);
+      }
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+          if (node instanceof Element) scan(node);
+        }));
+      });
+
+      observer.observe(document.getElementById('modalRoot') || document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      scan();
+    })();
+
+/* Migrated index script block 9. */
+/* Temporarily hide Help while scrolling, then restore it when scrolling stops. */
+    (() => {
+      const launcher = document.getElementById('feedbackToggle');
+      const panel = document.getElementById('feedbackPanel');
+      if (!launcher) return;
+
+      let revealTimer = 0;
+      const revealDelay = 260;
+
+      function helpIsOpen() {
+        return launcher.getAttribute('aria-expanded') === 'true' || (panel && !panel.hidden);
+      }
+
+      function revealHelp() {
+        window.clearTimeout(revealTimer);
+        launcher.classList.remove('help-hidden-while-scrolling');
+      }
+
+      function handleScrolling() {
+        window.clearTimeout(revealTimer);
+
+        if (helpIsOpen()) {
+          revealHelp();
+          return;
+        }
+
+        launcher.classList.add('help-hidden-while-scrolling');
+        revealTimer = window.setTimeout(revealHelp, revealDelay);
+      }
+
+      // Capture scrolls from the page, modal content, and other nested scroll areas.
+      document.addEventListener('scroll', handleScrolling, { passive: true, capture: true });
+      window.addEventListener('scroll', handleScrolling, { passive: true });
+
+      // Keep the launcher visible whenever Help is opened or keyboard-focused.
+      launcher.addEventListener('click', revealHelp);
+      launcher.addEventListener('focus', revealHelp);
+      document.getElementById('feedbackClose')?.addEventListener('click', revealHelp);
+      document.getElementById('feedbackCancel')?.addEventListener('click', revealHelp);
+    })();
+
+/* Migrated index script block 10. */
+(() => {
+      'use strict';
+
+      const selector = '.moodboard-page-toolbar > strong, .moodboard-page-toolbar > span';
+
+      function removeLabels(root = document) {
+        if (root instanceof Element && root.matches(selector)) root.remove();
+        root.querySelectorAll?.(selector).forEach(label => label.remove());
+      }
+
+      removeLabels();
+
+      const target = document.getElementById('pageContent') || document.body;
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          mutation.addedNodes.forEach(node => {
+            if (node instanceof Element) removeLabels(node);
+          });
+        });
+      });
+
+      observer.observe(target, { childList: true, subtree: true });
+    })();
+
+/* Migrated index script block 11. */
+(() => {
+      'use strict';
+
+      const LENS_URL = 'https://www.google.com/?olud=';
+      const TRANSFORMERS_URL = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+      const MODEL_ID = 'onnx-community/FloraSense-ONNX';
+      const PLANT_STORAGE_KEY = 'greenscape-plant-library-plants-v1';
+      const MAX_FILE_BYTES = 20 * 1024 * 1024;
+      const pageContent = document.getElementById('pageContent');
+      const pageTitle = document.getElementById('pageTitle');
+      let identifierOpen = false;
+      let selectedImage = null;
+      let classifierPromise = null;
+      let isAnalyzing = false;
+      let latestResults = [];
+
+      const escapeHTML = value => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      function cameraLeafIcon() {
+        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h3l1.3-2h7.4l1.3 2h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.8 3.8c-2.4.1-4.1 1.1-4.8 2.8 1.9.2 3.6-.5 4.8-2.8Z" fill="currentColor"/></svg>`;
+      }
+
+      function installDashboardButton(root = document) {
+        const actions = root.querySelector?.('.hero-actions') || (root.matches?.('.hero-actions') ? root : null);
+        if (!actions) return;
+        actions.querySelector('[data-action="new-project"]')?.remove();
+        if (actions.querySelector('[data-action="open-google-lens-identifier"]')) return;
+        actions.querySelector('[data-action="open-local-identifier"]')?.remove();
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'button secondary greenscape-identifier-hero-button';
+        button.dataset.action = 'open-google-lens-identifier';
+        button.innerHTML = `<span class="identifier-button-icon">${cameraLeafIcon()}</span><span>Plant Identifier</span>`;
+        actions.appendChild(button);
+      }
+
+      function identifierPageHTML() {
+        return `
+          <section class="lens-identifier-page" aria-label="Google Lens Plant Identifier">
+            <header class="lens-identifier-intro">
+              <div>
+                <h2>Identify a plant on this device.</h2>
+                <p>Upload a plant photo to see possible common name and scientific name matches, then verify the selected result with Google Lens.</p>
+              </div>
+            </header>
+
+            <div class="lens-identifier-workspace">
+              <section class="lens-identifier-card lens-identifier-upload-card">
+                <header class="lens-identifier-card-header">
+                  <div><h3>Choose plant photo</h3><p>Use the same photo again when Google Lens asks you to select an image.</p></div>
+                  <span class="lens-identifier-step">01</span>
+                </header>
+                <div class="lens-identifier-upload-body">
+                  <div class="lens-identifier-dropzone" id="lensIdentifierDropzone">
+                    <div id="lensIdentifierEmptyUpload">
+                      <span class="lens-identifier-camera-icon">${cameraLeafIcon()}</span>
+                      <strong>Choose a plant photo</strong>
+                      <p>JPG, PNG, WEBP, or supported phone image · maximum 20 MB</p>
+                      <div class="lens-identifier-upload-actions">
+                        <button class="button primary" type="button" data-lens-identifier-action="choose-photo">Choose photo</button>
+                      </div>
+                    </div>
+                    <div class="lens-identifier-preview" id="lensIdentifierPreview" hidden>
+                      <img id="lensIdentifierPreviewImage" alt="Selected plant photo">
+                      <div class="lens-identifier-preview-actions">
+                        <button class="button secondary small" type="button" data-lens-identifier-action="replace-photo">Replace</button>
+                        <button class="button secondary small" type="button" data-lens-identifier-action="remove-photo">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="lensIdentifierGalleryInput" type="file" accept="image/*" hidden>
+                  <div class="lens-identifier-tip"><strong>Tip</strong><span>Choose a clear leaf, flower, fruit, bark, or full-plant photo against a simple background.</span></div>
+                  <div class="lens-identifier-analysis-actions">
+                    <button class="button primary lens-identifier-open-button" id="lensIdentifierAnalyzeButton" type="button" data-lens-identifier-action="analyze-photo" disabled>Analyze on this device</button>
+                    <button class="button secondary" id="lensIdentifierOpenButton" type="button" disabled>Verify with Google Lens</button>
+                  </div>
+                  <div class="lens-identifier-status" id="lensIdentifierStatus" hidden aria-live="polite">
+                    <strong id="lensIdentifierStatusTitle">Preparing identifier</strong>
+                    <span id="lensIdentifierStatusText">The first use downloads approximately 225 MB and may take several minutes on mobile data.</span>
+                    <div class="lens-identifier-progress"><span id="lensIdentifierProgressBar"></span></div>
+                  </div>
+                  <p class="lens-identifier-privacy-copy">Google Lens opens in a new tab. For browser security, choose the same photo again when Google Lens asks for it.</p>
+                </div>
+              </section>
+
+              <section class="lens-identifier-card">
+                <header class="lens-identifier-card-header">
+                  <div><h3>Possible plant matches</h3><p>Review possible common name and scientific name matches.</p></div>
+                  <span class="lens-identifier-step">02</span>
+                </header>
+                <div class="lens-identifier-details-body">
+                  <div class="lens-identifier-warning"><strong>Important</strong><span>The local research model and Google Lens provide suggestions, not guaranteed identification. Confirm edible, toxic, medicinal, or important plants with a qualified plant professional.</span></div>
+
+                  <div class="lens-identifier-results" id="lensIdentifierResults">
+                    <div class="lens-identifier-results-empty">Possible plant common name and scientific name matches will appear here after analysis.</div>
+                  </div>
+
+                  <div class="lens-identifier-error" id="lensIdentifierError" hidden></div>
+                </div>
+              </section>
+            </div>
+          </section>`;
+      }
+
+      function showIdentifierPage(pushHistory = true) {
+        if (!pageContent || !pageTitle) return;
+        identifierOpen = true;
+        document.querySelectorAll('.nav-item').forEach(button => button.classList.remove('active'));
+        pageTitle.textContent = 'Plant Identifier';
+        pageContent.innerHTML = identifierPageHTML();
+        bindIdentifierPage();
+        if (pushHistory && location.hash !== '#identifier') history.pushState({ greenscapeIdentifier: true }, '', '#identifier');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function bindIdentifierPage() {
+        const galleryInput = document.getElementById('lensIdentifierGalleryInput');
+        const openButton = document.getElementById('lensIdentifierOpenButton');
+        const dropzone = document.getElementById('lensIdentifierDropzone');
+        galleryInput?.addEventListener('change', event => handleFiles(event.target.files));
+        openButton?.addEventListener('click', openGoogleLens);
+        ['lensIdentifierCommonName', 'lensIdentifierScientificName'].forEach(id => {
+          document.getElementById(id)?.addEventListener('input', updateDuplicateWarning);
+        });
+        if (dropzone) {
+          ['dragenter', 'dragover'].forEach(type => dropzone.addEventListener(type, event => {
+            event.preventDefault();
+            dropzone.classList.add('is-dragging');
+          }));
+          ['dragleave', 'drop'].forEach(type => dropzone.addEventListener(type, event => {
+            event.preventDefault();
+            dropzone.classList.remove('is-dragging');
+          }));
+          dropzone.addEventListener('drop', event => handleFiles(event.dataTransfer?.files));
+        }
+        renderSelectedImage();
+      }
+
+      async function handleFiles(fileList) {
+        const file = fileList?.[0];
+        if (!file) return;
+        clearError();
+        if (!String(file.type || '').startsWith('image/')) {
+          showError('Choose an image file such as JPG, PNG, WEBP, HEIC, or HEIF.');
+          clearFileInput();
+          return;
+        }
+        if (file.size > MAX_FILE_BYTES) {
+          showError('Choose a photo smaller than 20 MB.');
+          clearFileInput();
+          return;
+        }
+        try {
+          selectedImage = await prepareImage(file);
+          latestResults = [];
+          renderSelectedImage();
+          renderIdentifierResults();
+          hideIdentifierStatus();
+        } catch (error) {
+          selectedImage = null;
+          renderSelectedImage();
+          showError('This browser could not preview the selected image. Try a JPG or PNG version.');
+        }
+      }
+
+      function prepareImage(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onerror = reject;
+          reader.onload = () => {
+            const dataUrl = String(reader.result || '');
+            const image = new Image();
+            image.onerror = reject;
+            image.onload = () => {
+              const maxSide = 1600;
+              const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+              const width = Math.max(1, Math.round(image.naturalWidth * scale));
+              const height = Math.max(1, Math.round(image.naturalHeight * scale));
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const context = canvas.getContext('2d', { alpha: false });
+              context.fillStyle = '#ffffff';
+              context.fillRect(0, 0, width, height);
+              context.drawImage(image, 0, 0, width, height);
+              canvas.toBlob(blob => {
+                if (!blob) {
+                  resolve({ file, dataUrl, originalName: file.name });
+                  return;
+                }
+                const optimizedFile = new File([blob], `${file.name.replace(/\.[^.]+$/, '') || 'plant-photo'}.jpg`, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                });
+                resolve({
+                  file: optimizedFile,
+                  dataUrl: canvas.toDataURL('image/jpeg', .88),
+                  originalName: file.name
+                });
+              }, 'image/jpeg', .88);
+            };
+            image.src = dataUrl;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function renderSelectedImage() {
+        const empty = document.getElementById('lensIdentifierEmptyUpload');
+        const preview = document.getElementById('lensIdentifierPreview');
+        const image = document.getElementById('lensIdentifierPreviewImage');
+        const lensButton = document.getElementById('lensIdentifierOpenButton');
+        const analyzeButton = document.getElementById('lensIdentifierAnalyzeButton');
+        if (!empty || !preview || !image || !lensButton || !analyzeButton) return;
+        if (selectedImage?.dataUrl) {
+          empty.hidden = true;
+          preview.hidden = false;
+          image.src = selectedImage.dataUrl;
+          lensButton.disabled = false;
+          analyzeButton.disabled = isAnalyzing;
+        } else {
+          empty.hidden = false;
+          preview.hidden = true;
+          image.removeAttribute('src');
+          lensButton.disabled = true;
+          analyzeButton.disabled = true;
+        }
+      }
+
+      function clearFileInput() {
+        const input = document.getElementById('lensIdentifierGalleryInput');
+        if (input) input.value = '';
+      }
+
+      function removeSelectedImage() {
+        selectedImage = null;
+        latestResults = [];
+        clearFileInput();
+        renderSelectedImage();
+        renderIdentifierResults();
+        hideIdentifierStatus();
+        clearError();
+      }
+
+      function openGoogleLens() {
+        if (!selectedImage) {
+          showError('Choose a plant photo first.');
+          return;
+        }
+        const opened = window.open(LENS_URL, '_blank', 'noopener,noreferrer');
+        if (!opened) window.location.href = LENS_URL;
+      }
+
+      function setIdentifierStatus(title, text, progress = 0) {
+        const status = document.getElementById('lensIdentifierStatus');
+        const titleElement = document.getElementById('lensIdentifierStatusTitle');
+        const textElement = document.getElementById('lensIdentifierStatusText');
+        const progressBar = document.getElementById('lensIdentifierProgressBar');
+        if (!status || !titleElement || !textElement || !progressBar) return;
+        status.hidden = false;
+        titleElement.textContent = title;
+        textElement.textContent = text;
+        progressBar.style.width = `${Math.max(0, Math.min(100, Number(progress) || 0))}%`;
+      }
+
+      function hideIdentifierStatus() {
+        const status = document.getElementById('lensIdentifierStatus');
+        if (status) status.hidden = true;
+      }
+
+      function modelProgress(update) {
+        if (!update || typeof update !== 'object') return;
+        if (update.status === 'progress') {
+          const percent = Number(update.progress) || 0;
+          const file = String(update.file || '').split('/').pop() || 'model file';
+          setIdentifierStatus('Downloading plant model', `${file} · ${Math.round(percent)}%`, percent);
+          return;
+        }
+        if (update.status === 'ready') {
+          setIdentifierStatus('Plant model ready', 'Analyzing the selected photo on this device…', 100);
+          return;
+        }
+        if (update.status === 'initiate' || update.status === 'download') {
+          setIdentifierStatus('Preparing plant model', 'Downloading and caching the on-device identifier for first use…', 4);
+        }
+      }
+
+      async function getPlantClassifier() {
+        if (!classifierPromise) {
+          classifierPromise = (async () => {
+            const { pipeline } = await import(TRANSFORMERS_URL);
+            return pipeline('image-classification', MODEL_ID, {
+              dtype: 'q4',
+              progress_callback: modelProgress
+            });
+          })().catch(error => {
+            classifierPromise = null;
+            throw error;
+          });
+        }
+        return classifierPromise;
+      }
+
+      function normalizeScientific(value) {
+        return String(value || '')
+          .toLowerCase()
+          .replace(/[^a-z\s-]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .split(' ')
+          .slice(0, 2)
+          .join(' ');
+      }
+
+      function scientificFromModelLabel(label) {
+        const words = String(label || '')
+          .replace(/_+/g, ' ')
+          .replace(/[^A-Za-z\s-]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .split(' ')
+          .filter(Boolean);
+        if (!words.length) return 'Unknown plant';
+        const genus = words[0];
+        const species = words.find((word, index) => index > 0 && /^[a-z][a-z-]+$/.test(word));
+        return [genus, species].filter(Boolean).join(' ');
+      }
+
+      function availablePlants() {
+        const stored = readStoredPlants();
+        const seeded = Array.isArray(window.GREENSCAPE_PLANT_DATA) ? window.GREENSCAPE_PLANT_DATA : [];
+        const source = stored.length ? stored : seeded;
+        return source.filter(plant => plant && plant.isPlant !== false);
+      }
+
+      function enrichModelResult(result, index) {
+        const scientificName = scientificFromModelLabel(result?.label);
+        const scientificKey = normalizeScientific(scientificName);
+        const libraryMatch = availablePlants().find(plant => normalizeScientific(plant.scientificName) === scientificKey);
+        return {
+          rank: index + 1,
+          score: Math.max(0, Math.min(1, Number(result?.score) || 0)),
+          commonName: String(libraryMatch?.commonName || '').trim(),
+          scientificName,
+          inLibrary: Boolean(libraryMatch),
+          image: String(libraryMatch?.image || '').trim()
+        };
+      }
+
+      function safeIdentifierImage(value) {
+        const source = String(value || '').trim();
+        return /^(?:assets\/images\/|https?:\/\/|blob:|data:image\/)/i.test(source) ? source : '';
+      }
+
+      async function wikipediaPlantImage(scientificName) {
+        const title = String(scientificName || '').trim();
+        if (!title) return '';
+        const endpoint = `https://en.wikipedia.org/w/api.php?origin=*&action=query&format=json&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=${encodeURIComponent(title)}`;
+        try {
+          const response = await fetch(endpoint);
+          if (!response.ok) return '';
+          const data = await response.json();
+          const pages = Object.values(data?.query?.pages || {});
+          return safeIdentifierImage(pages[0]?.thumbnail?.source || '');
+        } catch (error) {
+          return '';
+        }
+      }
+
+      async function iNaturalistPlantDetails(scientificName) {
+        const title = String(scientificName || '').trim();
+        if (!title) return { image: '', commonName: '' };
+        const endpoint = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(title)}&rank=species&per_page=5`;
+        try {
+          const response = await fetch(endpoint);
+          if (!response.ok) return { image: '', commonName: '' };
+          const data = await response.json();
+          const taxa = Array.isArray(data?.results) ? data.results : [];
+          const exact = taxa.find(taxon => normalizeScientific(taxon?.name) === normalizeScientific(title));
+          const match = exact || taxa[0] || {};
+          return {
+            image: safeIdentifierImage(match?.default_photo?.medium_url || match?.default_photo?.square_url || ''),
+            commonName: String(match?.preferred_common_name || '').trim()
+          };
+        } catch (error) {
+          return { image: '', commonName: '' };
+        }
+      }
+
+      async function loadIdentifierResultImages() {
+        const resultSet = latestResults;
+        await Promise.all(resultSet.map(async (result, index) => {
+          const details = await iNaturalistPlantDetails(result.scientificName);
+          if (latestResults !== resultSet) return;
+          if (!result.commonName && details.commonName) {
+            result.commonName = details.commonName;
+            const commonName = document.querySelector(`[data-identifier-result-common="${index}"]`);
+            const note = document.querySelector(`[data-identifier-result-note="${index}"]`);
+            if (commonName) commonName.textContent = details.commonName;
+            if (note) note.textContent = 'Common name supplied by iNaturalist. Confirm important identifications.';
+          }
+          const source = safeIdentifierImage(result.image) || details.image || await wikipediaPlantImage(result.scientificName);
+          if (!source || latestResults !== resultSet || safeIdentifierImage(result.image)) return;
+          result.image = source;
+          const holder = document.querySelector(`[data-identifier-result-photo="${index}"]`);
+          if (!holder) return;
+          const rank = holder.querySelector('.lens-identifier-result-rank');
+          const image = document.createElement('img');
+          image.src = source;
+          image.alt = `${result.commonName || result.scientificName} plant`;
+          holder.replaceChildren(image);
+          if (rank) holder.appendChild(rank);
+        }));
+      }
+
+      function confidenceClass(score) {
+        if (score >= .75) return 'high';
+        if (score < .45) return 'low';
+        return 'medium';
+      }
+
+      function renderIdentifierResults() {
+        const container = document.getElementById('lensIdentifierResults');
+        if (!container) return;
+        if (!latestResults.length) {
+          container.innerHTML = '<div class="lens-identifier-results-empty">Possible common and scientific name matches will appear here after local analysis.</div>';
+          return;
+        }
+        container.innerHTML = latestResults.map((result, index) => {
+          const percentage = Math.max(1, Math.round(result.score * 100));
+          const commonName = result.commonName || 'Common name not found in Greenscape library';
+          const image = safeIdentifierImage(result.image);
+          return `<article class="lens-identifier-result">
+            <div class="lens-identifier-result-image" data-identifier-result-photo="${index}">
+              ${image ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(commonName)} plant">` : cameraLeafIcon()}
+              <span class="lens-identifier-result-rank">${result.rank}</span>
+            </div>
+            <div class="lens-identifier-result-copy">
+              <strong data-identifier-result-common="${index}">${escapeHTML(commonName)}</strong>
+              <em>${escapeHTML(result.scientificName)}</em>
+              <span class="lens-identifier-confidence ${confidenceClass(result.score)}">${percentage}% model confidence</span>
+              <small data-identifier-result-note="${index}">${result.inLibrary ? 'Common name matched from the Greenscape library.' : 'Checking botanical references for the common name and photo.'}</small>
+            </div>
+          </article>`;
+        }).join('');
+        loadIdentifierResultImages();
+      }
+
+      function selectIdentifierResult(index) {
+        const result = latestResults[Number(index)];
+        if (!result) return;
+        const commonInput = document.getElementById('lensIdentifierCommonName');
+        const scientificInput = document.getElementById('lensIdentifierScientificName');
+        if (commonInput) commonInput.value = result.commonName || '';
+        if (scientificInput) scientificInput.value = result.scientificName || '';
+        updateDuplicateWarning();
+        clearError();
+        if (!result.commonName) showError('Scientific name selected. Verify and enter its common name before opening the Add Plant form.');
+        commonInput?.focus();
+      }
+
+      async function analyzeSelectedImage() {
+        if (!selectedImage?.dataUrl || isAnalyzing) {
+          if (!selectedImage?.dataUrl) showError('Choose a plant photo first.');
+          return;
+        }
+        clearError();
+        latestResults = [];
+        renderIdentifierResults();
+        isAnalyzing = true;
+        renderSelectedImage();
+        const button = document.getElementById('lensIdentifierAnalyzeButton');
+        if (button) button.textContent = 'Loading plant model…';
+        setIdentifierStatus('Preparing plant model', 'First use downloads approximately 225 MB. Keep this page open while the model is cached.', 2);
+        try {
+          const classifier = await getPlantClassifier();
+          if (button) button.textContent = 'Analyzing photo…';
+          setIdentifierStatus('Analyzing photo', 'The selected image is now being processed locally in this browser.', 100);
+          const output = await classifier(selectedImage.dataUrl, { top_k: 5 });
+          latestResults = (Array.isArray(output) ? output : []).map(enrichModelResult);
+          renderIdentifierResults();
+          setIdentifierStatus('Analysis complete', `${latestResults.length} possible matches found. Select one and verify it with Google Lens.`, 100);
+          if (!latestResults.length) showError('No plant matches were returned. Try a clearer photo or use Google Lens.');
+        } catch (error) {
+          console.error('Local plant identification failed.', error);
+          classifierPromise = null;
+          setIdentifierStatus('Identifier unavailable', 'The model could not load or analyze this photo. Check the internet connection and try again.', 0);
+          showError('Local identification failed. Retry on a stable connection or use Google Lens instead.');
+        } finally {
+          isAnalyzing = false;
+          if (button) button.textContent = 'Analyze on this device';
+          renderSelectedImage();
+        }
+      }
+
+      function readStoredPlants() {
+        try {
+          const value = JSON.parse(localStorage.getItem(PLANT_STORAGE_KEY) || '[]');
+          return Array.isArray(value) ? value : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function enteredNames() {
+        return {
+          commonName: String(document.getElementById('lensIdentifierCommonName')?.value || '').trim(),
+          scientificName: String(document.getElementById('lensIdentifierScientificName')?.value || '').trim()
+        };
+      }
+
+      function duplicateMatches() {
+        const { commonName, scientificName } = enteredNames();
+        const common = commonName.toLowerCase();
+        const scientific = scientificName.toLowerCase();
+        return readStoredPlants().filter(plant => {
+          const existingCommon = String(plant.commonName || '').trim().toLowerCase();
+          const existingScientific = String(plant.scientificName || '').trim().toLowerCase();
+          return (common && common === existingCommon) || (scientific && scientific === existingScientific);
+        });
+      }
+
+      function updateDuplicateWarning() {
+        const warning = document.getElementById('lensIdentifierDuplicate');
+        if (!warning) return;
+        const matches = duplicateMatches();
+        if (!matches.length) {
+          warning.hidden = true;
+          warning.textContent = '';
+          return;
+        }
+        warning.hidden = false;
+        warning.innerHTML = `<strong>Possible duplicate:</strong> ${escapeHTML(matches.slice(0, 3).map(plant => `${plant.commonName || 'Unnamed'} (${plant.scientificName || 'no scientific name'})`).join(', '))}.`;
+      }
+
+      function googleNameSearch(commonName, scientificName) {
+        const query = [commonName, scientificName].filter(Boolean).join(' ');
+        return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      }
+
+      function verifyEnteredNames() {
+        clearError();
+        const { commonName, scientificName } = enteredNames();
+        if (!commonName && !scientificName) {
+          showError('Enter a common name or scientific name first.');
+          return;
+        }
+        const url = googleNameSearch(commonName, scientificName);
+        const opened = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!opened) window.location.href = url;
+      }
+
+      function openAddPlantForm() {
+        clearError();
+        const { commonName, scientificName } = enteredNames();
+        if (!commonName || !scientificName) {
+          showError('Enter both the common name and scientific name before opening the Add Plant form.');
+          return;
+        }
+        const duplicates = duplicateMatches();
+        if (duplicates.length && !window.confirm('A plant with the same common or scientific name may already exist. Open the Add Plant form anyway?')) return;
+
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.dataset.action = 'new-plant';
+        trigger.hidden = true;
+        document.body.appendChild(trigger);
+        trigger.click();
+        trigger.remove();
+
+        waitForPlantForm().then(form => {
+          if (!form) return;
+          const commonInput = form.querySelector('[name="commonName"]');
+          const scientificInput = form.querySelector('[name="scientificName"]');
+          const tagsInput = form.querySelector('[name="tags"]');
+          const linkInput = form.querySelector('[name="link"], [data-plant-reference-input]');
+          if (commonInput) {
+            commonInput.value = commonName;
+            commonInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          if (scientificInput) {
+            scientificInput.value = scientificName;
+            scientificInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          if (tagsInput) tagsInput.value = 'google lens, plant identifier';
+          if (linkInput) {
+            linkInput.value = googleNameSearch(commonName, scientificName);
+            linkInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          setTimeout(() => attachImageToPlantForm(form), 260);
+          commonInput?.focus();
+        });
+      }
+
+      function waitForPlantForm() {
+        return new Promise(resolve => {
+          const existing = document.getElementById('plantForm');
+          if (existing) {
+            resolve(existing);
+            return;
+          }
+          const observer = new MutationObserver(() => {
+            const form = document.getElementById('plantForm');
+            if (!form) return;
+            observer.disconnect();
+            resolve(form);
+          });
+          observer.observe(document.getElementById('modalRoot') || document.body, { childList: true, subtree: true });
+          setTimeout(() => {
+            observer.disconnect();
+            resolve(document.getElementById('plantForm'));
+          }, 1800);
+        });
+      }
+
+      function attachImageToPlantForm(form) {
+        const imageInput = form?.querySelector('input[name="imageFile"]');
+        if (!imageInput || !selectedImage?.file || typeof DataTransfer === 'undefined') return;
+        try {
+          const transfer = new DataTransfer();
+          transfer.items.add(selectedImage.file);
+          imageInput.files = transfer.files;
+          imageInput.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch (error) {
+          console.warn('The selected identifier image could not be attached automatically.', error);
+        }
+      }
+
+      function showError(message) {
+        const error = document.getElementById('lensIdentifierError');
+        if (!error) return;
+        error.hidden = false;
+        error.textContent = message;
+      }
+
+      function clearError() {
+        const error = document.getElementById('lensIdentifierError');
+        if (!error) return;
+        error.hidden = true;
+        error.textContent = '';
+      }
+
+      document.addEventListener('click', event => {
+        const dashboardButton = event.target.closest('[data-action="open-google-lens-identifier"]');
+        if (dashboardButton) {
+          event.preventDefault();
+          showIdentifierPage(true);
+          return;
+        }
+
+        const viewButton = event.target.closest('[data-view]');
+        if (viewButton && identifierOpen) identifierOpen = false;
+
+        const actionTarget = event.target.closest('[data-lens-identifier-action]');
+        if (!actionTarget) return;
+        const action = actionTarget.dataset.lensIdentifierAction;
+        if (action === 'choose-photo' || action === 'replace-photo') document.getElementById('lensIdentifierGalleryInput')?.click();
+        if (action === 'remove-photo') removeSelectedImage();
+        if (action === 'analyze-photo') analyzeSelectedImage();
+      }, true);
+
+      const dashboardObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+          if (!(node instanceof Element)) return;
+          installDashboardButton(node);
+          node.querySelectorAll?.('.hero-actions').forEach(installDashboardButton);
+        }));
+      });
+      dashboardObserver.observe(pageContent || document.body, { childList: true, subtree: true });
+
+      window.addEventListener('popstate', () => {
+        if (location.hash === '#identifier') {
+          showIdentifierPage(false);
+          return;
+        }
+        identifierOpen = false;
+        const view = location.hash.slice(1) || 'dashboard';
+        const nav = document.querySelector(`[data-view="${CSS.escape(view)}"]`) || document.querySelector('[data-view="dashboard"]');
+        nav?.click();
+      });
+
+      requestAnimationFrame(() => {
+        installDashboardButton(document);
+        if (location.hash === '#identifier') showIdentifierPage(false);
+      });
+    })();
