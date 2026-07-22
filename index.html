@@ -4040,7 +4040,7 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       align-items: center;
       gap: 20px;
       padding: 25px 27px;
@@ -4062,17 +4062,6 @@
       border: 1px solid rgba(255,255,255,.18);
       border-radius: 50%;
     }
-    .lens-identifier-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      margin-bottom: 7px;
-      color: #dce98d;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
     .lens-identifier-intro h2 {
       margin: 0;
       max-width: 720px;
@@ -4087,24 +4076,6 @@
       color: #d4e3da;
       font-size: 13px;
       line-height: 1.58;
-    }
-    .lens-identifier-badge {
-      min-width: 205px;
-      display: grid;
-      gap: 4px;
-      padding: 14px 16px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 16px;
-      background: rgba(255,255,255,.08);
-      backdrop-filter: blur(12px);
-    }
-    .lens-identifier-badge strong {
-      font-size: 12px;
-    }
-    .lens-identifier-badge span {
-      color: #c8dbd0;
-      font-size: 9px;
-      line-height: 1.45;
     }
     .lens-identifier-workspace {
       display: grid;
@@ -4637,13 +4608,8 @@
           <section class="lens-identifier-page" aria-label="Google Lens Plant Identifier">
             <header class="lens-identifier-intro">
               <div>
-                <span class="lens-identifier-kicker">${cameraLeafIcon()} On-device AI + Google Lens</span>
                 <h2>Identify a plant on this device.</h2>
-                <p>Upload a plant photo, download the identification model once, review possible matches inside Greenscape, then verify the selected result with Google Lens.</p>
-              </div>
-              <div class="lens-identifier-badge">
-                <strong>Private local analysis</strong>
-                <span>No API key is required. The first analysis downloads and caches a large research model; the selected photo is analyzed in your browser.</span>
+                <p>Upload a plant photo to see possible common name and scientific name matches, then verify the selected result with Google Lens.</p>
               </div>
             </header>
 
@@ -4692,14 +4658,8 @@
                   <span class="lens-identifier-step">02</span>
                 </header>
                 <div class="lens-identifier-details-body">
-                  <div class="lens-identifier-steps">
-                    <div class="lens-identifier-step-row"><b>1</b><span>Choose one clear plant photo.</span></div>
-                    <div class="lens-identifier-step-row"><b>2</b><span>Tap <strong>Analyze on this device</strong> and wait for the model.</span></div>
-                    <div class="lens-identifier-step-row"><b>3</b><span>Select a possible match and verify it with Google Lens before saving.</span></div>
-                  </div>
-
                   <div class="lens-identifier-results" id="lensIdentifierResults">
-                    <div class="lens-identifier-results-empty">Possible common and scientific name matches will appear here after local analysis.</div>
+                    <div class="lens-identifier-results-empty">Possible plant common name and scientific name matches will appear here after analysis.</div>
                   </div>
 
                   <div class="lens-identifier-form">
