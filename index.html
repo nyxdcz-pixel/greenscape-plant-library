@@ -1455,8 +1455,8 @@
 
   <style>
     /* =========================================================
-       GREENSCAPE AUTO REFERENCE LINKS
-       Three live plant references generated from plant names.
+       GREENSCAPE GOOGLE AI REFERENCE + IMAGE TOOLS
+       One automatic reference generated from plant names.
        ========================================================= */
     .plant-reference-field {
       grid-column: 1 / -1 !important;
@@ -1493,37 +1493,6 @@
       white-space: nowrap;
     }
 
-    .plant-reference-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 9px;
-    }
-
-    .plant-reference-item {
-      min-width: 0;
-    }
-
-    .plant-reference-source {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 7px;
-      margin: 0 0 5px;
-      color: var(--forest-700, #247553);
-      font-size: 9px;
-      font-weight: 850;
-      letter-spacing: .045em;
-      text-transform: uppercase;
-    }
-
-    .plant-reference-source small {
-      color: var(--muted, #68786f);
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 0;
-      text-transform: none;
-    }
-
     .plant-reference-input-wrap {
       position: relative;
       min-width: 0;
@@ -1531,7 +1500,7 @@
 
     .plant-reference-input-wrap .text-input {
       width: 100%;
-      padding-right: 40px !important;
+      padding-right: 42px !important;
       text-overflow: ellipsis;
     }
 
@@ -1574,19 +1543,43 @@
       line-height: 1.4;
     }
 
-    .plant-reference-status.is-searching {
-      color: var(--forest-700, #247553);
-      font-weight: 760;
-    }
-
     .plant-reference-status.is-error {
       color: var(--danger, #aa3f39);
     }
 
-    .plant-reference-detail-list {
-      display: grid;
-      gap: 7px;
+    .plant-reference-details {
       margin-top: 7px;
+      overflow: hidden;
+      border-radius: 13px;
+      background: rgba(226, 239, 231, .58);
+    }
+
+    .plant-reference-details summary {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      color: var(--forest-900, #0b4632);
+      cursor: pointer;
+      list-style: none;
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .plant-reference-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .plant-reference-details summary::after {
+      content: "⌄";
+      flex: 0 0 auto;
+      transition: transform .16s ease;
+    }
+
+    .plant-reference-details[open] summary::after {
+      transform: rotate(180deg);
     }
 
     .plant-reference-detail-link {
@@ -1594,11 +1587,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      min-width: 0;
-      padding: 9px 11px;
-      border-radius: 12px;
+      margin: 0 8px 8px;
+      padding: 10px 11px;
+      border-radius: 10px;
       color: var(--forest-900, #0b4632);
-      background: rgba(226, 239, 231, .60);
+      background: rgba(255,255,255,.62);
       text-decoration: none;
       font-size: 10px;
       font-weight: 800;
@@ -1607,14 +1600,7 @@
 
     .plant-reference-detail-link:hover {
       transform: translateY(-1px);
-      background: rgba(226, 239, 231, .92);
-    }
-
-    .plant-reference-detail-link span:first-child {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      background: rgba(255,255,255,.92);
     }
 
     .plant-reference-detail-link small {
@@ -1623,6 +1609,79 @@
       color: var(--muted, #68786f);
       font-size: 8px;
       font-weight: 650;
+    }
+
+    .detail-photo {
+      position: relative;
+    }
+
+    .plant-image-download {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 3;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border: 0;
+      border-radius: 999px;
+      color: #0b4632;
+      background: rgba(255,255,255,.82);
+      -webkit-backdrop-filter: blur(14px) saturate(155%);
+      backdrop-filter: blur(14px) saturate(155%);
+      box-shadow: 0 7px 20px rgba(9,43,31,.18), inset 0 1px 0 rgba(255,255,255,.9);
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .plant-image-edit-preview {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 9px;
+      padding: 8px;
+      border-radius: 13px;
+      background: rgba(233, 241, 236, .72);
+    }
+
+    .plant-image-edit-preview img,
+    .plant-image-edit-placeholder {
+      width: 74px;
+      height: 58px;
+      overflow: hidden;
+      border-radius: 10px;
+      object-fit: cover;
+      background: rgba(255,255,255,.74);
+    }
+
+    .plant-image-edit-placeholder {
+      display: grid;
+      place-items: center;
+      color: var(--muted, #68786f);
+      font-size: 9px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .plant-image-edit-copy strong,
+    .plant-image-edit-copy small {
+      display: block;
+    }
+
+    .plant-image-edit-copy strong {
+      color: var(--forest-900, #0b4632);
+      font-size: 10px;
+    }
+
+    .plant-image-edit-copy small {
+      margin-top: 3px;
+      color: var(--muted, #68786f);
+      font-size: 9px;
+      line-height: 1.4;
     }
 
     @media (max-width: 760px) {
@@ -1636,9 +1695,9 @@
         width: 100%;
       }
 
-      .plant-reference-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
+      .plant-image-download {
+        right: 8px;
+        bottom: 8px;
       }
     }
   </style>
@@ -1688,6 +1747,201 @@
       }
     }
   </style>
+
+
+  <!-- Tablet Dashboard Optimization: START -->
+  <style>
+    /* Dashboard-only iPad/tablet layout. Desktop and phone layouts remain unchanged. */
+    @media (min-width: 761px) and (max-width: 1180px) {
+      .main-area:has(> #pageContent > .hero) > .topbar {
+        min-height: 88px !important;
+        padding: 15px 24px 14px !important;
+      }
+      .main-area:has(> #pageContent > .hero) > .topbar h1 {
+        font-size: clamp(28px, 3.4vw, 34px) !important;
+      }
+      .main-area:has(> #pageContent > .hero) > .topbar .topbar-context {
+        margin-top: 2px !important;
+        font-size: 9px !important;
+      }
+      #pageContent:has(> .hero) {
+        padding: 22px 24px 44px !important;
+      }
+
+      #pageContent > .hero {
+        width: 100% !important;
+        height: 350px !important;
+        border-radius: 22px !important;
+        grid-template-columns: minmax(0, 1.12fr) minmax(220px, .72fr) !important;
+        box-shadow: 0 16px 38px rgba(7, 53, 39, .14) !important;
+      }
+      #pageContent > .hero .hero-copy {
+        min-width: 0 !important;
+        padding: 27px 28px !important;
+      }
+      #pageContent > .hero .hero-copy .overline {
+        font-size: 8px !important;
+      }
+      #pageContent > .hero .hero-copy h2 {
+        max-width: 500px !important;
+        margin: 8px 0 10px !important;
+        font-size: clamp(30px, 3.8vw, 38px) !important;
+        line-height: 1.04 !important;
+      }
+      #pageContent > .hero .hero-copy p {
+        max-width: 480px !important;
+        font-size: 12px !important;
+        line-height: 1.48 !important;
+      }
+      #pageContent > .hero .hero-actions {
+        gap: 8px !important;
+        margin-top: 17px !important;
+      }
+      #pageContent > .hero .hero-actions .button {
+        min-height: 38px !important;
+        padding: 8px 13px !important;
+        font-size: 11px !important;
+      }
+      #pageContent > .hero .hero-art,
+      #pageContent > .hero .hero-photo {
+        min-width: 0 !important;
+        min-height: 0 !important;
+      }
+
+      #pageContent > .hero + .stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        margin: 18px 0 !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-card {
+        min-width: 0 !important;
+        padding: 17px 18px !important;
+        border-radius: 17px !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-label {
+        font-size: 9px !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-value {
+        margin-top: 6px !important;
+        font-size: 29px !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-foot {
+        margin-top: 6px !important;
+        font-size: 9px !important;
+        line-height: 1.35 !important;
+      }
+
+      #pageContent > .hero ~ .two-column {
+        gap: 14px !important;
+      }
+      #pageContent > .hero ~ .two-column > .panel {
+        min-width: 0 !important;
+        overflow: hidden !important;
+        border-radius: 18px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel-header {
+        gap: 10px !important;
+        padding: 15px 17px 12px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel-header h2 {
+        font-size: 14px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel-header .button {
+        min-height: 32px !important;
+        padding: 6px 10px !important;
+        font-size: 9px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel-body {
+        padding: 15px 17px !important;
+      }
+      #pageContent > .hero ~ .two-column .category-bars {
+        gap: 9px !important;
+      }
+      #pageContent > .hero ~ .two-column .category-row {
+        grid-template-columns: minmax(96px, 126px) minmax(70px, 1fr) 25px !important;
+        gap: 8px !important;
+        font-size: 10px !important;
+      }
+      #pageContent > .hero ~ .two-column .bar-track {
+        height: 8px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel:last-child .panel-body > button {
+        padding: 10px 0 !important;
+      }
+      #pageContent > .hero ~ .two-column .panel:last-child .panel-body > button strong {
+        font-size: 11px !important;
+      }
+      #pageContent > .hero ~ .two-column .panel:last-child .panel-body > button span {
+        font-size: 9px !important;
+      }
+    }
+
+    /* iPad landscape and larger tablets: keep both dashboard panels visible side by side. */
+    @media (min-width: 900px) and (max-width: 1180px) {
+      #pageContent > .hero ~ .two-column {
+        grid-template-columns: minmax(0, 1.18fr) minmax(250px, .82fr) !important;
+      }
+    }
+
+    /* iPad portrait and compact tablets: use a photo-backed hero and stacked panels. */
+    @media (min-width: 761px) and (max-width: 899px) {
+      #pageContent:has(> .hero) {
+        padding: 18px 19px 40px !important;
+      }
+      #pageContent > .hero {
+        position: relative !important;
+        isolation: isolate !important;
+        height: 330px !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        align-items: stretch !important;
+      }
+      #pageContent > .hero .hero-copy {
+        z-index: 3 !important;
+        max-width: 490px !important;
+        align-self: end !important;
+        padding: 26px !important;
+        text-shadow: 0 2px 16px rgba(5, 35, 25, .24) !important;
+      }
+      #pageContent > .hero .hero-copy h2 {
+        max-width: 450px !important;
+        font-size: clamp(29px, 4.8vw, 36px) !important;
+      }
+      #pageContent > .hero .hero-copy p {
+        max-width: 440px !important;
+        color: rgba(255,255,255,.86) !important;
+      }
+      #pageContent > .hero .hero-art {
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 1 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+      }
+      #pageContent > .hero .hero-image-shade {
+        z-index: 2 !important;
+        background: linear-gradient(90deg, rgba(6, 48, 34, .94) 0%, rgba(7, 58, 40, .82) 52%, rgba(7, 58, 40, .30) 100%) !important;
+      }
+      #pageContent > .hero ~ .two-column {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    /* Larger tablet widths can return the summary cards to one compact row. */
+    @media (min-width: 1060px) and (max-width: 1180px) {
+      #pageContent > .hero + .stat-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-card {
+        padding: 16px !important;
+      }
+      #pageContent > .hero + .stat-grid .stat-value {
+        font-size: 27px !important;
+      }
+    }
+  </style>
+  <!-- Tablet Dashboard Optimization: END -->
 
 </head>
 <body>
@@ -2212,225 +2466,171 @@
 
   <script>
     /* =========================================================
-       GREENSCAPE AUTO REFERENCE LINKS
-       Reference 1 opens a Google Search designed to surface an AI Overview.
-       References 2 and 3 resolve GBIF and Wikipedia records.
+       GREENSCAPE GOOGLE AI OVERVIEW REFERENCE
+       Uses only Common Name + Scientific Name.
+       Also adds View Details reference, image download,
+       current-image preview, and replacement confirmation.
        ========================================================= */
     (() => {
       'use strict';
 
-      const REFERENCE_STORAGE_KEY = 'greenscape-plant-reference-links-v1';
       const PLANT_STORAGE_KEY = 'greenscape-plant-library-plants-v1';
-      const SOURCES = [
-        { key: 'google-ai', label: '1', provider: 'Google AI Overview', note: 'AI-generated Google Search overview' },
-        { key: 'gbif', label: '2', provider: 'GBIF', note: 'Taxonomy and occurrence' },
-        { key: 'wikipedia', label: '3', provider: 'Wikipedia', note: 'General plant reference' }
-      ];
-
-      const readJSON = (key, fallback) => {
-        try {
-          const value = localStorage.getItem(key);
-          return value ? JSON.parse(value) : fallback;
-        } catch (error) {
-          return fallback;
-        }
-      };
-
-      const writeJSON = (key, value) => {
-        try {
-          localStorage.setItem(key, JSON.stringify(value));
-          return true;
-        } catch (error) {
-          return false;
-        }
-      };
-
-      const referenceStore = () => {
-        const value = readJSON(REFERENCE_STORAGE_KEY, {});
-        return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
-      };
+      const capturedImages = new Map();
 
       const cleanUrl = value => {
         const url = String(value || '').trim();
         return /^https?:\/\//i.test(url) ? url : '';
       };
 
-      const cleanReferences = values => {
-        const records = Array.isArray(values) ? values : [];
-        const hasSourceMetadata = records.some(item => item && typeof item === 'object' && item.source);
-        return SOURCES.map((source, index) => {
-          const record = hasSourceMetadata
-            ? records.find(item => item?.source === source.key)
-            : records[index];
-          return {
-            source: source.key,
-            label: source.label,
-            url: cleanUrl(record?.url ?? record ?? '')
-          };
-        }).filter(item => item.url);
+      const escapeAttribute = value => String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      const googleAIReference = (commonName, scientificName) => {
+        const query = [commonName, scientificName]
+          .map(value => String(value || '').trim())
+          .filter(Boolean)
+          .join(' ');
+        return query ? `https://www.google.com/search?q=${encodeURIComponent(query)}` : '';
       };
 
-      const saveReferences = (plantId, values) => {
-        if (!plantId) return;
-        const store = referenceStore();
-        const references = cleanReferences(values);
-        if (references.length) store[plantId] = references;
-        else delete store[plantId];
-        writeJSON(REFERENCE_STORAGE_KEY, store);
-      };
-
-      const storedReferences = plantId => {
-        const records = plantId ? referenceStore()[plantId] : null;
-        return Array.isArray(records) ? cleanReferences(records) : [];
-      };
-
-      const timeoutFetchJSON = async (url, timeout = 6500) => {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), timeout);
+      const readStoredPlants = () => {
         try {
-          const response = await fetch(url, {
-            signal: controller.signal,
-            headers: { Accept: 'application/json' }
-          });
-          if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-          return await response.json();
-        } finally {
-          clearTimeout(timer);
-        }
-      };
-
-      const googleAIReference = async query => {
-        return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-      };
-
-      const gbifReference = async query => {
-        const fallback = `https://www.gbif.org/species/search?q=${encodeURIComponent(query)}`;
-        try {
-          const data = await timeoutFetchJSON(`https://api.gbif.org/v1/species/match?name=${encodeURIComponent(query)}`);
-          const key = data?.usageKey || data?.speciesKey;
-          return key ? `https://www.gbif.org/species/${encodeURIComponent(key)}` : fallback;
+          const records = JSON.parse(localStorage.getItem(PLANT_STORAGE_KEY) || '[]');
+          return Array.isArray(records) ? records : [];
         } catch (error) {
-          return fallback;
+          return [];
         }
       };
 
-      const wikipediaReference = async query => {
-        const fallback = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
-        try {
-          const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=info&inprop=url&format=json&origin=*`;
-          const data = await timeoutFetchJSON(url);
-          const page = Object.values(data?.query?.pages || {})[0];
-          return cleanUrl(page?.fullurl) || fallback;
-        } catch (error) {
-          return fallback;
-        }
+      const storedPlant = plantId => readStoredPlants().find(record => String(record?.id || '') === String(plantId || ''));
+
+      const plantNamesFromForm = form => ({
+        commonName: String(form.querySelector('#plantCommonName')?.value || '').trim(),
+        scientificName: String(form.querySelector('#plantScientificName')?.value || '').trim()
+      });
+
+      const updateReferenceOpenButton = form => {
+        const input = form.querySelector('[data-plant-reference-input]');
+        const anchor = form.querySelector('.plant-reference-open');
+        if (!input || !anchor) return;
+        const url = cleanUrl(input.value);
+        anchor.href = url || '#';
+        anchor.classList.toggle('is-ready', Boolean(url));
+        anchor.setAttribute('aria-disabled', url ? 'false' : 'true');
+        anchor.tabIndex = url ? 0 : -1;
       };
 
-      const referenceInputs = form => [...form.querySelectorAll('[data-plant-reference-input]')];
-
-      const updateOpenButtons = form => {
-        referenceInputs(form).forEach(input => {
-          const anchor = input.closest('.plant-reference-input-wrap')?.querySelector('.plant-reference-open');
-          const url = cleanUrl(input.value);
-          if (!anchor) return;
-          anchor.href = url || '#';
-          anchor.classList.toggle('is-ready', Boolean(url));
-          anchor.setAttribute('aria-disabled', url ? 'false' : 'true');
-          anchor.tabIndex = url ? 0 : -1;
-        });
-      };
-
-      const setReferenceStatus = (form, message, state = '') => {
+      const setReferenceStatus = (form, message, isError = false) => {
         const status = form.querySelector('[data-reference-status]');
         if (!status) return;
         status.textContent = message || '';
-        status.classList.toggle('is-searching', state === 'searching');
-        status.classList.toggle('is-error', state === 'error');
+        status.classList.toggle('is-error', Boolean(isError));
       };
 
-      const plantQuery = form => {
-        const common = String(form.querySelector('#plantCommonName')?.value || '').trim();
-        const scientific = String(form.querySelector('#plantScientificName')?.value || '').trim();
-        return [common, scientific].filter(Boolean).join(' ').trim();
+      const refreshReference = form => {
+        const input = form.querySelector('[data-plant-reference-input]');
+        if (!input) return;
+        const { commonName, scientificName } = plantNamesFromForm(form);
+        const url = googleAIReference(commonName, scientificName);
+        input.value = url;
+        updateReferenceOpenButton(form);
+        setReferenceStatus(
+          form,
+          url
+            ? 'Reference ready using Common Name + Scientific Name.'
+            : 'Enter the common and scientific names to create the reference.',
+          !url
+        );
       };
 
-      const findPlantReferences = async (form, replaceAll = false) => {
-        if (!form?.isConnected) return;
-        const query = plantQuery(form);
-        if (query.length < 3) {
-          setReferenceStatus(form, 'Enter the common and scientific names to find references.', 'error');
-          return;
-        }
-
-        const token = `${Date.now()}-${Math.random()}`;
-        form.dataset.referenceSearchToken = token;
-        setReferenceStatus(form, `Searching references for “${query}”…`, 'searching');
-
-        const results = await Promise.all([
-          googleAIReference(query),
-          gbifReference(query),
-          wikipediaReference(query)
-        ]);
-
-        if (!form.isConnected || form.dataset.referenceSearchToken !== token) return;
-        const inputs = referenceInputs(form);
-        results.forEach((url, index) => {
-          if (!inputs[index]) return;
-          if (replaceAll || !cleanUrl(inputs[index].value)) inputs[index].value = url;
-        });
-        updateOpenButtons(form);
-        const found = inputs.filter(input => cleanUrl(input.value)).length;
-        setReferenceStatus(form, `${found} reference link${found === 1 ? '' : 's'} ready. You may edit any link before saving.`);
-      };
-
-      const fieldTemplate = (references, originalLink) => {
-        const originalSourceIndex = /google\./i.test(originalLink) ? 0
-          : /gbif\.org/i.test(originalLink) ? 1
-          : /wikipedia\.org/i.test(originalLink) ? 2
-          : -1;
-        const values = SOURCES.map((source, index) => {
-          const stored = references.find(item => item.source === source.key)?.url || '';
-          return stored || (index === originalSourceIndex ? originalLink : '');
-        });
-
+      const referenceFieldTemplate = value => {
+        const url = cleanUrl(value);
         return `
           <div class="plant-reference-heading">
             <div>
-              <label>Reference links</label>
-              <p>Three references are searched automatically using only the common and scientific names.</p>
+              <label>Reference</label>
+              <p>Google AI Overview search using only Common Name + Scientific Name.</p>
             </div>
-            <button class="button ghost small" type="button" data-reference-search>Refresh references</button>
+            <button class="button ghost small" type="button" data-reference-search>Refresh reference</button>
           </div>
-          <div class="plant-reference-grid">
-            ${SOURCES.map((source, index) => `
-              <div class="plant-reference-item">
-                <div class="plant-reference-source">
-                  <span title="${source.provider}">${source.label}</span>
-                  <small>${index + 1} of 3</small>
-                </div>
-                <div class="plant-reference-input-wrap">
-                  <input
-                    class="text-input"
-                    type="url"
-                    ${index === 0 ? 'name="link"' : `name="referenceLink${index + 1}"`}
-                    data-plant-reference-input="${source.key}"
-                    value="${String(values[index] || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}"
-                    placeholder="${source.provider} reference URL"
-                    autocomplete="off">
-                  <a class="plant-reference-open${cleanUrl(values[index]) ? ' is-ready' : ''}"
-                     href="${cleanUrl(values[index]) || '#'}"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     title="Open ${source.provider} reference"
-                     aria-label="Open ${source.provider} reference"
-                     aria-disabled="${cleanUrl(values[index]) ? 'false' : 'true'}"
-                     tabindex="${cleanUrl(values[index]) ? '0' : '-1'}">↗</a>
-                </div>
-              </div>
-            `).join('')}
+          <div class="plant-reference-input-wrap">
+            <input
+              class="text-input"
+              type="url"
+              name="link"
+              data-plant-reference-input
+              value="${escapeAttribute(url)}"
+              placeholder="Google AI Overview reference"
+              autocomplete="off">
+            <a class="plant-reference-open${url ? ' is-ready' : ''}"
+               href="${url || '#'}"
+               target="_blank"
+               rel="noopener noreferrer"
+               title="Open Google AI Overview reference"
+               aria-label="Open Google AI Overview reference"
+               aria-disabled="${url ? 'false' : 'true'}"
+               tabindex="${url ? '0' : '-1'}">↗</a>
           </div>
           <div class="plant-reference-status" data-reference-status aria-live="polite"></div>
         `;
+      };
+
+      const currentImageForForm = form => {
+        const plantId = String(form.elements.id?.value || '').trim();
+        return capturedImages.get(plantId) || cleanUrl(storedPlant(plantId)?.image) || String(storedPlant(plantId)?.image || '').trim();
+      };
+
+      const renderImagePreview = (field, src, title, copy) => {
+        let preview = field.querySelector('.plant-image-edit-preview');
+        if (!preview) {
+          preview = document.createElement('div');
+          preview.className = 'plant-image-edit-preview';
+          field.insertBefore(preview, field.querySelector('input[name="imageFile"]'));
+        }
+        preview.innerHTML = src
+          ? `<img src="${escapeAttribute(src)}" alt="${escapeAttribute(title)}"><div class="plant-image-edit-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(copy)}</small></div>`
+          : `<div class="plant-image-edit-placeholder">No image</div><div class="plant-image-edit-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(copy)}</small></div>`;
+      };
+
+      const installImageEditor = form => {
+        const fileInput = form.querySelector('input[name="imageFile"]');
+        const field = fileInput?.closest('.form-field');
+        if (!fileInput || !field || field.dataset.imageEditorInstalled === 'true') return;
+        field.dataset.imageEditorInstalled = 'true';
+
+        const currentImage = currentImageForForm(form);
+        renderImagePreview(
+          field,
+          currentImage,
+          currentImage ? 'Current image' : 'No image uploaded',
+          currentImage ? 'Choose a new file only when you need to replace this image.' : 'Choose an image to add it to this plant.'
+        );
+
+        fileInput.addEventListener('change', () => {
+          const file = fileInput.files?.[0];
+          if (!file) return;
+
+          if (currentImage) {
+            const confirmed = window.confirm('Replace the current plant image? The existing image will be replaced after you save changes.');
+            if (!confirmed) {
+              fileInput.value = '';
+              renderImagePreview(field, currentImage, 'Current image', 'Image replacement cancelled.');
+              return;
+            }
+          }
+
+          const reader = new FileReader();
+          reader.onload = () => renderImagePreview(
+            field,
+            String(reader.result || ''),
+            'New image selected',
+            'This image will replace the current image after you save changes.'
+          );
+          reader.readAsDataURL(file);
+        });
       };
 
       const installPlantReferenceForm = form => {
@@ -2440,145 +2640,157 @@
         if (!originalInput || !originalField) return;
 
         form.dataset.referencesInstalled = 'true';
-        const plantId = String(form.elements.id?.value || '').trim();
-        const references = storedReferences(plantId);
-        const originalLink = cleanUrl(originalInput.value);
+        const { commonName, scientificName } = plantNamesFromForm(form);
+        const generated = googleAIReference(commonName, scientificName);
+        const existing = /google\./i.test(String(originalInput.value || '')) ? cleanUrl(originalInput.value) : '';
+
         originalField.classList.add('plant-reference-field', 'full');
-        originalField.innerHTML = fieldTemplate(references, originalLink);
+        originalField.innerHTML = referenceFieldTemplate(generated || existing);
 
-        const searchButton = originalField.querySelector('[data-reference-search]');
-        searchButton?.addEventListener('click', () => findPlantReferences(form, true));
+        originalField.querySelector('[data-reference-search]')?.addEventListener('click', () => refreshReference(form));
+        originalField.querySelector('[data-plant-reference-input]')?.addEventListener('input', () => updateReferenceOpenButton(form));
 
-        referenceInputs(form).forEach(input => {
-          input.addEventListener('input', () => updateOpenButtons(form));
-          input.addEventListener('blur', () => updateOpenButtons(form));
-        });
-
-        let searchTimer = 0;
-        const scheduleAutomaticSearch = () => {
-          clearTimeout(searchTimer);
-          searchTimer = setTimeout(() => findPlantReferences(form, true), 800);
+        let timer = 0;
+        const scheduleRefresh = () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => refreshReference(form), 550);
         };
+        form.querySelector('#plantCommonName')?.addEventListener('input', scheduleRefresh);
+        form.querySelector('#plantScientificName')?.addEventListener('input', scheduleRefresh);
 
-        form.querySelector('#plantCommonName')?.addEventListener('input', scheduleAutomaticSearch);
-        form.querySelector('#plantScientificName')?.addEventListener('input', scheduleAutomaticSearch);
-
-        updateOpenButtons(form);
-        const missing = referenceInputs(form).some(input => !cleanUrl(input.value));
-        if (missing && plantQuery(form).length >= 3) {
-          setTimeout(() => findPlantReferences(form, false), 350);
-        } else {
-          const count = referenceInputs(form).filter(input => cleanUrl(input.value)).length;
-          setReferenceStatus(form, count ? `${count} saved reference link${count === 1 ? '' : 's'} loaded.` : 'References will appear after a plant name is entered.');
-        }
+        updateReferenceOpenButton(form);
+        setReferenceStatus(form, generated ? 'Reference ready using Common Name + Scientific Name.' : 'Enter the plant names to create the reference.');
+        installImageEditor(form);
       };
 
-      const matchingPlantIds = (commonName, scientificName) => {
-        const records = readJSON(PLANT_STORAGE_KEY, []);
-        if (!Array.isArray(records)) return [];
-        const common = commonName.toLowerCase();
-        const scientific = scientificName.toLowerCase();
-        return records
-          .filter(record => {
-            const recordCommon = String(record?.commonName || '').trim().toLowerCase();
-            const recordScientific = String(record?.scientificName || record?.material || '').trim().toLowerCase();
-            return (scientific && recordScientific === scientific) || (!scientific && common && recordCommon === common);
-          })
-          .map(record => String(record.id || ''))
-          .filter(Boolean);
-      };
-
-      const resolveNewPlantReferences = pending => {
-        let attempts = 0;
-        const check = () => {
-          attempts += 1;
-          const ids = matchingPlantIds(pending.commonName, pending.scientificName);
-          const plantId = ids.find(id => !pending.beforeIds.includes(id));
-          if (plantId) {
-            saveReferences(plantId, pending.references);
-            return;
-          }
-          if (attempts < 24) setTimeout(check, 220);
-        };
-        setTimeout(check, 120);
-      };
-
-      document.addEventListener('submit', event => {
-        const form = event.target?.closest?.('#plantForm');
-        if (!form || form.dataset.referencesInstalled !== 'true') return;
-
-        const references = referenceInputs(form).map((input, index) => ({
-          source: SOURCES[index].key,
-          label: SOURCES[index].label,
-          url: cleanUrl(input.value)
-        }));
-        const plantId = String(form.elements.id?.value || '').trim();
-
-        if (plantId) {
-          saveReferences(plantId, references);
-          return;
-        }
-
-        const commonName = String(form.elements.commonName?.value || '').trim();
-        const scientificName = String(form.elements.scientificName?.value || '').trim();
-        resolveNewPlantReferences({
-          commonName,
-          scientificName,
-          references,
-          beforeIds: matchingPlantIds(commonName, scientificName)
-        });
+      const detailNames = modal => ({
+        commonName: String(modal.querySelector('.detail-info h3')?.textContent || modal.querySelector('.modal-header h2')?.textContent || '').trim(),
+        scientificName: String(modal.querySelector('.detail-info .scientific')?.textContent || '').trim()
       });
 
-      const referenceLabel = reference => {
-        const source = SOURCES.find(item => item.key === reference.source);
-        return source?.label || reference.label || 'Plant reference';
+      const reorderDetailPanels = (modal, referencePanel) => {
+        const stack = modal.querySelector('.detail-content-stack');
+        if (!stack || !referencePanel) return;
+        const panels = [...stack.querySelectorAll(':scope > .detail-panel')];
+        const tags = panels.find(panel => /tags/i.test(String(panel.querySelector('.detail-panel-label')?.textContent || '')));
+        const notes = panels.find(panel => /planting notes/i.test(String(panel.querySelector('.detail-panel-label')?.textContent || '')));
+        const others = panels.filter(panel => panel !== referencePanel && panel !== tags && panel !== notes);
+        [referencePanel, tags, notes, ...others].filter(Boolean).forEach(panel => stack.appendChild(panel));
       };
 
-      const installPlantDetailReferences = modal => {
+      const installImageDownload = modal => {
+        const photo = modal.querySelector('.detail-photo');
+        const image = photo?.querySelector('img');
+        if (!photo || !image || photo.querySelector('[data-plant-image-download]')) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'plant-image-download';
+        button.dataset.plantImageDownload = 'true';
+        button.innerHTML = '<span aria-hidden="true">↓</span> Download image';
+        photo.appendChild(button);
+      };
+
+      const installPlantDetailReference = modal => {
         if (!modal || modal.dataset.referenceDetailsInstalled === 'true') return;
         const editButton = modal.querySelector('button[data-action="edit-plant"][data-plant-id]');
         if (!editButton) return;
-        const plantId = String(editButton.dataset.plantId || '').trim();
-        if (!plantId) return;
 
-        const linkPanel = [...modal.querySelectorAll('.detail-panel')].find(panel => {
+        const { commonName, scientificName } = detailNames(modal);
+        const url = googleAIReference(commonName, scientificName);
+        let linkPanel = [...modal.querySelectorAll('.detail-panel')].find(panel => {
           const label = panel.querySelector('.detail-panel-label');
-          return /^(link|reference links?)$/i.test(String(label?.textContent || '').trim());
+          return /^(link|reference links?|reference)$/i.test(String(label?.textContent || '').trim());
         });
-        if (!linkPanel) return;
 
-        let references = storedReferences(plantId);
-        if (!references.length) {
-          const existingAnchor = linkPanel.querySelector('a[href]');
-          const url = cleanUrl(existingAnchor?.href);
-          if (url) {
-            const source = /gbif\.org/i.test(url) ? 'gbif' : /wikipedia\.org/i.test(url) ? 'wikipedia' : 'google-ai';
-            references = [{ source, label: 'Plant reference', url }];
-          }
+        if (!linkPanel) {
+          linkPanel = document.createElement('section');
+          linkPanel.className = 'detail-panel';
+          modal.querySelector('.detail-content-stack')?.prepend(linkPanel);
         }
 
-        modal.dataset.referenceDetailsInstalled = 'true';
         linkPanel.innerHTML = `
-          <span class="detail-panel-label">Reference links</span>
-          ${references.length ? `
-            <div class="plant-reference-detail-list">
-              ${references.map(reference => `
-                <a class="plant-reference-detail-link" href="${reference.url}" target="_blank" rel="noopener noreferrer">
-                  <span>${referenceLabel(reference)}<small>${reference.url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0]}</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              `).join('')}
-            </div>
-          ` : '<span class="detail-empty">No reference links added.</span>'}
+          <span class="detail-panel-label">Reference</span>
+          ${url ? `
+            <details class="plant-reference-details">
+              <summary>Google AI Overview</summary>
+              <a class="plant-reference-detail-link" href="${url}" target="_blank" rel="noopener noreferrer">
+                <span>Open plant reference<small>${escapeAttribute([commonName, scientificName].filter(Boolean).join(' '))}</small></span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </details>
+          ` : '<span class="detail-empty">No plant name available for the reference.</span>'}
         `;
+
+        reorderDetailPanels(modal, linkPanel);
+        installImageDownload(modal);
+        modal.dataset.referenceDetailsInstalled = 'true';
       };
+
+      const safeFilename = value => String(value || 'plant-image')
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'plant-image';
+
+      const imageExtension = type => {
+        if (/png/i.test(type)) return 'png';
+        if (/webp/i.test(type)) return 'webp';
+        if (/gif/i.test(type)) return 'gif';
+        return 'jpg';
+      };
+
+      const downloadPlantImage = async button => {
+        const modal = button.closest('.modal');
+        const image = button.closest('.detail-photo')?.querySelector('img');
+        const src = image?.currentSrc || image?.src || '';
+        if (!src) return;
+        const { commonName } = detailNames(modal || document);
+
+        try {
+          const response = await fetch(src);
+          if (!response.ok) throw new Error('Image download failed');
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = objectUrl;
+          anchor.download = `${safeFilename(commonName)}.${imageExtension(blob.type)}`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+          setTimeout(() => URL.revokeObjectURL(objectUrl), 1200);
+        } catch (error) {
+          const anchor = document.createElement('a');
+          anchor.href = src;
+          anchor.download = `${safeFilename(commonName)}.jpg`;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener';
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+        }
+      };
+
+      document.addEventListener('click', event => {
+        const editButton = event.target.closest('button[data-action="edit-plant"][data-plant-id]');
+        if (editButton) {
+          const image = editButton.closest('.modal')?.querySelector('.detail-photo img');
+          if (image?.src) capturedImages.set(String(editButton.dataset.plantId || ''), image.src);
+        }
+
+        const downloadButton = event.target.closest('[data-plant-image-download]');
+        if (downloadButton) {
+          event.preventDefault();
+          event.stopPropagation();
+          downloadPlantImage(downloadButton);
+        }
+      }, true);
 
       const scan = root => {
         const form = root?.matches?.('#plantForm') ? root : root?.querySelector?.('#plantForm');
         if (form) installPlantReferenceForm(form);
 
         const modal = root?.matches?.('.modal') ? root : root?.querySelector?.('.modal');
-        if (modal) installPlantDetailReferences(modal);
+        if (modal) installPlantDetailReference(modal);
       };
 
       const observer = new MutationObserver(mutations => {
