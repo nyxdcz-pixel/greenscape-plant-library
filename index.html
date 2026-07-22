@@ -2367,9 +2367,16 @@
       min-height: 32px !important;
       height: 32px !important;
       padding: 5px 8px !important;
-      border-radius: 9px !important;
+      border: .625px solid #d9e3dc !important;
+      border-radius: 14px !important;
+      color: #14291f !important;
+      background: #fbfcfa !important;
       font-size: 10px !important;
       line-height: 1.2 !important;
+    }
+
+    .moodboard-library-section .search-wrap:has(#moodboardSearch) {
+      margin-bottom: 10px !important;
     }
 
     /* Keep the whole control sidebar visually tighter. */
@@ -2853,20 +2860,51 @@
       margin-inline: auto !important;
     }
   </style>
+  <style id="greenscape-official-logo-styles">
+    .sidebar .brand {
+      display: flex !important;
+      align-items: center !important;
+    }
+    .brand-logo-official {
+      display: block;
+      width: 145px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    @media (max-width: 760px) {
+      .sidebar {
+        grid-template-columns: 72px minmax(0, 1fr) !important;
+      }
+      .sidebar .brand {
+        width: 72px !important;
+        min-width: 72px !important;
+        flex: 0 0 72px !important;
+      }
+      .brand-logo-official {
+        width: 72px;
+      }
+    }
+    @media (max-width: 360px) {
+      .sidebar {
+        grid-template-columns: 58px minmax(0, 1fr) !important;
+      }
+      .sidebar .brand {
+        width: 58px !important;
+        min-width: 58px !important;
+        flex-basis: 58px !important;
+      }
+      .brand-logo-official {
+        width: 58px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Main navigation">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48" role="img">
-            <path d="M38 8C24 9 13 17 10 31c8 1 16-1 22-7-5 7-11 12-20 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <strong>GREENSCAPE</strong>
-          <em>Green today, greener tomorrow</em>
-        </div>
+        <img class="brand-logo-official" src="assets/images/greenscape-logo.png" alt="Greenscape">
       </div>
 
       <nav class="nav-list">
@@ -4209,6 +4247,7 @@
     .lens-identifier-preview-actions .button {
       min-height: 34px;
       padding: 6px 10px;
+      color: #fff !important;
       font-size: 10px;
     }
     .lens-identifier-tip,
@@ -4229,9 +4268,10 @@
       flex: 0 0 auto;
     }
     .lens-identifier-warning {
-      border: 1px solid #eadbc6;
+      border: 1px solid #cfc0ab;
       color: #715b3d;
-      background: #fff8ed;
+      background: #f6eaea;
+      font-size: 10px;
     }
     .lens-identifier-open-button {
       width: 100%;
@@ -4303,7 +4343,7 @@
     }
     .lens-identifier-result {
       display: grid;
-      grid-template-columns: 34px minmax(0, 1fr) auto;
+      grid-template-columns: 64px minmax(0, 1fr);
       gap: 11px;
       align-items: center;
       padding: 12px;
@@ -4312,8 +4352,11 @@
       background: #fff;
     }
     .lens-identifier-result-rank {
-      width: 34px;
-      height: 34px;
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      width: 24px;
+      height: 24px;
       display: grid;
       place-items: center;
       border-radius: 50%;
@@ -4321,6 +4364,28 @@
       background: var(--lens-green-2);
       font-size: 10px;
       font-weight: 900;
+      box-shadow: 0 2px 8px rgba(12, 63, 45, .25);
+    }
+    .lens-identifier-result-image {
+      position: relative;
+      overflow: hidden;
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: #4c7a63;
+      background: linear-gradient(145deg, #e5f0e9, #f7faf8);
+    }
+    .lens-identifier-result-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .lens-identifier-result-image svg {
+      width: 27px;
+      height: 27px;
     }
     .lens-identifier-result-copy {
       min-width: 0;
@@ -4541,15 +4606,15 @@
         grid-template-columns: 1fr;
       }
       .lens-identifier-result {
-        grid-template-columns: 30px minmax(0, 1fr);
+        grid-template-columns: 56px minmax(0, 1fr);
       }
       .lens-identifier-result-rank {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
       }
-      .lens-identifier-result-actions {
-        grid-column: 1 / -1;
-        grid-template-columns: 1fr 1fr;
+      .lens-identifier-result-image {
+        width: 56px;
+        height: 56px;
       }
     }
 
@@ -4654,17 +4719,17 @@
 
               <section class="lens-identifier-card">
                 <header class="lens-identifier-card-header">
-                  <div><h3>Possible plant matches</h3><p>Select a suggestion, verify it, then add the confirmed plant to the library.</p></div>
+                  <div><h3>Possible plant matches</h3><p>Review possible common name and scientific name matches.</p></div>
                   <span class="lens-identifier-step">02</span>
                 </header>
                 <div class="lens-identifier-details-body">
+                  <div class="lens-identifier-warning"><strong>Important</strong><span>The local research model and Google Lens provide suggestions, not guaranteed identification. Confirm edible, toxic, medicinal, or important plants with a qualified plant professional.</span></div>
+
                   <div class="lens-identifier-results" id="lensIdentifierResults">
                     <div class="lens-identifier-results-empty">Possible plant common name and scientific name matches will appear here after analysis.</div>
                   </div>
 
                   <div class="lens-identifier-error" id="lensIdentifierError" hidden></div>
-
-                  <div class="lens-identifier-warning"><strong>Important</strong><span>The local research model and Google Lens provide suggestions, not guaranteed identification. Confirm edible, toxic, medicinal, or important plants with a qualified plant professional.</span></div>
                 </div>
               </section>
             </div>
@@ -4911,8 +4976,75 @@
           score: Math.max(0, Math.min(1, Number(result?.score) || 0)),
           commonName: String(libraryMatch?.commonName || '').trim(),
           scientificName,
-          inLibrary: Boolean(libraryMatch)
+          inLibrary: Boolean(libraryMatch),
+          image: String(libraryMatch?.image || '').trim()
         };
+      }
+
+      function safeIdentifierImage(value) {
+        const source = String(value || '').trim();
+        return /^(?:assets\/images\/|https?:\/\/|blob:|data:image\/)/i.test(source) ? source : '';
+      }
+
+      async function wikipediaPlantImage(scientificName) {
+        const title = String(scientificName || '').trim();
+        if (!title) return '';
+        const endpoint = `https://en.wikipedia.org/w/api.php?origin=*&action=query&format=json&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=${encodeURIComponent(title)}`;
+        try {
+          const response = await fetch(endpoint);
+          if (!response.ok) return '';
+          const data = await response.json();
+          const pages = Object.values(data?.query?.pages || {});
+          return safeIdentifierImage(pages[0]?.thumbnail?.source || '');
+        } catch (error) {
+          return '';
+        }
+      }
+
+      async function iNaturalistPlantDetails(scientificName) {
+        const title = String(scientificName || '').trim();
+        if (!title) return { image: '', commonName: '' };
+        const endpoint = `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(title)}&rank=species&per_page=5`;
+        try {
+          const response = await fetch(endpoint);
+          if (!response.ok) return { image: '', commonName: '' };
+          const data = await response.json();
+          const taxa = Array.isArray(data?.results) ? data.results : [];
+          const exact = taxa.find(taxon => normalizeScientific(taxon?.name) === normalizeScientific(title));
+          const match = exact || taxa[0] || {};
+          return {
+            image: safeIdentifierImage(match?.default_photo?.medium_url || match?.default_photo?.square_url || ''),
+            commonName: String(match?.preferred_common_name || '').trim()
+          };
+        } catch (error) {
+          return { image: '', commonName: '' };
+        }
+      }
+
+      async function loadIdentifierResultImages() {
+        const resultSet = latestResults;
+        await Promise.all(resultSet.map(async (result, index) => {
+          const details = await iNaturalistPlantDetails(result.scientificName);
+          if (latestResults !== resultSet) return;
+          if (!result.commonName && details.commonName) {
+            result.commonName = details.commonName;
+            const commonName = document.querySelector(`[data-identifier-result-common="${index}"]`);
+            const note = document.querySelector(`[data-identifier-result-note="${index}"]`);
+            if (commonName) commonName.textContent = details.commonName;
+            if (note) note.textContent = 'Common name supplied by iNaturalist. Confirm important identifications.';
+          }
+          const source = safeIdentifierImage(result.image) || details.image || await wikipediaPlantImage(result.scientificName);
+          if (!source || latestResults !== resultSet || safeIdentifierImage(result.image)) return;
+          result.image = source;
+          const holder = document.querySelector(`[data-identifier-result-photo="${index}"]`);
+          if (!holder) return;
+          const rank = holder.querySelector('.lens-identifier-result-rank');
+          const image = document.createElement('img');
+          image.src = source;
+          image.alt = `${result.commonName || result.scientificName} plant`;
+          holder.replaceChildren(image);
+          if (rank) holder.appendChild(rank);
+        }));
       }
 
       function confidenceClass(score) {
@@ -4931,19 +5063,21 @@
         container.innerHTML = latestResults.map((result, index) => {
           const percentage = Math.max(1, Math.round(result.score * 100));
           const commonName = result.commonName || 'Common name not found in Greenscape library';
+          const image = safeIdentifierImage(result.image);
           return `<article class="lens-identifier-result">
-            <span class="lens-identifier-result-rank">${result.rank}</span>
+            <div class="lens-identifier-result-image" data-identifier-result-photo="${index}">
+              ${image ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(commonName)} plant">` : cameraLeafIcon()}
+              <span class="lens-identifier-result-rank">${result.rank}</span>
+            </div>
             <div class="lens-identifier-result-copy">
-              <strong>${escapeHTML(commonName)}</strong>
+              <strong data-identifier-result-common="${index}">${escapeHTML(commonName)}</strong>
               <em>${escapeHTML(result.scientificName)}</em>
               <span class="lens-identifier-confidence ${confidenceClass(result.score)}">${percentage}% model confidence</span>
-              <small>${result.inLibrary ? 'Common name matched from the Greenscape library.' : 'Verify the common name with Google Lens before saving.'}</small>
-            </div>
-            <div class="lens-identifier-result-actions">
-              <button class="button secondary small" type="button" data-lens-identifier-action="verify-result" data-result-index="${index}">Verify with Google Lens</button>
+              <small data-identifier-result-note="${index}">${result.inLibrary ? 'Common name matched from the Greenscape library.' : 'Checking botanical references for the common name and photo.'}</small>
             </div>
           </article>`;
         }).join('');
+        loadIdentifierResultImages();
       }
 
       function selectIdentifierResult(index) {
@@ -5157,9 +5291,6 @@
         if (action === 'choose-photo' || action === 'replace-photo') document.getElementById('lensIdentifierGalleryInput')?.click();
         if (action === 'remove-photo') removeSelectedImage();
         if (action === 'analyze-photo') analyzeSelectedImage();
-        if (action === 'verify-result') {
-          openGoogleLens();
-        }
       }, true);
 
       const dashboardObserver = new MutationObserver(mutations => {
