@@ -27,6 +27,19 @@ check(Buffer.byteLength(html) < 20_000, 'index.html should remain below 20 KB.')
 check(/<link\s+rel="canonical"/i.test(html), 'A canonical URL is required.');
 check(/<meta\s+name="robots"\s+content="noindex/i.test(html), 'The internal site must retain its noindex policy.');
 
+const renderedMarkup = `${html}\n${appSource}`;
+const buttonsWithoutType = [...renderedMarkup.matchAll(/<button\b[^>]*>/gi)]
+  .filter(match => !/\btype\s*=/.test(match[0]));
+check(buttonsWithoutType.length === 0, `${buttonsWithoutType.length} button template(s) are missing an explicit type.`);
+const unsafeBlankLinks = [...renderedMarkup.matchAll(/<a\b[^>]*\btarget="_blank"[^>]*>/gi)]
+  .filter(match => !/\brel="[^"]*noopener[^"]*"/i.test(match[0]));
+check(unsafeBlankLinks.length === 0, `${unsafeBlankLinks.length} external link template(s) open a new tab without rel="noopener".`);
+check(/class="brand-logo-official"[^>]*\bwidth="\d+"[^>]*\bheight="\d+"/i.test(html), 'The sidebar logo must declare intrinsic dimensions.');
+check(!appSource.includes('.moodboard-page-toolbar > strong'), 'Mood board labels should be omitted at render time, not removed by an observer.');
+check(appSource.includes('MAX_IMAGE_FILE_BYTES = 20 * 1024 * 1024'), 'Image uploads must retain the 20 MB size limit.');
+check(appSource.includes('MAX_EXCEL_FILE_BYTES = 10 * 1024 * 1024'), 'Excel imports must retain the 10 MB size limit.');
+check(/const safeText = \/\^\[\\s\]\*\[=\+\\-@\\t\\r\]\//.test(appSource), 'CSV exports must guard against spreadsheet formula injection.');
+
 const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
 const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 check(duplicateIds.length === 0, `Duplicate static IDs: ${[...new Set(duplicateIds)].join(', ')}`);
