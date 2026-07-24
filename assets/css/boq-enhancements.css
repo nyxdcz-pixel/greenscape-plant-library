@@ -1,0 +1,250 @@
+/* BOQ compact layout and table zoom controls */
+
+.boq-dialog.boq-compact-mode {
+  width: min(1840px, 100%);
+  border-radius: 15px;
+}
+
+.boq-compact-mode .boq-dialog-header {
+  padding: 10px 15px;
+}
+
+.boq-compact-mode .boq-dialog-header h2 {
+  margin: 1px 0 2px;
+  font-size: 19px;
+}
+
+.boq-compact-mode .boq-dialog-header p {
+  font-size: 11px;
+}
+
+.boq-compact-mode .boq-dialog-close {
+  width: 34px;
+  height: 34px;
+  font-size: 21px;
+}
+
+.boq-compact-mode .boq-density-tabs {
+  top: 59px;
+  gap: 6px;
+  padding: 7px 12px;
+}
+
+.boq-compact-mode .boq-density-tab {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 9px;
+}
+
+.boq-compact-mode .boq-density-tab strong {
+  font-size: 11px;
+}
+
+.boq-compact-mode .boq-density-tab span {
+  font-size: 10px;
+}
+
+.boq-compact-mode .boq-dialog-body {
+  gap: 9px;
+  padding: 10px 12px 76px;
+}
+
+.boq-compact-mode .boq-panel {
+  border-radius: 11px;
+}
+
+.boq-compact-mode .boq-panel-heading,
+.boq-compact-mode .boq-table-heading {
+  gap: 9px;
+  padding: 9px 11px;
+}
+
+.boq-compact-mode .boq-panel-heading strong,
+.boq-compact-mode .boq-table-heading strong {
+  font-size: 12px;
+}
+
+.boq-compact-mode .boq-panel-heading span,
+.boq-compact-mode .boq-table-heading span {
+  font-size: 9px;
+}
+
+.boq-compact-mode .boq-project-grid {
+  gap: 7px;
+  padding: 9px 10px;
+}
+
+.boq-compact-mode .boq-project-grid label,
+.boq-compact-mode .boq-preset-grid label,
+.boq-compact-mode .boq-vat-controls label {
+  gap: 3px;
+}
+
+.boq-compact-mode .boq-project-grid input,
+.boq-compact-mode .boq-project-grid textarea,
+.boq-compact-mode .boq-preset-grid input,
+.boq-compact-mode .boq-vat-controls input {
+  border-radius: 7px;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.boq-compact-mode .boq-preset-panel > p {
+  padding: 8px 11px 0;
+  font-size: 10px;
+}
+
+.boq-compact-mode .boq-preset-grid {
+  gap: 7px;
+  padding: 9px 11px 11px;
+}
+
+.boq-compact-mode .boq-table-heading {
+  flex-wrap: wrap;
+}
+
+.boq-compact-mode .boq-table-heading > span {
+  margin-left: auto;
+}
+
+.boq-compact-mode .boq-editor-table {
+  min-width: 1480px;
+  font-size: 10px;
+  transform-origin: top left;
+}
+
+.boq-compact-mode .boq-editor-table thead th {
+  padding: 7px 5px;
+}
+
+.boq-compact-mode .boq-editor-table td {
+  padding: 4px;
+}
+
+.boq-compact-mode .boq-editor-table input {
+  min-width: 62px;
+  border-radius: 5px;
+  padding: 5px 6px;
+}
+
+.boq-compact-mode .boq-description-cell {
+  min-width: 220px;
+}
+
+.boq-compact-mode .boq-botanical-input {
+  margin-top: 3px;
+}
+
+.boq-compact-mode .boq-section-header div {
+  padding: 6px 9px;
+}
+
+.boq-compact-mode .boq-section-header span {
+  font-size: 10px;
+}
+
+.boq-compact-mode .boq-section-header button {
+  padding: 4px 7px;
+  font-size: 9px;
+}
+
+.boq-compact-mode .boq-section-subtotal td {
+  padding: 6px 8px;
+}
+
+.boq-compact-mode .boq-remove-row {
+  width: 25px;
+  height: 25px;
+  font-size: 15px;
+}
+
+.boq-compact-mode .boq-summary-panel {
+  gap: 11px;
+  padding: 9px 11px;
+}
+
+.boq-compact-mode .boq-summary-values > div {
+  min-width: 145px;
+  padding: 7px 10px;
+  border-radius: 8px;
+}
+
+.boq-compact-mode .boq-summary-values strong {
+  font-size: 14px;
+}
+
+.boq-compact-mode .boq-dialog-footer {
+  width: min(1840px, calc(100% - 24px));
+  padding: 8px 12px;
+}
+
+.boq-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+  padding: 3px;
+  border: 1px solid #cbd9d2;
+  border-radius: 9px;
+  background: #f6faf8;
+}
+
+.boq-zoom-controls button {
+  min-width: 30px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #184a37;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.boq-zoom-controls button[data-boq-zoom-label] {
+  min-width: 52px;
+  padding: 0 7px;
+  font-size: 10px;
+}
+
+.boq-zoom-controls button:hover,
+.boq-zoom-controls button:focus-visible {
+  background: #dfece5;
+  outline: none;
+}
+
+.boq-zoom-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+@media (max-width: 1100px) {
+  .boq-compact-mode .boq-density-tabs {
+    top: 58px;
+  }
+
+  .boq-compact-mode .boq-table-heading > span {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .boq-compact-mode .boq-dialog-header {
+    padding: 10px;
+  }
+
+  .boq-compact-mode .boq-density-tabs {
+    top: 58px;
+  }
+
+  .boq-compact-mode .boq-dialog-body {
+    padding: 8px 8px 138px;
+  }
+
+  .boq-zoom-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
