@@ -353,9 +353,20 @@
       return;
     }
 
-    const backdrop = document.getElementById('boqCreatorBackdrop');
     const help = document.getElementById('feedbackWidget') || document.querySelector('.feedback-widget');
-    if (!backdrop || backdrop.hidden || !help) {
+    if (!help) {
+      body.classList.remove('boq-help-obstructing');
+      return;
+    }
+
+    const activeRoots = [
+      document.getElementById('boqCreatorBackdrop'),
+      document.getElementById('quotationCreatorBackdrop'),
+      document.getElementById('costingSuiteBackdrop'),
+      document.getElementById('modalRoot')
+    ].filter(root => root && !root.hidden);
+
+    if (!activeRoots.length) {
       body.classList.remove('boq-help-obstructing');
       return;
     }
@@ -364,8 +375,12 @@
     if (body.classList.contains('boq-is-scrolling')) return;
 
     const helpRect = help.getBoundingClientRect();
-    const overlapsButton = Array.from(backdrop.querySelectorAll('button')).some(button => {
-      if (button.closest('.boq-zoom-controls')) return false;
+    const candidateButtons = activeRoots.flatMap(root =>
+      Array.from(root.querySelectorAll('button, [role="button"]'))
+    );
+
+    const overlapsButton = candidateButtons.some(button => {
+      if (button.closest('#feedbackWidget, .feedback-widget, .boq-zoom-controls')) return false;
       if (!isVisibleButton(button)) return false;
       return rectanglesOverlap(helpRect, button.getBoundingClientRect(), 5);
     });
@@ -463,6 +478,15 @@
     if (isInsideBoq(event.target) || (event.target === document && document.body.classList.contains('boq-open'))) {
       markBoqScrolling();
     }
+  }, true);
+
+
+  document.addEventListener('pointermove', event => {
+    if (document.body.classList.contains('boq-open')) scheduleHelpVisibility();
+  }, { capture: true, passive: true });
+
+  document.addEventListener('focusin', () => {
+    if (document.body.classList.contains('boq-open')) scheduleHelpVisibility();
   }, true);
 
   const observer = new MutationObserver(scheduleEnhancements);
