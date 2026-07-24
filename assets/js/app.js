@@ -259,6 +259,8 @@
   function toast(message, isError) {
     const node = document.createElement('div');
     node.className = `toast${isError ? ' error' : ''}`;
+    node.setAttribute('role', isError ? 'alert' : 'status');
+    node.setAttribute('aria-atomic', 'true');
     node.textContent = message;
     toastRoot.appendChild(node);
     setTimeout(() => node.remove(), 3200);
@@ -4985,3 +4987,69 @@
         if (location.hash === '#identifier') showIdentifierPage(false);
       });
     })();
+
+/* GREENSCAPE_DIALOG_KEYBOARD_SUPPORT_START */
+(() => {
+  'use strict';
+
+  const focusableSelector = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(',');
+
+  function visibleDialog() {
+    return Array.from(document.querySelectorAll('[role="dialog"]'))
+      .reverse()
+      .find(dialog => {
+        if (!(dialog instanceof HTMLElement) || dialog.hidden) return false;
+        const style = window.getComputedStyle(dialog);
+        const rect = dialog.getBoundingClientRect();
+        return style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          rect.width > 0 &&
+          rect.height > 0;
+      });
+  }
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+
+    const dialog = visibleDialog();
+    if (!dialog) return;
+
+    const focusable = Array.from(dialog.querySelectorAll(focusableSelector))
+      .filter(element => {
+        if (!(element instanceof HTMLElement)) return false;
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          rect.width > 0 &&
+          rect.height > 0;
+      });
+
+    if (!focusable.length) {
+      event.preventDefault();
+      if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
+      dialog.focus({ preventScroll: true });
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+})();
+/* GREENSCAPE_DIALOG_KEYBOARD_SUPPORT_END */
+

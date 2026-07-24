@@ -5907,3 +5907,97 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 /* GREENSCAPE_QUALITY_PERFORMANCE_END */
+
+
+/* GREENSCAPE_QUALITY_ACCESSIBILITY_START */
+:where(
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 3px;
+}
+
+:where(
+  .panel,
+  .plant-card,
+  .project-card,
+  .project-detail,
+  .boq-dialog,
+  .quotation-dialog,
+  .costing-dialog,
+  .toolbar-group,
+  .project-card-actions,
+  .detail-actions
+) {
+  min-width: 0;
+}
+
+:where(
+  .panel,
+  .plant-card,
+  .project-card,
+  .project-detail,
+  .boq-dialog,
+  .quotation-dialog,
+  .costing-dialog
+) {
+  overflow-wrap: anywhere;
+}
+
+.project-card-actions,
+.detail-actions,
+.boq-dialog-footer,
+.quotation-dialog-footer,
+.costing-dialog-footer {
+  flex-wrap: wrap;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+@media (pointer: coarse) {
+  .button,
+  .nav-item,
+  .website-link,
+  .text-input,
+  .number-input,
+  .select-input,
+  .search-input,
+  textarea {
+    min-height: 44px;
+  }
+
+  .icon-button,
+  .boq-dialog-close,
+  .quotation-dialog-close,
+  .costing-close,
+  .feedback-close {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+/* GREENSCAPE_QUALITY_ACCESSIBILITY_END */
