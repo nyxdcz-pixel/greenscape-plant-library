@@ -175,13 +175,28 @@ npm run lint
 npm test
 npm run build
 npm run check
+npm run audit
+npm run quality
 ```
 
-- `npm run lint` checks the website JavaScript files for syntax errors.
-- `npm test` validates the HTML structure, metadata, manifest, and local asset paths.
+- `npm run lint` checks every website JavaScript file for syntax errors.
+- `npm test` validates HTML structure, metadata, accessibility hooks, security guards, manifest data, and local asset paths.
 - `npm run build` runs the same validation in static-build mode.
-- `npm run check` runs both the JavaScript syntax checks and website validation.
+- `npm run check` runs JavaScript syntax checks and the standard validation.
+- `npm run audit` reports static HTML, CSS, JavaScript, script-loading, and image-loading metrics.
+- `npm run quality` runs linting, tests, build validation, and the static audit.
+- The project has no TypeScript source or TypeScript configuration, so a TypeScript check is not applicable.
 - GitHub Pages serves the repository files directly.
+
+
+## Quality Review Notes
+
+- The website intentionally remains a dependency-free static application.
+- Quotation, BOQ, Costing, plant records, and project data continue using the existing browser `localStorage` keys.
+- Search indexing remains disabled because this is documented as an internal company tool.
+- A sitemap is intentionally not published while the site uses `noindex` and `robots.txt` blocks crawling.
+- Real Core Web Vitals should be measured against the deployed GitHub Pages URL using Lighthouse or WebPageTest.
+- Feature branches should be reviewed through pull requests before merging into `main`.
 
 ## Privacy and Search Indexing
 

@@ -7,7 +7,9 @@
     "lint": "node --check assets/js/app.js && node --check assets/js/data.js && node --check assets/js/quotation.js && node --check assets/js/boq.js && node --check assets/js/boq-enhancements.js && node --check assets/js/project-costing.js",
     "test": "node scripts/validate.mjs",
     "build": "node scripts/validate.mjs --build",
-    "check": "npm run lint && npm test"
+    "check": "npm run lint && npm test",
+    "audit": "node scripts/audit.mjs",
+    "quality": "npm run lint && npm test && npm run build && npm run audit"
   },
   "engines": {
     "node": ">=20"

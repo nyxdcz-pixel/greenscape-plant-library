@@ -22,4 +22,4 @@ jobs:
           node-version: 20
 
       - name: Run website checks
-        run: npm run check
+        run: npm run quality
