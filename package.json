@@ -4,7 +4,7 @@
   "private": true,
   "description": "Greenscape's browser-based plant library, project list, and mood board tool.",
   "scripts": {
-    "lint": "node --check assets/js/app.js && node --check assets/js/data.js",
+    "lint": "node --check assets/js/app.js && node --check assets/js/data.js && node --check assets/js/quotation.js",
     "test": "node scripts/validate.mjs",
     "build": "node scripts/validate.mjs --build",
     "check": "npm run lint && npm test"
