@@ -37,41 +37,6 @@ Included tools:
 
 The Costing Suite connects to the selected project's plant list, quantities, BOQ draft, density scenarios, and reference prices. Open **Project Lists**, select a project, and click **Costing Suite**.
 
-### Recent Project Workflow Updates
-
-#### BOQ Floating Zoom and Scroll-Aware Help V5
-
-- Floating BOQ zoom controls
-- Help button remains available above the modal
-- Help automatically hides during BOQ scrolling and returns afterward
-
-#### BOQ Auto-Sync, Compact Layout, and Zoom V3
-
-- Newly added Project List plants automatically enter an existing BOQ
-- Existing BOQ prices and manual edits remain intact
-- Compact BOQ workspace with saved zoom level
-
-#### Project Plant Search and BOQ Reference Pricing V2
-
-- Search plants by code, common name, scientific name, or category
-- Filter plants by category when adding them to a project
-- Save BOQ reference material prices with project plants
-- Transfer reference prices into the BOQ automatically
-
-#### Automatic Landscape BOQ Creator V1
-
-- 100% Density and Specs
-- 50% Density and Specs
-- 35% Density and Specs
-- Editable plant specifications, quantities, unit costs, labor costs, VAT, and totals
-- CSV export and Print / Save PDF
-
-#### Automatic Quotation Creator V1
-
-- Project-based quotation drafting
-- Automatic calculations for subtotals, taxes, fees, payments, and balances
-- Saved browser drafts
-- A4 preview and Print / Save PDF
 
 ## Main Features
 

@@ -306,3 +306,59 @@ body.boq-open.boq-is-scrolling .feedback-widget {
     justify-content: center;
   }
 }
+/* BOQ natural document flow: only the zoom rail remains fixed. */
+.boq-dialog-header,
+.boq-density-tabs,
+.boq-compact-mode .boq-dialog-header,
+.boq-compact-mode .boq-density-tabs {
+  position: static !important;
+  top: auto !important;
+  z-index: auto !important;
+}
+
+.boq-dialog-body,
+.boq-compact-mode .boq-dialog-body {
+  padding-bottom: 12px !important;
+}
+
+.boq-dialog-footer,
+.boq-compact-mode .boq-dialog-footer {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  transform: none !important;
+  margin: 0;
+  padding: 12px 16px;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0 0 15px 15px;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.boq-open.boq-help-obstructing #feedbackWidget,
+body.boq-open.boq-help-obstructing .feedback-widget {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity .16s ease, visibility 0s linear .16s !important;
+}
+
+@media (max-width: 720px) {
+  .boq-dialog-body,
+  .boq-compact-mode .boq-dialog-body {
+    padding-bottom: 10px !important;
+  }
+
+  .boq-dialog-footer,
+  .boq-compact-mode .boq-dialog-footer {
+    width: auto !important;
+    padding: 10px;
+  }
+}

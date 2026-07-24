@@ -15,6 +15,7 @@
   let pendingSyncCount = 0;
   let enhancementFrame = 0;
   let helpScrollTimer = 0;
+  let helpVisibilityFrame = 0;
 
   function readJSON(key, fallback) {
     try {
@@ -320,12 +321,73 @@
   }
 
 
+
+  function rectanglesOverlap(first, second, padding = 4) {
+    return (
+      first.left < second.right - padding &&
+      first.right > second.left + padding &&
+      first.top < second.bottom - padding &&
+      first.bottom > second.top + padding
+    );
+  }
+
+  function isVisibleButton(button) {
+    if (!(button instanceof HTMLElement) || button.disabled) return false;
+    const style = window.getComputedStyle(button);
+    if (
+      style.display === 'none' ||
+      style.visibility === 'hidden' ||
+      Number(style.opacity) === 0 ||
+      style.pointerEvents === 'none'
+    ) return false;
+    const rect = button.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 &&
+      rect.bottom > 0 && rect.right > 0 &&
+      rect.top < window.innerHeight && rect.left < window.innerWidth;
+  }
+
+  function updateHelpVisibility() {
+    const body = document.body;
+    if (!body.classList.contains('boq-open')) {
+      body.classList.remove('boq-help-obstructing');
+      return;
+    }
+
+    const backdrop = document.getElementById('boqCreatorBackdrop');
+    const help = document.getElementById('feedbackWidget') || document.querySelector('.feedback-widget');
+    if (!backdrop || backdrop.hidden || !help) {
+      body.classList.remove('boq-help-obstructing');
+      return;
+    }
+
+    body.classList.remove('boq-help-obstructing');
+    if (body.classList.contains('boq-is-scrolling')) return;
+
+    const helpRect = help.getBoundingClientRect();
+    const overlapsButton = Array.from(backdrop.querySelectorAll('button')).some(button => {
+      if (button.closest('.boq-zoom-controls')) return false;
+      if (!isVisibleButton(button)) return false;
+      return rectanglesOverlap(helpRect, button.getBoundingClientRect(), 5);
+    });
+
+    body.classList.toggle('boq-help-obstructing', overlapsButton);
+  }
+
+  function scheduleHelpVisibility() {
+    if (helpVisibilityFrame) return;
+    helpVisibilityFrame = requestAnimationFrame(() => {
+      helpVisibilityFrame = 0;
+      updateHelpVisibility();
+    });
+  }
+
   function markBoqScrolling() {
     if (!document.body.classList.contains('boq-open')) return;
     document.body.classList.add('boq-is-scrolling');
     window.clearTimeout(helpScrollTimer);
     helpScrollTimer = window.setTimeout(() => {
       document.body.classList.remove('boq-is-scrolling');
+      scheduleHelpVisibility();
     }, 520);
   }
 
@@ -338,6 +400,7 @@
     enhancementFrame = requestAnimationFrame(() => {
       enhancementFrame = 0;
       ensureZoomControls();
+      scheduleHelpVisibility();
     });
   }
 
@@ -365,6 +428,9 @@
   }, true);
 
   document.addEventListener('click', event => {
+    if (event.target.closest('[data-boq-close]')) {
+      setTimeout(scheduleHelpVisibility, 0);
+    }
     if (event.target.closest('[data-boq-zoom-out]')) {
       event.preventDefault();
       event.stopPropagation();
