@@ -346,10 +346,10 @@
   function supportedModalIsOpen() {
     const body = document.body;
     return (
-      activeModalRoots().length > 0 ||
       body.classList.contains('boq-open') ||
       body.classList.contains('quotation-open') ||
-      body.classList.contains('costing-open')
+      body.classList.contains('costing-open') ||
+      activeModalRoots().length > 0
     );
   }
 
@@ -507,10 +507,6 @@
     }
   }, true);
 
-
-  document.addEventListener('pointermove', event => {
-    if (supportedModalIsOpen()) scheduleHelpVisibility();
-  }, { capture: true, passive: true });
 
   document.addEventListener('focusin', () => {
     if (supportedModalIsOpen()) scheduleHelpVisibility();

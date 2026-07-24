@@ -5884,3 +5884,26 @@ th { color: #42604f; background: #edf3ef; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* GREENSCAPE_QUALITY_PERFORMANCE_START */
+html {
+  scrollbar-gutter: stable;
+}
+
+@supports (content-visibility: auto) {
+  .plant-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 420px;
+  }
+}
+
+.boq-backdrop,
+.quotation-backdrop,
+.costing-backdrop,
+.boq-table-scroll,
+.costing-table-scroll {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+/* GREENSCAPE_QUALITY_PERFORMANCE_END */
