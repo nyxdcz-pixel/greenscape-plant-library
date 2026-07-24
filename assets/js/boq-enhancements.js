@@ -264,17 +264,19 @@
   function applyTableZoom() {
     const backdrop = document.getElementById('boqCreatorBackdrop');
     if (!backdrop || backdrop.hidden) return;
+
     const table = backdrop.querySelector('.boq-editor-table');
     if (table) table.style.setProperty('zoom', String(zoomPercent / 100));
 
-    const label = backdrop.querySelector('[data-boq-zoom-label]');
+    const controls = document.querySelector('.boq-zoom-controls');
+    const label = controls?.querySelector('[data-boq-zoom-label]');
     if (label) {
       label.textContent = `${zoomPercent}%`;
       label.setAttribute('aria-label', `Reset BOQ zoom. Current zoom ${zoomPercent} percent`);
     }
 
-    const out = backdrop.querySelector('[data-boq-zoom-out]');
-    const increase = backdrop.querySelector('[data-boq-zoom-in]');
+    const out = controls?.querySelector('[data-boq-zoom-out]');
+    const increase = controls?.querySelector('[data-boq-zoom-in]');
     if (out) out.disabled = zoomPercent <= MIN_ZOOM;
     if (increase) increase.disabled = zoomPercent >= MAX_ZOOM;
   }
@@ -287,15 +289,22 @@
 
   function ensureZoomControls() {
     const backdrop = document.getElementById('boqCreatorBackdrop');
-    if (!backdrop || backdrop.hidden) return;
+    const boqIsOpen = Boolean(
+      backdrop &&
+      !backdrop.hidden &&
+      document.body.classList.contains('boq-open')
+    );
+
+    let controls = document.querySelector('.boq-zoom-controls');
+
+    if (!boqIsOpen) {
+      if (controls) controls.hidden = true;
+      return;
+    }
 
     const dialog = backdrop.querySelector('.boq-dialog');
     if (dialog) dialog.classList.add('boq-compact-mode');
 
-    const heading = backdrop.querySelector('.boq-table-heading');
-    if (!heading) return;
-
-    let controls = heading.querySelector('.boq-zoom-controls');
     if (!controls) {
       controls = document.createElement('div');
       controls.className = 'boq-zoom-controls';
@@ -306,9 +315,13 @@
         <button type="button" data-boq-zoom-label aria-label="Reset BOQ zoom" title="Reset zoom">${zoomPercent}%</button>
         <button type="button" data-boq-zoom-in aria-label="Zoom in BOQ table" title="Zoom in">+</button>
       `;
-      heading.appendChild(controls);
     }
 
+    if (controls.parentElement !== document.body) {
+      document.body.appendChild(controls);
+    }
+
+    controls.hidden = false;
     applyTableZoom();
 
     if (pendingSyncCount > 0) {
@@ -321,6 +334,24 @@
   }
 
 
+
+  function activeModalRoots() {
+    return [
+      document.getElementById('boqCreatorBackdrop'),
+      document.getElementById('quotationCreatorBackdrop'),
+      document.getElementById('costingSuiteBackdrop')
+    ].filter(root => root && !root.hidden);
+  }
+
+  function supportedModalIsOpen() {
+    const body = document.body;
+    return (
+      activeModalRoots().length > 0 ||
+      body.classList.contains('boq-open') ||
+      body.classList.contains('quotation-open') ||
+      body.classList.contains('costing-open')
+    );
+  }
 
   function rectanglesOverlap(first, second, padding = 4) {
     return (
@@ -348,7 +379,9 @@
 
   function updateHelpVisibility() {
     const body = document.body;
-    if (!body.classList.contains('boq-open')) {
+    const roots = activeModalRoots();
+
+    if (!supportedModalIsOpen() || !roots.length) {
       body.classList.remove('boq-help-obstructing');
       return;
     }
@@ -359,23 +392,11 @@
       return;
     }
 
-    const activeRoots = [
-      document.getElementById('boqCreatorBackdrop'),
-      document.getElementById('quotationCreatorBackdrop'),
-      document.getElementById('costingSuiteBackdrop'),
-      document.getElementById('modalRoot')
-    ].filter(root => root && !root.hidden);
-
-    if (!activeRoots.length) {
-      body.classList.remove('boq-help-obstructing');
-      return;
-    }
-
     body.classList.remove('boq-help-obstructing');
     if (body.classList.contains('boq-is-scrolling')) return;
 
     const helpRect = help.getBoundingClientRect();
-    const candidateButtons = activeRoots.flatMap(root =>
+    const candidateButtons = roots.flatMap(root =>
       Array.from(root.querySelectorAll('button, [role="button"]'))
     );
 
@@ -396,8 +417,8 @@
     });
   }
 
-  function markBoqScrolling() {
-    if (!document.body.classList.contains('boq-open')) return;
+  function markModalScrolling() {
+    if (!supportedModalIsOpen()) return;
     document.body.classList.add('boq-is-scrolling');
     window.clearTimeout(helpScrollTimer);
     helpScrollTimer = window.setTimeout(() => {
@@ -406,8 +427,11 @@
     }, 520);
   }
 
-  function isInsideBoq(target) {
-    return target instanceof Element && Boolean(target.closest('#boqCreatorBackdrop'));
+  function isInsideSupportedModal(target) {
+    if (!(target instanceof Element)) return false;
+    return Boolean(target.closest(
+      '#boqCreatorBackdrop, #quotationCreatorBackdrop, #costingSuiteBackdrop'
+    ));
   }
 
   function scheduleEnhancements() {
@@ -467,26 +491,29 @@
 
 
   document.addEventListener('wheel', event => {
-    if (isInsideBoq(event.target)) markBoqScrolling();
+    if (isInsideSupportedModal(event.target)) markModalScrolling();
   }, { capture: true, passive: true });
 
   document.addEventListener('touchmove', event => {
-    if (isInsideBoq(event.target)) markBoqScrolling();
+    if (isInsideSupportedModal(event.target)) markModalScrolling();
   }, { capture: true, passive: true });
 
   document.addEventListener('scroll', event => {
-    if (isInsideBoq(event.target) || (event.target === document && document.body.classList.contains('boq-open'))) {
-      markBoqScrolling();
+    if (
+      isInsideSupportedModal(event.target) ||
+      (event.target === document && supportedModalIsOpen())
+    ) {
+      markModalScrolling();
     }
   }, true);
 
 
   document.addEventListener('pointermove', event => {
-    if (document.body.classList.contains('boq-open')) scheduleHelpVisibility();
+    if (supportedModalIsOpen()) scheduleHelpVisibility();
   }, { capture: true, passive: true });
 
   document.addEventListener('focusin', () => {
-    if (document.body.classList.contains('boq-open')) scheduleHelpVisibility();
+    if (supportedModalIsOpen()) scheduleHelpVisibility();
   }, true);
 
   const observer = new MutationObserver(scheduleEnhancements);

@@ -444,3 +444,21 @@ body.quotation-open.boq-help-obstructing .feedback-widget {
   pointer-events: none !important;
   transition: opacity .16s ease, visibility 0s linear .16s !important;
 }
+
+
+/* V8: viewport-level zoom and smart Help visibility across all project modals. */
+.boq-zoom-controls[hidden] {
+  display: none !important;
+}
+
+body.boq-is-scrolling #feedbackWidget,
+body.boq-is-scrolling .feedback-widget,
+body.costing-open.boq-is-scrolling #feedbackWidget,
+body.costing-open.boq-is-scrolling .feedback-widget,
+body.quotation-open.boq-is-scrolling #feedbackWidget,
+body.quotation-open.boq-is-scrolling .feedback-widget {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity .16s ease, visibility 0s linear .16s !important;
+}
